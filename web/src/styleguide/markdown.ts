@@ -7,9 +7,7 @@ export function renderMarkdown(md: string): string {
   const source = md.trim();
   if (!source) return "";
   // async: false guarantees a string (no async extensions are registered).
-  const html = marked.parse(source, { async: false }) as string;
-  // The README embeds a dead analytics beacon pixel; drop it so nothing renders broken.
-  return html.replace(/<img[^>]*ga-beacon[^>]*>/gi, "");
+  return marked.parse(source, { async: false }) as string;
 }
 
 /** Strip tags and decode the handful of entities marked emits, for search text. */
