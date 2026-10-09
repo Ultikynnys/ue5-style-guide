@@ -566,8 +566,8 @@ All of a project's content lives under a folder named after the project (`Conten
     |-- <a href="#2.2">Haeretica</a>
         |-- <a href="#2.4.1">Art</a>
         |   |-- Characters
-        |   |   |-- Dummy
         |   |   |-- Mech
+        |   |   |-- MeleeDummy
         |   |   |-- Player
         |   |   |-- Priestess
         |   |   |-- RangedDummy
