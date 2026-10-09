@@ -132,7 +132,8 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 | Asset Type              | Prefix     | Suffix     | Notes                            |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
 | Level / Map             |            |            | [Should be in a folder called Maps.](#3.4.4) |
-| Level (Persistent)      |            | _P         |                                  |
+| Level (Main Component)  |            | _P         | Main authored component, not the glue level. |
+| Level (Persistent)      |            |            | Composition root only; do not author content here. |
 | Level (Audio)           |            | _Audio     |                                  |
 | Level (Lighting)        |            | _Light     |                                  |
 | Level (Geometry)        |            | _Geo       |                                  |
@@ -1293,14 +1294,26 @@ It is normal during development for levels to occasionally not have lighting bui
 Levels should not have any [z-fighting](https://en.wikipedia.org/wiki/Z-fighting) in all areas visible to the player.
 
 <a name="7.4"></a>
+<a name="levels-composition"></a>
+### 7.4 Compose Levels From Isolated Components
+
+A playable area is composed from multiple level components rather than built as one monolithic map. The persistent level is the composition root: it references and coordinates the components, but contains no directly authored gameplay, lighting, audio, geometry, or segment content. Treat it as glue only, and do not modify it as part of ordinary feature work.
+
+Name the main component with the `_P` suffix. Split independently owned work into focused level components, using the established suffixes such as `_Gameplay`, `_Light`, `_Audio`, and `_Geo`; give additional world segments clear names such as `_Segment01`. Keep components separable so teammates can work on different areas without locking or changing the whole level. Put all Level Blueprint logic in the `_Gameplay` component. Do not put gameplay logic in the Persistent Level Blueprint.
+
+This composition model reduces multi-person edit conflicts: each contributor can work in a specific component while the Persistent Level remains the stable assembly point. The Level panel example below shows a Persistent Level with separate gameplay, geometry, lighting, audio, and segment components.
+
+![Example of a composed level with a Persistent Level and separate level components](images/level-composition-example.png)
+
+<a name="7.5"></a>
 <a name="levels-mp-rules"></a>
-### 7.4 Marketplace Specific Rules
+### 7.5 Marketplace Specific Rules
 
 If a project is to be sold on the Unreal Engine Marketplace, it must follow these rules.
 
-<a name="7.4.1"></a>
+<a name="7.5.1"></a>
 <a name="levels-mp-rules-overview"></a>
-#### 7.4.1 Overview Level
+#### 7.5.1 Overview Level
 
 If your project contains assets that should be visualized or demoed, you must have a map within your project that contains the name "Overview".
 
@@ -1308,9 +1321,9 @@ This overview map, if it is visualizing assets, should be set up according to [E
 
 For example, `InteractionComponent_Overview`.
 
-<a name="7.4.2"></a>
+<a name="7.5.2"></a>
 <a name="levels-mp-rules-demo"></a>
-#### 7.4.2 Demo Level
+#### 7.5.2 Demo Level
 
 If your project contains assets that should be demoed or come with some sort of tutorial, you must have a map within your project that contains the name "Demo". This level should also contain documentation within it in some form that illustrates how to use your project. See Epic's Content Examples project for good examples on how to do this.
 
