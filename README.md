@@ -730,6 +730,8 @@ Not every project needs every folder. What matters is that when a folder exists,
 * `Art/PostProcess` - Post-process materials and related assets.
 * `Art/Textures` - Generic textures that are not tied to a specific asset: seamless textures, bricks, wood, and similar reusable material inputs. A texture that belongs to one specific asset lives next to that asset in `Art`, not here.
 
+A gameplay system whose art does not fit one of the folders above gets a matching folder here (for example `Art/Weapons`, `Art/InteractiveElements`, `Art/Components`, or `Art/Tools`), mirroring that system's folder in `Blueprint`.
+
 <a name="2.4.2"></a>
 #### 2.4.2 Blueprint
 
