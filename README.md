@@ -577,7 +577,7 @@ All of a project's content lives under a folder named after the project (`Conten
         |   |-- Environment
         |   |   |-- Materials
         |   |   |-- Textures
-        |   |-- InteractiveElements
+        |   |-- Interactables
         |   |-- <a href="#2.8">Materials</a>
         |   |   |-- MaterialInstances
         |   |   |-- MaterialFunctions
@@ -589,7 +589,7 @@ All of a project's content lives under a folder named after the project (`Conten
         |   |-- Components
         |   |-- Enemies
         |   |-- GameModes
-        |   |-- InteractiveElements
+        |   |-- Interactables
         |   |-- Player
         |   |-- Tools
         |   |-- <a href="#2.6">Weapons</a>
@@ -741,17 +741,17 @@ Not every project needs every folder. What matters is that when a folder exists,
 * `Art/PostProcess` - Post-process materials and the textures they use, such as dither, outline, and blink effects.
 * `Art/Textures` - Generic textures that are not tied to a specific asset: seamless textures, bricks, wood, and similar reusable material inputs. A texture that belongs to one specific asset, or is consumed by only one material instance, lives next to that asset in `Art`, not here.
 
-A gameplay system whose art does not fit one of the folders above gets a matching folder here (for example `Art/Weapons`, `Art/InteractiveElements`, `Art/Components`, or `Art/Tools`), mirroring that system's folder in `Blueprint`.
+A gameplay system whose art does not fit one of the folders above gets a matching folder here (for example `Art/Weapons`, `Art/Interactables`, `Art/Components`, or `Art/Tools`), mirroring that system's folder in `Blueprint`. This folder holds the system's level-designer-facing actor Blueprints beside their art, the functional actors a designer places in a level; the coder-only base Blueprints stay in `Blueprint`.
 
 <a name="2.4.2"></a>
 #### 2.4.2 Blueprint
 
-`Blueprint` holds the Blueprints that make up the project's logic. It is special: **it contains Blueprint assets only.** It must not contain textures, materials, meshes, material instances, sounds, animations, animation Blueprints, or any other non-Blueprint asset; all of those live in [`Art`](#2.4.1), next to the asset they belong to. An actor Blueprint that belongs to one system's named asset set lives with that set's art in [`Art`](#2.4.1), a torch Blueprint beside the torch meshes in `Art/InteractiveElements/Lights`. The system's base and shared Blueprints, which fit no single set, stay here, as in `Blueprint/InteractiveElements`.
+`Blueprint` holds the Blueprints that make up the project's logic. It is special: **it contains Blueprint assets only.** It must not contain textures, materials, meshes, material instances, sounds, animations, animation Blueprints, or any other non-Blueprint asset; all of those live in [`Art`](#2.4.1), next to the asset they belong to. Interactables split by intent. A level-designer-facing actor Blueprint, one with working functionality that a designer is meant to place, lives with its system's art in [`Art`](#2.4.1), the torch Blueprint beside the torch meshes in `Art/Interactables/Lights`. The generic, non-working base elements, the abstract classes and interfaces no designer places, are coder-only and stay here, as in `Blueprint/Interactables`.
 
 * `Blueprint/Core` - The base classes that are fundamental to the project. See [2.5](#2.5).
 * `Blueprint/LevelActors` - Rarely needed: a Blueprint that a designer drops into a level lives with its system's art in [`Art`](#2.4.1), not here.
 * `Blueprint/Components` - Reusable actor components.
-* `Blueprint/Enemies`, `Blueprint/Player`, `Blueprint/Weapons`, `Blueprint/InteractiveElements`, `Blueprint/GameModes`, and `Blueprint/Tools` - One folder per gameplay system, holding the Blueprints that make up that system. See [2.6](#2.6). A system whose placeable actors live with their art in `Art` keeps only its base and shared Blueprints here, as with `Blueprint/InteractiveElements`.
+* `Blueprint/Enemies`, `Blueprint/Player`, `Blueprint/Weapons`, `Blueprint/Interactables`, `Blueprint/GameModes`, and `Blueprint/Tools` - One folder per gameplay system, holding its coder-only Blueprints. See [2.6](#2.6). The level-designer-facing actor Blueprints live with the system's art in `Art`, so this folder keeps only the base, interface, and other non-placed Blueprints, as with `Blueprint/Interactables`.
 
 <a name="2.4.3"></a>
 #### 2.4.3 FX
@@ -777,7 +777,7 @@ Keeping prototype content in one place makes it obvious what is disposable and m
 <a name="2.4.6"></a>
 #### 2.4.6 SFX
 
-`SFX` holds only generic audio, shared across the project: shared sound classes, attenuation and concurrency presets, shared music, and any cue or wave used by more than one asset. It is not a home for every sound. Audio that belongs to a single asset lives with that asset, so the sound migrates as a unit with the thing it serves: a weapon's sounds live under [`Art/Weapons/<Weapon>`](#2.4.1), a character's under `Art/Characters/<Character>`, an interactive element's under `Art/InteractiveElements/<System>`, and an effect's alongside that effect in [`FX`](#2.4.3). Cues and the waves, attenuations, and sound classes they use move together, so a set migrates as one. A class that serves a single asset lives with it, such as the player's `SC_Player` in `Art/Characters/Player`; only the shared classes stay here (`SC_Master`, `SC_Weapon`, `SC_Enemy`). The rest of `SFX` is grouped by kind, such as `Music`, `Attenuation`, or a shared `Enemies` set holding the hits and explosions that every enemy uses.
+`SFX` holds only generic audio, shared across the project: shared sound classes, attenuation and concurrency presets, shared music, and any cue or wave used by more than one asset. It is not a home for every sound. Audio that belongs to a single asset lives with that asset, so the sound migrates as a unit with the thing it serves: a weapon's sounds live under [`Art/Weapons/<Weapon>`](#2.4.1), a character's under `Art/Characters/<Character>`, an interactive element's under `Art/Interactables/<System>`, and an effect's alongside that effect in [`FX`](#2.4.3). Cues and the waves, attenuations, and sound classes they use move together, so a set migrates as one. A class that serves a single asset lives with it, such as the player's `SC_Player` in `Art/Characters/Player`; only the shared classes stay here (`SC_Master`, `SC_Weapon`, `SC_Enemy`). The rest of `SFX` is grouped by kind, such as `Music`, `Attenuation`, or a shared `Enemies` set holding the hits and explosions that every enemy uses.
 
 <a name="2.4.7"></a>
 #### 2.4.7 UI
@@ -793,13 +793,13 @@ The `/Content/Project/Blueprint/Core` folder holds the assets that are absolutel
 
 This creates a very clear "don't touch these" message for other team members. Non-engineers should have very little reason to enter the `Blueprint/Core` folder. Following good code structure style, designers should be making their gameplay tweaks in child classes that expose functionality. World builders should be using prefab Blueprints in designated folders instead of potentially abusing base classes.
 
-For example, if your project requires pickups that can be placed in a level, there should exist a base Pickup class in `Blueprint/Core` that defines base behavior for a pickup. Specific pickups, such as health or ammo, should exist in their own folders (for example `/Content/Project/Blueprint/InteractiveElements/Ammo/`). Game designers can define and tweak pickups in these folders however they please, but they should not touch the base class as they may unintentionally break pickups project-wide.
+For example, if your project requires pickups that can be placed in a level, there should exist a base Pickup class in `Blueprint/Core` that defines base behavior for a pickup. Specific pickups, such as health or ammo, should exist in their own folders (for example `/Content/Project/Blueprint/Interactables/Ammo/`). Game designers can define and tweak pickups in these folders however they please, but they should not touch the base class as they may unintentionally break pickups project-wide.
 
 <a name="2.6"></a>
 <a name="structure-systems"></a>
 ### 2.6 Give Every Blueprint System Its Own Folder
 
-Within `Blueprint`, each gameplay system gets its own folder named after the system, holding the Blueprints that make up that system. Keep shared base classes separate from the concrete implementations that designers use. Only Blueprints belong here: a system's meshes, textures, materials, and animations live in [`Art`](#2.4.1), next to the art they belong to, not in the system's Blueprint folder.
+Within `Blueprint`, each gameplay system gets its own folder named after the system, holding its coder-only Blueprints: base classes, interfaces, and logic that no level designer places. A level-designer-facing actor Blueprint, one with working functionality that a designer drops into a level, lives with the system's art in [`Art`](#2.4.1) instead, next to the meshes and materials it uses. Only Blueprints belong here; a system's meshes, textures, materials, and animations live in [`Art`](#2.4.1).
 
 For example, a weapons system might look like this:
 
@@ -837,7 +837,7 @@ This way all 'global' materials have a place to live and are easily located.
 
 > This also makes it incredibly easy to enforce a 'use material instances only' policy within a project. If all artists and assets should be using material instances, then the only regular material assets that exist are the global masters here and the one-asset-set masters that live with their art. You can easily verify this by searching for base materials in any folder other than `Art/Materials` and the `Art` and `FX` set folders.
 
-`Art/Materials` holds master materials at its root, a `MaterialInstances` sub-folder for generic instances used by several assets, and a `MaterialFunctions` sub-folder for reusable functions. Only global materials live here: a master shared by several asset sets, a master that feeds a generic instance, or one with no single art folder of its own. A master material that serves one asset set lives with that set instead: in [`Art/Environment`](#2.4.1), `Art/Weapons/<Weapon>`, `Art/Characters/<Character>`, `Art/InteractiveElements/<System>`, or alongside the effect in `FX`. An instance that belongs to one asset set is likewise not stored here: it lives with that set, next to the mesh it is applied to, while one shared by several assets is generic and stays in `MaterialInstances`. Shared textures have their own folder: see [`Art/Textures`](#2.4.1). Post-process materials have their own folder: see [`Art/PostProcess`](#2.4.1); UI materials live with their screen, see [2.4.7](#2.4.7).
+`Art/Materials` holds master materials at its root, a `MaterialInstances` sub-folder for generic instances used by several assets, and a `MaterialFunctions` sub-folder for reusable functions. Only global materials live here: a master shared by several asset sets, a master that feeds a generic instance, or one with no single art folder of its own. A master material that serves one asset set lives with that set instead: in [`Art/Environment`](#2.4.1), `Art/Weapons/<Weapon>`, `Art/Characters/<Character>`, `Art/Interactables/<System>`, or alongside the effect in `FX`. An instance that belongs to one asset set is likewise not stored here: it lives with that set, next to the mesh it is applied to, while one shared by several assets is generic and stays in `MaterialInstances`. Shared textures have their own folder: see [`Art/Textures`](#2.4.1). Post-process materials have their own folder: see [`Art/PostProcess`](#2.4.1); UI materials live with their screen, see [2.4.7](#2.4.7).
 
 Any testing or debug materials should be within `Art/Materials/Debug`. This allows debug materials to be easily stripped from a project before shipping and makes it incredibly apparent if production assets are using them if reference errors are shown.
 
