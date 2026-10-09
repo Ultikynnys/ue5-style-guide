@@ -1,1 +1,6 @@
 docs/build
+
+# Style guide web suite
+web/node_modules
+web/dist
+web/.vite

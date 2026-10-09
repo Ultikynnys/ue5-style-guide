@@ -1,0 +1,20 @@
+{
+  "name": "ue5-style-guide-web",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Dynamic TypeScript + CSS suite that parses the Gamemakin UE5 Style Guide README into browsable rules.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --port 4173",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "marked": "^12.0.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "vite": "^5.2.11"
+  }
+}

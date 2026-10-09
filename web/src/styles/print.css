@@ -1,0 +1,32 @@
+@media print {
+  .topbar,
+  .sidebar,
+  .progress,
+  .to-top,
+  .toast,
+  .results,
+  .permalink,
+  .toc-toggle {
+    display: none !important;
+  }
+
+  .shell {
+    display: block;
+  }
+
+  .content {
+    padding: 0;
+  }
+
+  .rule {
+    break-inside: avoid;
+  }
+
+  .rule--section {
+    break-before: page;
+  }
+
+  a {
+    text-decoration: none;
+  }
+}

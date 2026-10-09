@@ -1,0 +1,710 @@
+/* ------------------------------------------------------------------
+   Gamemakin UE5 Style Guide - web suite
+   Design rules baked in on purpose:
+     - sharp corners everywhere (single border-radius: 0 reset below)
+     - flat fills only, no gradients anywhere
+     - no visible outlines (:focus outline removed, focus shown via
+       background + border colour instead)
+     - every text node carries a drop shadow (set once on body, inherited)
+   ------------------------------------------------------------------ */
+
+:root {
+  --bg: #f3efe6;
+  --bg-2: #e9e3d5;
+  --surface: #fffdf9;
+  --surface-2: #f6f1e6;
+  --text: #211d15;
+  --muted: #6c6353;
+  --border: #d9d0bc;
+  --border-strong: #b6ab91;
+  --accent: #b45309;
+  --accent-text: #ffffff;
+  --accent-soft: #f5e3cc;
+  --code-bg: #ece4d3;
+  --overlay-shadow: 0 12px 30px rgba(30, 22, 8, 0.22);
+  --text-shadow: 0 1px 2px rgba(28, 20, 6, 0.28);
+}
+
+[data-theme="dark"] {
+  --bg: #14120d;
+  --bg-2: #1a1711;
+  --surface: #201c14;
+  --surface-2: #262117;
+  --text: #f3ead6;
+  --muted: #a99c82;
+  --border: #383228;
+  --border-strong: #4c4436;
+  --accent: #f2a33c;
+  --accent-text: #241a08;
+  --accent-soft: #3a2c15;
+  --code-bg: #2b251a;
+  --overlay-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+  --text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  border-radius: 0;
+}
+
+html {
+  scroll-padding-top: 88px;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  text-shadow: var(--text-shadow);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--accent);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+  text-shadow: inherit;
+}
+
+:focus {
+  outline: none;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+
+/* ---------------------------------- header --------------------------------- */
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px clamp(12px, 2vw, 20px);
+  background: var(--surface);
+  border-bottom: 2px solid var(--border-strong);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.brand-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  background: var(--accent);
+  color: var(--accent-text);
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.brand-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 34ch;
+}
+
+.brand-sub {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.btn {
+  cursor: pointer;
+  padding: 7px 12px;
+  border: 2px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.btn:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.theme-toggle {
+  font-weight: 600;
+  min-width: 76px;
+}
+
+.nav-toggle {
+  display: none;
+}
+
+.search {
+  position: relative;
+  flex: 1 1 auto;
+  max-width: 560px;
+  margin-left: auto;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 2px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.search-input::placeholder {
+  color: var(--muted);
+}
+
+.search-input:focus {
+  border-color: var(--accent);
+  background: var(--surface-2);
+}
+
+.results {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  max-height: 60vh;
+  overflow: auto;
+  background: var(--surface);
+  border: 2px solid var(--border-strong);
+  box-shadow: var(--overlay-shadow);
+  z-index: 50;
+}
+
+.result {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  padding: 8px 12px;
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+}
+
+.result:hover {
+  background: var(--accent-soft);
+}
+
+.result-num {
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 11px;
+  color: var(--muted);
+  min-width: 40px;
+}
+
+.result-title {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.result-kind {
+  align-self: center;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 0 5px;
+}
+
+.result--empty,
+.result-more {
+  padding: 10px 12px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 60;
+  pointer-events: none;
+}
+
+.progress-bar {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--accent);
+}
+
+/* ---------------------------------- layout --------------------------------- */
+
+.shell {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  align-items: start;
+}
+
+.sidebar {
+  position: sticky;
+  top: 61px;
+  height: calc(100vh - 61px);
+  overflow: auto;
+  padding: 12px 10px 48px;
+  background: var(--bg-2);
+  border-right: 2px solid var(--border);
+}
+
+.sidebar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 8px 10px;
+  margin-bottom: 6px;
+  border-bottom: 2px solid var(--border);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.sidebar-title {
+  font-weight: 700;
+}
+
+.count {
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  color: var(--text);
+}
+
+.content {
+  min-width: 0;
+  padding: 28px clamp(16px, 4vw, 56px) 96px;
+}
+
+/* ---------------------------------- toc ------------------------------------ */
+
+.toc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.toc-sub {
+  padding-left: 12px;
+  margin-left: 5px;
+  border-left: 1px solid var(--border);
+}
+
+.toc-row {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.toc-toggle {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 22px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.chev {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid var(--muted);
+  transition: transform 0.15s ease;
+}
+
+.is-collapsed > .toc-row .chev {
+  transform: rotate(-90deg);
+}
+
+.is-collapsed > .toc-sub {
+  display: none;
+}
+
+.toc-link {
+  display: flex;
+  flex: 1 1 auto;
+  gap: 7px;
+  min-width: 0;
+  padding: 4px 7px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.85rem;
+  border-left: 2px solid transparent;
+}
+
+.toc-link:hover {
+  background: var(--surface-2);
+}
+
+.toc-link.is-active {
+  background: var(--accent-soft);
+  border-left-color: var(--accent);
+}
+
+.toc-num {
+  flex: none;
+  min-width: 38px;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.toc-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.toc-item--meta > .toc-row > .toc-link {
+  color: var(--muted);
+}
+
+.toc-item--meta > .toc-row > .toc-link .toc-text {
+  font-style: italic;
+}
+
+.toc-item.is-match > .toc-row > .toc-link {
+  background: var(--accent-soft);
+  font-weight: 600;
+}
+
+.toc-item.is-hidden {
+  display: none;
+}
+
+/* --------------------------------- rules ----------------------------------- */
+
+.intro {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  padding: 16px 20px;
+  margin-bottom: 26px;
+}
+
+.rules {
+  min-width: 0;
+}
+
+.rule {
+  scroll-margin-top: 88px;
+  padding: 6px 0;
+  transition: background-color 0.3s ease;
+}
+
+.rule--section {
+  margin-top: 26px;
+  padding-top: 14px;
+  border-top: 3px solid var(--accent);
+}
+
+.rule.is-target {
+  background: var(--accent-soft);
+}
+
+.rule-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 10px;
+  position: relative;
+}
+
+.rule-number {
+  flex: none;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 12px;
+  padding: 2px 7px;
+  background: var(--accent);
+  color: var(--accent-text);
+  align-self: center;
+}
+
+.rule--section > .rule-head > .rule-number {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.rule-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  font-size: 1.12rem;
+  line-height: 1.3;
+}
+
+.rule--section > .rule-head > .rule-title {
+  font-size: 1.5rem;
+  letter-spacing: 0.01em;
+}
+
+.rule--meta > .rule-head > .rule-title {
+  font-size: 1rem;
+  color: var(--muted);
+}
+
+.permalink {
+  flex: none;
+  opacity: 0;
+  padding: 2px 8px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.rule-head:hover .permalink,
+.permalink:focus-visible {
+  opacity: 1;
+}
+
+.rule-children {
+  border-left: 2px solid var(--border);
+  margin-left: 6px;
+  padding-left: 18px;
+}
+
+/* ------------------------------- markdown ---------------------------------- */
+
+.prose {
+  font-size: 0.95rem;
+}
+
+.prose > :first-child {
+  margin-top: 0.5em;
+}
+
+.prose p {
+  margin: 0.6em 0;
+}
+
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  margin: 1.1em 0 0.4em;
+  line-height: 1.3;
+}
+
+.prose h3 {
+  font-size: 1.05rem;
+}
+
+.prose h4 {
+  font-size: 0.98rem;
+}
+
+.prose h5,
+.prose h6 {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.prose ul,
+.prose ol {
+  margin: 0.6em 0;
+  padding-left: 1.4em;
+}
+
+.prose li {
+  margin: 0.2em 0;
+}
+
+.prose code {
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.88em;
+  background: var(--code-bg);
+  padding: 1px 5px;
+}
+
+.prose pre {
+  background: var(--code-bg);
+  border-left: 3px solid var(--accent);
+  padding: 12px 14px;
+  overflow: auto;
+  margin: 0.8em 0;
+}
+
+.prose pre code {
+  background: none;
+  padding: 0;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.8em 0;
+  font-size: 0.88rem;
+}
+
+.prose th,
+.prose td {
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.prose th {
+  background: var(--surface-2);
+}
+
+.prose blockquote {
+  margin: 0.8em 0;
+  padding: 8px 14px;
+  border-left: 4px solid var(--accent);
+  background: var(--surface-2);
+  color: var(--muted);
+}
+
+.prose blockquote h4,
+.prose blockquote h5 {
+  color: var(--text);
+  margin: 0.2em 0;
+}
+
+.prose img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 1.2em 0;
+}
+
+/* ------------------------------ footer / widgets --------------------------- */
+
+.footer {
+  margin-top: 44px;
+  padding-top: 16px;
+  border-top: 2px solid var(--border);
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.to-top {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 55;
+  padding: 10px 14px;
+  font-weight: 600;
+  border: 2px solid var(--border-strong);
+  background: var(--accent);
+  color: var(--accent-text);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.to-top.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  z-index: 70;
+  padding: 9px 16px;
+  font-size: 0.85rem;
+  background: var(--text);
+  color: var(--bg);
+  border: 2px solid var(--accent);
+}
+
+/* ------------------------------- responsive -------------------------------- */
+
+@media (max-width: 900px) {
+  .shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .nav-toggle {
+    display: inline-block;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 310px;
+    max-width: 86vw;
+    height: 100vh;
+    z-index: 80;
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+  }
+
+  .sidebar--open {
+    transform: translateX(0);
+    box-shadow: var(--overlay-shadow);
+  }
+
+  .brand-sub {
+    display: none;
+  }
+
+  .search {
+    max-width: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .brand-title {
+    max-width: 18ch;
+  }
+
+  .rule-children {
+    padding-left: 10px;
+  }
+}
