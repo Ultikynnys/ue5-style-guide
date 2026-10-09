@@ -579,6 +579,7 @@ All of a project's content lives under a folder named after the project (`Conten
         |   |-- <a href="#2.8">Materials</a>
         |   |   |-- MaterialInstances
         |   |   |-- MaterialFunctions
+        |   |-- PostProcess
         |   |-- Textures
         |   |-- Tools
         |   |-- Weapons
@@ -601,10 +602,7 @@ All of a project's content lives under a folder named after the project (`Conten
         |-- <a href="#2.4.6">SFX</a>
         |   |-- Attenuation
         |   |-- Enemies
-        |   |-- InteractiveElements
         |   |-- Music
-        |   |-- Player
-        |   |-- Weapons
         |-- <a href="#2.4.7">UI</a>
             |-- BaseElements
             |-- HUD
@@ -721,7 +719,7 @@ Beneath the [project folder](#2.2), content is split into a fixed set of top-lev
 * `FX` - Niagara systems and the other assets that make up visual effects. See [2.4.3](#2.4.3).
 * `Maps` - All [map](#terms-level-map) files. See [2.4.4](#2.4.4).
 * `Prototype` - Throwaway or work-in-progress content that is not ready for the project proper. See [2.4.5](#2.4.5).
-* `SFX` - All audio content: sound cues, sound waves, and related assets. See [2.4.6](#2.4.6).
+* `SFX` - Generic audio shared across the project: sound classes, attenuation presets, shared music. Audio tied to one asset lives with that asset. See [2.4.6](#2.4.6).
 * `UI` - User interface assets: widget Blueprints, UI textures, and fonts. See [2.4.7](#2.4.7).
 
 Not every project needs every folder. What matters is that when a folder exists, it is named and used exactly as described below, so its location is always predictable.
@@ -778,7 +776,7 @@ Keeping prototype content in one place makes it obvious what is disposable and m
 <a name="2.4.6"></a>
 #### 2.4.6 SFX
 
-`SFX` holds all audio content: sound cues, sound waves, attenuation and concurrency assets, and any related audio assets. Group them by purpose, such as `Music` or `Attenuation`.
+`SFX` holds only generic audio, shared across the project: sound classes, attenuation and concurrency presets, shared music, and any cue or wave used by more than one asset. It is not a home for every sound. Audio that belongs to a single asset lives with that asset, so the sound migrates as a unit with the thing it serves: a weapon's sounds live under [`Art/Weapons/<Weapon>`](#2.4.1), a character's under `Art/Characters/<Character>`, an interactive element's under `Art/InteractiveElements/<System>`, and an effect's alongside that effect in [`FX`](#2.4.3). Cues and the waves and attenuations they use move together. What genuinely remains in `SFX` is grouped by kind, such as `Music`, `Attenuation`, or a shared `Enemies` set holding the hits and explosions that every enemy uses.
 
 <a name="2.4.7"></a>
 #### 2.4.7 UI
