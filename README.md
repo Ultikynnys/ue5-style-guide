@@ -557,7 +557,7 @@ Equally important as asset names, the directory structure style of a project sho
 
 All of a project's content lives under a folder named after the project (`Content/Haeretica`). Beneath that, the content is split into a fixed set of top-level folders, each a single, obvious home for one class of asset: `Art`, `Blueprint`, `FX`, `Maps`, `Prototype`, `SFX`, and `UI`. Because every asset already carries its type in its [prefix](#1.2), these folders group assets by _purpose_ rather than by raw asset type, and the Content Browser's filters and search are used to narrow down by type within a folder. Anyone on the team can then always find an asset's home without having to ask.
 
-> Do not create a folder called `Assets`, and do not split a folder into sibling folders that are only distinguished by asset type (for example a `Meshes` folder next to a `Textures` folder). Name folders after the thing they contain, not the type of asset that happens to live there. The deliberate exceptions are [`Art/Materials`](#2.8) and [`Art/Textures`](#2.4.1): a `Materials` folder holding master materials and material functions, and a `Textures` folder holding generic textures, are allowed.
+> Do not create a folder called `Assets`, and do not split a folder into sibling folders that are only distinguished by asset type (for example a `Meshes` folder next to a `Textures` folder). Name folders after the thing they contain, not the type of asset that happens to live there. The deliberate exceptions are [`Art/Materials`](#2.8) and [`Art/Textures`](#2.4.1): a `Materials` folder holding master materials, material functions, and generic material instances, and a `Textures` folder holding generic textures, are allowed.
 
 <a name="2e1"><a>
 ### 2e1 Example Project Content Structure
@@ -566,21 +566,23 @@ All of a project's content lives under a folder named after the project (`Conten
     |-- <a href="#2.2">Haeretica</a>
         |-- <a href="#2.4.1">Art</a>
         |   |-- Characters
+        |   |   |-- Dummy
         |   |   |-- Mech
-        |   |   |-- Priest
+        |   |   |-- Player
+        |   |   |-- Priestess
+        |   |   |-- RangedDummy
         |   |   |-- Tank
+        |   |-- Components
         |   |-- Decals
         |   |-- Environment
-        |   |-- LUT
+        |   |-- InteractiveElements
         |   |-- <a href="#2.8">Materials</a>
         |   |   |-- MasterMaterials
         |   |   |-- MaterialFunctions
-        |   |-- PhysicalMaterials
-        |   |-- PostProcess
         |   |-- Textures
+        |   |-- Tools
+        |   |-- Weapons
         |-- <a href="#2.4.2">Blueprint</a>
-        |   |-- <a href="#2.5">Core</a>
-        |   |-- LevelActors
         |   |-- Components
         |   |-- Enemies
         |   |-- GameModes
@@ -596,15 +598,20 @@ All of a project's content lives under a folder named after the project (`Conten
         |   |-- Level3
         |   |-- MainMenu
         |   |-- TestLevels
-        |-- <a href="#2.4.5">Prototype</a>
         |-- <a href="#2.4.6">SFX</a>
         |   |-- Attenuation
+        |   |-- Enemies
+        |   |-- InteractiveElements
         |   |-- Music
+        |   |-- Player
+        |   |-- Weapons
         |-- <a href="#2.4.7">UI</a>
+            |-- BaseElements
             |-- HUD
             |-- MainMenu
+            |-- NewUIWeaponIcons
             |-- Options
-            |-- Textures
+            |-- Transition
 </pre>
 
 The reasons for this structure are listed in the following sub-sections.
@@ -715,7 +722,7 @@ Beneath the [project folder](#2.2), content is split into a fixed set of top-lev
 * `Maps` - All [map](#terms-level-map) files. See [2.4.4](#2.4.4).
 * `Prototype` - Throwaway or work-in-progress content that is not ready for the project proper. See [2.4.5](#2.4.5).
 * `SFX` - All audio content: sound cues, sound waves, and related assets. See [2.4.6](#2.4.6).
-* `UI` - User interface assets: widget Blueprints, UI materials, and UI textures. See [2.4.7](#2.4.7).
+* `UI` - User interface assets: widget Blueprints, UI textures, and fonts. See [2.4.7](#2.4.7).
 
 Not every project needs every folder. What matters is that when a folder exists, it is named and used exactly as described below, so its location is always predictable.
 
@@ -724,15 +731,14 @@ Not every project needs every folder. What matters is that when a folder exists,
 
 `Art` is the single home for the project's visual assets, grouped by kind:
 
-* `Art/Characters` - Character art, with a sub-folder per character (`Art/Characters/Priest`).
+* `Art/Characters` - Character art, with a sub-folder per character (`Art/Characters/Priestess`).
 * `Art/Decals` - Decal materials and the textures they use, such as bullet holes and blood decals.
 * `Art/Environment` - Environment art: the meshes, materials, and material instances used to build levels. Material instances live here alongside the environment sets they belong to so the whole set can be migrated together.
 * `Art/LUT` - Color lookup tables (LUTs) used for color grading.
-* `Art/Materials` - Master materials and material functions only. See [2.8](#2.8).
+* `Art/Materials` - Master materials and material functions, plus generic material instances shared by several assets. See [2.8](#2.8).
   * `Art/Materials/MasterMaterials` - Master materials that other materials instance from.
   * `Art/Materials/MaterialFunctions` - Reusable material functions.
 * `Art/PhysicalMaterials` - [Physical materials](#1.2.9) used for surface responses such as footstep and impact effects.
-* `Art/PostProcess` - Post-process materials and related assets.
 * `Art/Textures` - Generic textures that are not tied to a specific asset: seamless textures, bricks, wood, and similar reusable material inputs. A texture that belongs to one specific asset lives next to that asset in `Art`, not here.
 
 A gameplay system whose art does not fit one of the folders above gets a matching folder here (for example `Art/Weapons`, `Art/InteractiveElements`, `Art/Components`, or `Art/Tools`), mirroring that system's folder in `Blueprint`.
@@ -776,7 +782,7 @@ Keeping prototype content in one place makes it obvious what is disposable and m
 <a name="2.4.7"></a>
 #### 2.4.7 UI
 
-`UI` holds user interface assets: widget Blueprints, UI materials, UI textures, and fonts. Group them by screen or element, such as `UI/HUD`, `UI/MainMenu`, or `UI/Options`.
+`UI` holds user interface assets: widget Blueprints, UI textures, and fonts. UI materials are ordinary materials and live in [`Art/Materials`](#2.8). Group them by screen or element, such as `UI/HUD`, `UI/MainMenu`, or `UI/Options`.
 
 
 <a name="2.5"></a>
@@ -807,7 +813,7 @@ For example, a weapons system might look like this:
         |-- BP_Rifle
 </pre>
 
-> Do not create a folder that is only named after an asset type (such as a `Meshes` or `SkeletalMeshes` folder) just to separate assets inside a system. The exception is a `Materials` folder holding only master materials and material functions, as in [`Art/Materials`](#2.8). Asset names already carry their type via their [prefix](#1.2) and the Content Browser can filter by type, so such folders only add redundant path segments. Want to see every static mesh under `Art/Environment/`? Turn on the Static Mesh filter. If assets are named correctly they sort alphabetically regardless of prefix.
+> Do not create a folder that is only named after an asset type (such as a `Meshes` or `SkeletalMeshes` folder) just to separate assets inside a system. The exception is a `Materials` folder holding master materials, material functions, and generic instances, as in [`Art/Materials`](#2.8). Asset names already carry their type via their [prefix](#1.2) and the Content Browser can filter by type, so such folders only add redundant path segments. Want to see every static mesh under `Art/Environment/`? Turn on the Static Mesh filter. If assets are named correctly they sort alphabetically regardless of prefix.
 
 <a name="2.7"></a>
 <a name="structure-large-sets"></a>
@@ -831,7 +837,7 @@ This way all 'global' materials have a place to live and are easily located.
 
 > This also makes it incredibly easy to enforce a 'use material instances only' policy within a project. If all artists and assets should be using material instances, then the only regular material assets that should exist are within this folder. You can easily verify this by searching for base materials in any folder that isn't `Art/Materials`.
 
-`Art/Materials` holds only master materials and material functions, in `Art/Materials/MasterMaterials` and `Art/Materials/MaterialFunctions` respectively. Material instances are not stored here: an instance lives with the mesh asset it is applied to, for example alongside its environment set in [`Art/Environment`](#2.4.1). Shared textures and post-process materials have their own Art folders: see [`Art/Textures`](#2.4.1) and [`Art/PostProcess`](#2.4.1).
+`Art/Materials` holds master materials (in `Art/Materials/MasterMaterials`), material functions (in `Art/Materials/MaterialFunctions`), and generic material instances used by several assets. An instance tied to one asset is not stored here: it lives with the mesh it is applied to, for example alongside its environment set in [`Art/Environment`](#2.4.1). Shared textures have their own folder: see [`Art/Textures`](#2.4.1); post-process materials are ordinary materials and live here as well.
 
 Any testing or debug materials should be within `Art/Materials/Debug`. This allows debug materials to be easily stripped from a project before shipping and makes it incredibly apparent if production assets are using them if reference errors are shown.
 
