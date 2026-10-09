@@ -90,7 +90,7 @@ If you have made a notable fork or translation that is not suitable for a pull r
     - [2.4.5 Prototype](#2.4.5)
     - [2.4.6 SFX](#2.4.6)
     - [2.4.7 UI](#2.4.7)
-  - [2.5 Use The `Blueprint/Core` Folder For Critical Blueprints](#structure-core)
+  - [2.5 Keep Base Classes With Their System](#structure-base-classes)
   - [2.6 Give Every Blueprint System Its Own Folder](#structure-systems)
   - [2.7 Very Large Asset Sets Get Their Own Folder Layout](#structure-large-sets)
   - [2.8 `Art/Materials`](#structure-materials)
@@ -442,7 +442,7 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 | Texture (Metallic)      | T_         | _M         |                                  |
 | Texture (Packed)        | T_         | _*         | See notes below about [packing](#anc-textures-packing). |
 | Texture Cube            | TC_        |            |                                  |
-| Media Texture           | MT_        |            |                                  |
+| Media Texture           | MTX_       |            |                                  |
 | Render Target           | RT_        |            |                                  |
 | Cube Render Target      | RTC_       |            |                                  |
 | Texture Light Profile   | TLP        |            |                                  |
@@ -732,7 +732,7 @@ Not every project needs every folder. What matters is that when a folder exists,
 
 * `Art/Characters` - Character art, with a sub-folder per character (`Art/Characters/Priestess`).
 * `Art/Decals` - All decal materials, decal material instances, and their textures, such as bullet holes and blood decals.
-* `Art/Environment` - A special folder, the one place a level designer looks for scenery: the environment meshes, kept flat at the root so no one has to dig for a prop, plus two sub-folders for order, `Art/Environment/Materials` (materials and their instances) and `Art/Environment/Textures` (the textures they use). Its `Materials` and `Textures` sub-folders are the same two folders any large flat set may add for order; see [2](#2). A placeable actor that is not scenery lives with its own system's art instead; see [2.4.2](#2.4.2).
+* `Art/Environment` - A special folder, the one place a level designer looks for scenery: the environment meshes, kept flat at the root so no one has to dig for a prop, plus two sub-folders for order, `Art/Environment/Materials` (materials and their instances) and `Art/Environment/Textures` (the textures they use). Its `Materials` and `Textures` sub-folders are the same two folders any large flat set may add for order; see [2](#2). A placeable actor that is not scenery belongs to its own system instead: its Blueprint in `Blueprint/<System>`, its art in `Art/<System>`; see [2.4.2](#2.4.2).
 * `Art/LUT` - Color lookup tables (LUTs) used for color grading.
 * `Art/Materials` - Global master materials, at the root of the folder. A master that serves one asset set lives with that set instead. See [2.8](#2.8).
   * `Art/Materials/MaterialInstances` - Generic material instances used by several assets.
@@ -741,14 +741,13 @@ Not every project needs every folder. What matters is that when a folder exists,
 * `Art/PostProcess` - Post-process materials and the textures they use, such as dither, outline, and blink effects.
 * `Art/Textures` - Generic textures that are not tied to a specific asset: seamless textures, bricks, wood, and similar reusable material inputs. A texture that belongs to one specific asset, or is consumed by only one material instance, lives next to that asset in `Art`, not here.
 
-A gameplay system whose art does not fit one of the folders above gets a matching folder here (for example `Art/Weapons`, `Art/Interactables`, `Art/Components`, or `Art/Tools`), mirroring that system's folder in `Blueprint`. A system is split by type: its art and animation, everything about it that is not logic, lives here in `Art/<System>`, and its logic, the Blueprints and the data assets that support them, lives in `Blueprint/<System>`. An Animation Blueprint is animation, not logic, so it lives here too; see [2.4.2](#2.4.2).
+A gameplay system whose art does not fit one of the folders above gets a matching folder here (for example `Art/Weapons`, `Art/Interactables`, `Art/Components`, or `Art/Tools`), mirroring that system's folder in `Blueprint`. A system is split the same way everywhere: its art and animation, everything about it that is not logic, lives here in `Art/<System>`, and its logic, the Blueprints and the data assets that support them, lives in `Blueprint/<System>`. An Animation Blueprint is animation, not logic, so it lives here too; see [2.4.2](#2.4.2).
 
 <a name="2.4.2"></a>
 #### 2.4.2 Blueprint
 
-`Blueprint` holds the logic that makes up the project: the Blueprints and the data assets that support them, such as enumerations, structs, data tables, input actions, behavior trees, blackboards, and environment queries. It is not a home for a system's art or animation. Textures, materials, meshes, material instances, sounds, and Animation Blueprints (`ABP_`) live in [`Art`](#2.4.1) instead, next to the asset they serve: an Animation Blueprint is animation, so it lives with the skeleton and meshes it drives, not here. Interactables follow the same split: `Blueprint/Interactables` holds every interactable Blueprint, and a level designer fetches the interactable Blueprint from there, while `Art/Interactables` holds the interactables' meshes, materials, and textures.
+`Blueprint` holds the logic that makes up the project: the Blueprints and the data assets that support them, such as enumerations, structs, data tables, input actions, behavior trees, blackboards, and environment queries. It is not a home for a system's art or animation. Textures, materials, meshes, material instances, sounds, and Animation Blueprints (`ABP_`) live in [`Art`](#2.4.1) instead (or in the dedicated [`FX`](#2.4.3), [`SFX`](#2.4.6), and [`UI`](#2.4.7) folders), next to the asset they serve: an Animation Blueprint is animation, so it lives with the skeleton and meshes it drives, not here. Interactables follow the same split: `Blueprint/Interactables` holds every interactable Blueprint, and a level designer fetches the interactable Blueprint from there, while `Art/Interactables` holds the interactables' meshes, materials, and textures.
 
-* `Blueprint/Core` - The base classes that are fundamental to the project. See [2.5](#2.5).
 * `Blueprint/LevelActors` - Rarely needed: a Blueprint a designer drops into a level normally belongs to a system and lives in that system's folder (`Blueprint/<System>`); only a lone actor with no system of its own lands here.
 * `Blueprint/Components` - Reusable actor components.
 * `Blueprint/Enemies`, `Blueprint/Player`, `Blueprint/Weapons`, `Blueprint/Interactables`, `Blueprint/GameModes`, and `Blueprint/Tools` - One folder per gameplay system, holding all of the system's Blueprints. See [2.6](#2.6). The system's art and animation live in `Art/<System>`, so `Blueprint/Interactables` holds every interactable Blueprint while `Art/Interactables` keeps the meshes, materials, and textures they use.
@@ -761,9 +760,9 @@ A gameplay system whose art does not fit one of the folders above gets a matchin
 <a name="2.4.4"></a>
 #### 2.4.4 Maps
 
-Map files are incredibly special and it is common for every project to have its own map naming system, especially if they work with sub-levels or streaming levels. No matter what system of map organization is in place for the specific project, all levels should belong in `/Content/Project/Maps`.
+Map files are incredibly special and it is common for every project to have its own map naming system, especially if they work with sub-levels or streaming levels. No matter what system of map organization is in place for the specific project, all levels should belong in `/Content/Haeretica/Maps`.
 
-Being able to tell someone to open a specific map without having to explain where it is is a great time saver and general 'quality of life' improvement. It is common for levels to be within sub-folders of `Maps`, such as `Maps/Level1/` or `Maps/ArenaLevel1/`, but the most important thing here is that they all exist within `/Content/Project/Maps`.
+Being able to tell someone to open a specific map without having to explain where it is is a great time saver and general 'quality of life' improvement. It is common for levels to be within sub-folders of `Maps`, such as `Maps/Level1/` or `Maps/ArenaLevel1/`, but the most important thing here is that they all exist within `/Content/Haeretica/Maps`.
 
 This also simplifies the job of cooking for engineers. Wrangling levels for a build process can be extremely frustrating if they have to dig through arbitrary folders for them. If a team's maps are all in one place, it is much harder to accidentally not cook a map in a build. It also simplifies lighting build scripts as well as QA processes.
 
@@ -786,14 +785,14 @@ Keeping prototype content in one place makes it obvious what is disposable and m
 
 
 <a name="2.5"></a>
-<a name="structure-core"></a>
-### 2.5 Use The `Blueprint/Core` Folder For Critical Blueprints
+<a name="structure-base-classes"></a>
+### 2.5 Keep Base Classes With Their System
 
-The `/Content/Project/Blueprint/Core` folder holds the assets that are absolutely fundamental to a project's workings. For example, base `GameMode`, `Character`, `PlayerController`, `GameState`, `PlayerState`, and related Blueprints should live here.
+There is no separate `Core` folder. A base class lives in its system's folder, next to the concrete Blueprints that inherit from it: a base `BP_WeaponBase` sits in `Blueprint/Weapons` beside `BP_Rifle`, a base pickup class sits in `Blueprint/Interactables` beside the specific health and ammo pickups, and base `GameMode`, `Character`, and `PlayerController` classes live in `Blueprint/GameModes` and `Blueprint/Player`. See [2.6](#2.6).
 
-This creates a very clear "don't touch these" message for other team members. Non-engineers should have very little reason to enter the `Blueprint/Core` folder. Following good code structure style, designers should be making their gameplay tweaks in child classes that expose functionality. World builders should be using prefab Blueprints in designated folders instead of potentially abusing base classes.
+Base classes deserve a "don't touch these" reputation wherever they sit. Designers should make their gameplay tweaks in child classes that expose functionality, and world builders should use prefab Blueprints in designated folders, rather than editing a base class: a change there affects every child and can break the system project-wide.
 
-For example, if your project requires pickups that can be placed in a level, there should exist a base Pickup class in `Blueprint/Core` that defines base behavior for a pickup. Specific pickups, such as health or ammo, should exist in their own folders (for example `/Content/Project/Blueprint/Interactables/Ammo/`). Game designers can define and tweak pickups in these folders however they please, but they should not touch the base class as they may unintentionally break pickups project-wide.
+When you add specific pickups, give each its own folder, such as `Blueprint/Interactables/Ammo/`, and leave the base class alone.
 
 <a name="2.6"></a>
 <a name="structure-systems"></a>
@@ -805,9 +804,8 @@ For example, a weapons system might look like this:
 
 <pre>
 |-- Blueprint
-    |-- Core
-    |   |-- BP_WeaponBase
     |-- Weapons
+        |-- BP_WeaponBase
         |-- BP_DesertEagle
         |-- BP_RocketPistol
         |-- BP_Rifle
@@ -831,7 +829,7 @@ For example, animations that are shared across multiple characters should live t
 <a name="structure-materials"></a>
 ### 2.8 `Art/Materials`
 
-If your project makes use of master materials, layered materials, or any form of reusable material or texture that does not belong to any subset of assets, these assets should be located in `Content/Project/Art/Materials`.
+If your project makes use of master materials, layered materials, or any form of reusable material or texture that does not belong to any subset of assets, these assets should be located in `Content/Haeretica/Art/Materials`.
 
 This way all 'global' materials have a place to live and are easily located.
 
