@@ -15,7 +15,13 @@ export function buildToc(
 
     const link = el(
       "a",
-      { class: "toc-link", href: `#${rule.id}`, "data-id": rule.id },
+      {
+        class: "toc-link",
+        href: `#${rule.id}`,
+        "data-id": rule.id,
+        "data-copy-target": rule.number ?? rule.id,
+        title: `Right-click to copy a link to ${rule.title}`,
+      },
       [
         el("span", { class: "toc-num", text: rule.number ?? "" }),
         el("span", { class: "toc-text", text: rule.title }),

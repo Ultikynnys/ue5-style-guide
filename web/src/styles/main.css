@@ -552,6 +552,10 @@ img.brand-mark {
   align-self: center;
 }
 
+.rule-link {
+  cursor: context-menu;
+}
+
 .rule--section > .rule-head > .rule-number {
   background: var(--text);
   color: var(--bg);
@@ -573,22 +577,6 @@ img.brand-mark {
 .rule--meta > .rule-head > .rule-title {
   font-size: 1rem;
   color: var(--muted);
-}
-
-.permalink {
-  flex: none;
-  opacity: 0;
-  padding: 2px 8px;
-  border: 1px solid var(--border-strong);
-  background: var(--surface);
-  color: var(--muted);
-  cursor: pointer;
-  transition: opacity 0.15s ease;
-}
-
-.rule-head:hover .permalink,
-.permalink:focus-visible {
-  opacity: 1;
 }
 
 .rule-children {

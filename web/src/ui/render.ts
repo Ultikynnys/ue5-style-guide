@@ -108,22 +108,16 @@ export function renderApp(root: HTMLElement, guide: StyleGuide): AppRefs {
       "data-number": rule.number ?? "",
     });
 
-    const permalink = el(
-      "button",
-      {
-        class: "permalink",
-        type: "button",
-        title: "Copy a link to this rule",
-        "aria-label": `Copy a link to ${rule.title}`,
-        "data-target": rule.id,
-        text: "#",
-      },
-    );
-
     const head = el("div", { class: "rule-head" }, [
-      rule.number ? el("span", { class: "rule-number", text: rule.number }) : null,
+      rule.number
+        ? el("span", {
+            class: "rule-number rule-link",
+            title: `Right-click to copy a link to ${rule.title}`,
+            "data-target": rule.number ?? rule.id,
+            text: rule.number,
+          })
+        : null,
       el(headingTag(rule.level), { class: "rule-title", text: rule.title }),
-      permalink,
     ].filter((node): node is HTMLElement => Boolean(node)));
 
     section.append(head);

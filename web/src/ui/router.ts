@@ -91,15 +91,40 @@ export function initRouter(refs: AppRefs): void {
     toast.dataset.timer = String(timer);
   };
 
-  contentEl.addEventListener("click", (event: Event) => {
-    const button = (event.target as HTMLElement).closest<HTMLElement>(".permalink");
-    if (!button) return;
-    event.preventDefault();
-    const id = button.dataset.target ?? "";
+  const copyRuleLink = async (id: string): Promise<void> => {
+    if (!id) return;
     const url = `${location.origin}${location.pathname}${location.search}#${id}`;
-    history.replaceState(null, "", `#${id}`);
-    void navigator.clipboard?.writeText(url).catch(() => undefined);
-    showToast(`Copied link to #${id}`);
+    try {
+      if (!navigator.clipboard?.writeText) throw new Error("Clipboard API unavailable");
+      await navigator.clipboard.writeText(url);
+      showToast(`Copied link to #${id}`);
+      return;
+    } catch {
+      const input = document.createElement("textarea");
+      input.value = url;
+      input.setAttribute("readonly", "");
+      input.style.position = "fixed";
+      input.style.opacity = "0";
+      document.body.append(input);
+      input.select();
+      const copied = document.execCommand("copy");
+      input.remove();
+      showToast(copied ? `Copied link to #${id}` : "Could not copy link to clipboard");
+    }
+  };
+
+  contentEl.addEventListener("contextmenu", (event: MouseEvent) => {
+    const badge = (event.target as HTMLElement).closest<HTMLElement>(".rule-link");
+    if (!badge) return;
+    event.preventDefault();
+    copyRuleLink(badge.dataset.target ?? "");
+  });
+
+  tocEl.addEventListener("contextmenu", (event: MouseEvent) => {
+    const link = (event.target as HTMLElement).closest<HTMLAnchorElement>(".toc-link");
+    if (!link) return;
+    event.preventDefault();
+    copyRuleLink(link.dataset.copyTarget ?? link.dataset.id ?? "");
   });
 
   toTop?.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "auto" }));
