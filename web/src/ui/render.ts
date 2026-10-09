@@ -136,7 +136,7 @@ export function renderApp(root: HTMLElement, guide: StyleGuide): AppRefs {
   contentEl.append(rulesWrap);
   contentEl.append(
     el("footer", { class: "footer" }, [
-      el("span", { text: "Gamemakin UE5 Style Guide - rules rendered from " }),
+      el("span", { text: `${guide.title} - rules rendered from ` }),
       el("a", {
         href: "https://github.com/Allar/ue5-style-guide",
         target: "_blank",

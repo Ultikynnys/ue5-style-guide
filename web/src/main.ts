@@ -8,6 +8,9 @@ import { initRouter } from "./ui/router";
 import { initSearch } from "./ui/search";
 import { initTheme } from "./ui/theme";
 
+// The fork is branded with its own name instead of the README's original title.
+const SITE_TITLE = "Haeretica Style Guide";
+
 const root = byId("app");
 
 if (root) {
@@ -15,6 +18,8 @@ if (root) {
     // The rules are parsed from the raw README text at runtime, so the site
     // always reflects whatever markdown ships with the repo.
     const guide = parseStyleGuide(readmeRaw);
+    guide.title = SITE_TITLE;
+    document.title = `${SITE_TITLE} - Rules`;
     const refs = renderApp(root, guide);
     initTheme(byId("theme-toggle"));
     initSearch(refs);
