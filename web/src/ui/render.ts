@@ -1,4 +1,5 @@
 import type { StyleGuide, StyleRule } from "../types";
+import { SITE_REPO, SITE_REPO_BRANCH } from "../config";
 import { el } from "./dom";
 import { buildToc } from "./toc";
 
@@ -138,11 +139,13 @@ export function renderApp(root: HTMLElement, guide: StyleGuide): AppRefs {
     el("footer", { class: "footer" }, [
       el("span", { text: `${guide.title} - rules rendered from ` }),
       el("a", {
-        href: "https://github.com/Allar/ue5-style-guide",
+        href: `${SITE_REPO}/blob/${SITE_REPO_BRANCH}/README.md`,
         target: "_blank",
         rel: "noopener",
         text: "README.md",
       }),
+      el("span", { text: " - " }),
+      el("a", { href: SITE_REPO, target: "_blank", rel: "noopener", text: "view the repo" }),
     ]),
   );
 

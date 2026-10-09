@@ -7,9 +7,7 @@ import { renderApp } from "./ui/render";
 import { initRouter } from "./ui/router";
 import { initSearch } from "./ui/search";
 import { initTheme } from "./ui/theme";
-
-// The fork is branded with its own name instead of the README's original title.
-const SITE_TITLE = "Haeretica Style Guide";
+import { SITE_TITLE } from "./config";
 
 const root = byId("app");
 
