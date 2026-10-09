@@ -415,13 +415,13 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 | Asset Type                    | Prefix     | Suffix     | Notes                            |
 | ----------------------------- | ---------- | ---------- | -------------------------------- |
 | Material                      | M_         |            |                                  |
-| Material (Post Process)       | PP_        |            | `PP` marks post-processing (as in `M_PP_` or `MI_PP_`); any name with `PP` must live in [`Art/PostProcess`](#2.4.1). |
+| Material (Post Process)       | M_, MI_    |            | `PP` is the post-processing modifier, placed right after the material's type (`M_PP_`, `MI_PP_`). Any material whose name carries `PP` that way lives in [`Art/PostProcess`](#2.4.1) and nowhere else. |
 | Material Function             | MF_        |            |                                  |
 | Material Instance             | MI_        |            |                                  |
 | Material Parameter Collection | MPC_       |            |                                  |
 | Subsurface Profile            | SP_        |            |                                  |
 | Physical Materials            | PM_        |            |                                  |
-| Decal                         | M_, MI_    | _Decal     |                                  |
+| Decal                         | M_, MI_    |            | The `Decal` token goes right after the type: `M_Decal_<Name>` and `MI_Decal_<Name>`. A deliberate exception to PascalCase, so a decal is named explicitly and cannot be misused. |
 
 <a name="anc-textures"></a>
 <a name="1.2.6"></a>
@@ -465,13 +465,13 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 | -------------------------- | ---------- | ---------- | -------------------------------- |
 | Animated Vector Field      | VFA_       |            |                                  |
 | Camera Anim                | CA_        |            |                                  |
-| Color Curve                | Curve_     | _Color     |                                  |
-| Curve Table                | Curve_     | _Table     |                                  |
+| Color Curve                | C_         | _Color     |                                  |
+| Curve Table                | C_         | _Table     |                                  |
 | Data Asset                 | DA_        |            |                                  |
 | Data Table                 | DT_        |            |                                  |
 | Input Action               | IA_        |            |                                  |
 | Input Mapping Context      | IMC_       |            |                                  |
-| Float Curve                | Curve_     | _Float     |                                  |
+| Float Curve                | C_         | _Float     |                                  |
 | Foliage Type               | FT_        |            |                                  |
 | Force Feedback Effect      | FFE_       |            |                                  |
 | Landscape Grass Type       | LG_        |            |                                  |
@@ -486,7 +486,7 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 | Substance Graph Instance   | SGI_       |            |                                  |
 | Substance Instance Factory | SIF_       |            |                                  |
 | Touch Interface Setup      | TI_        |            |                                  |
-| Vector Curve               | Curve_     | _Vector    |                                  |
+| Vector Curve               | C_         | _Vector    |                                  |
 
 <a name="anc-paper2d"></a>
 <a name="1.2.8"></a>
@@ -546,7 +546,7 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 | Asset Type              | Prefix     | Suffix     | Notes                            |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
 | Particle System         | PS_        |            |                                  |
-| Material (Post Process) | PP_        |            | `PP` marks post-processing (as in `M_PP_` or `MI_PP_`); any name with `PP` must live in [`Art/PostProcess`](#2.4.1). |
+| Material (Post Process) | M_, MI_    |            | `PP` is the post-processing modifier, placed right after the material's type (`M_PP_`, `MI_PP_`). Any material whose name carries `PP` that way lives in [`Art/PostProcess`](#2.4.1) and nowhere else. |
 
 **[⬆ Back to Top](#table-of-contents)**
 
@@ -558,7 +558,7 @@ Equally important as asset names, the directory structure style of a project sho
 
 All of a project's content lives under a folder named after the project (`Content/Haeretica`). Beneath that, the content is split into a fixed set of top-level folders, each a single, obvious home for one class of asset: `Art`, `Blueprint`, `FX`, `Maps`, `Prototype`, `SFX`, and `UI`. Because every asset already carries its type in its [prefix](#1.2), these folders group assets by _purpose_ rather than by raw asset type, and the Content Browser's filters and search are used to narrow down by type within a folder. Anyone on the team can then always find an asset's home without having to ask.
 
-> Do not create a folder called `Assets`, and do not split a folder into sibling folders that are only distinguished by asset type (for example a `Meshes` folder next to a `Textures` folder). Name folders after the thing they contain, not the type of asset that happens to live there. The deliberate exceptions are [`Art/Materials`](#2.8) and [`Art/Textures`](#2.4.1): a `Materials` folder holding master materials, material functions, and generic material instances, and a `Textures` folder holding generic textures, are allowed. A set that would otherwise be one large flat pile may add the same two folders for order, such as `Art/Environment/Materials` and `Art/Environment/Textures`, without splitting the set apart.
+> Do not create a folder called `Assets`, and do not split a folder into sibling folders that are only distinguished by asset type (for example a `Meshes` folder next to a `Textures` folder). Name folders after the thing they contain, not the type of asset that happens to live there. The deliberate exceptions are [`Art/Materials`](#2.8) and [`Art/Textures`](#2.4.1): a `Materials` folder holding master materials, material functions, and generic material instances, and a `Textures` folder holding generic textures, are allowed. `UI/Fonts` is the third: fonts are a user-interface-only concept with no other home, so a `Fonts` folder is allowed in `UI` and nowhere else. A set that would otherwise be one large flat pile may add the same two folders for order, such as `Art/Environment/Materials` and `Art/Environment/Textures`, without splitting the set apart.
 
 <a name="2e1"><a>
 ### 2e1 Example Project Content Structure
@@ -772,6 +772,8 @@ This also simplifies the job of cooking for engineers. Wrangling levels for a bu
 
 `Prototype` is the shared counterpart to a personal [`Developer`](#2.3) folder: content that is experimental or being built out before it earns a permanent home lives here, such as greybox levels, test Blueprints, and rough assets. Work that is only your own scratch stays in a [`Developer`](#2.3) folder instead. Anything here is fair game to be deleted or heavily changed, and nothing in the shipped project should depend on it.
 
+`Prototype` is the one and only exception to the [structure rules](#2): it is the single project folder allowed to hold temporary content, either because that content will be removed later or because it will be moved to the main project. Everywhere else, structure is law and an asset lives in its one permanent home.
+
 Keeping prototype content in one place makes it obvious what is disposable and makes it trivial to strip before cooking a build. Once a prototype is ready for production, move it into its proper home and fix up redirectors.
 
 <a name="2.4.6"></a>
@@ -782,7 +784,7 @@ Keeping prototype content in one place makes it obvious what is disposable and m
 <a name="2.4.7"></a>
 #### 2.4.7 UI
 
-`UI` holds user interface assets: widget Blueprints, UI textures, UI materials (both masters and instances), and fonts. Group them by screen or element, such as `UI/HUD`, `UI/MainMenu`, or `UI/Options`, so a screen's widgets, textures, and materials migrate together: a crosshair material lives in `UI/HUD`, a button material in `UI/BaseElements`. UI assets carry the `UI` name modifier: `M_UI_` for materials, `MI_UI_` for instances, and `T_UI_` for textures. A weapon's HUD icon instance and its texture stay with the weapon in `Art/Weapons`, not here, even though the icon texture carries the `T_UI_` modifier. A generic weapon icon that names no single weapon, a placeholder or fallback, is a base element and lives in `UI/BaseElements`.
+`UI` holds user interface assets: widget Blueprints, UI textures, UI materials (both masters and instances), and fonts. Group them by screen or element, such as `UI/HUD`, `UI/MainMenu`, or `UI/Options`, so a screen's widgets, textures, and materials migrate together: a crosshair material lives in `UI/HUD`, a button material in `UI/BaseElements`. UI assets carry the `UI` name modifier: `M_UI_` for materials, `MI_UI_` for instances, and `T_UI_` for textures. A weapon's HUD icon instance and its texture stay with the weapon in `Art/Weapons`, not here, even though the icon texture carries the `T_UI_` modifier. A generic weapon icon that names no single weapon, a placeholder or fallback, is a base element and lives in `UI/BaseElements`. Fonts are a UI-only concept with no home anywhere else, so `UI/Fonts` is the one type-named folder allowed inside `UI`.
 
 
 <a name="2.5"></a>
