@@ -6,7 +6,6 @@ import {
   stripInlineMarkdown,
 } from "./markdown";
 
-const ANCHOR_LINE_RE = /^\s*<a\s+name="([^"]+)"\s*>\s*<\/a>\s*$/i;
 const HEADING_RE = /^(#{1,6})\s+(.*?)\s*#*\s*$/;
 // Digits, optionally dotted, optionally with a trailing letter variant (1.1e1, 2e1, 00.1).
 const LEADING_NUMBER_RE = /^([0-9][0-9a-z]*(?:\.[0-9a-z]+)*)/i;
@@ -32,6 +31,22 @@ function classify(level: number, number: string | null): NodeKind {
 
 function anchorHtml(anchors: string[]): string {
   return anchors.map((a) => `<a name="${a}"></a>`).join("\n");
+}
+
+// A line is an anchor line when it holds nothing but <a name="...">, </a> and
+// <a> tokens. The permissive token set covers the README's malformed
+// `<a name="x"><a>` typos, which a strict pattern would miss.
+function parseAnchorLine(line: string): string[] | null {
+  const names: string[] = [];
+  let rest = line.replace(
+    /<a\s+name="([^"]+)"\s*>/gi,
+    (_match, name: string) => {
+      names.push(name);
+      return "";
+    },
+  );
+  rest = rest.replace(/<\/a>|<a\s*>/gi, "");
+  return names.length > 0 && rest.trim() === "" ? names : null;
 }
 
 // The README repeats a "Back to Top" jump link in every section; it is
@@ -111,10 +126,10 @@ export function parseStyleGuide(markdown: string): StyleGuide {
   };
 
   for (const rawLine of lines) {
-    const anchorMatch = rawLine.match(ANCHOR_LINE_RE);
-    if (anchorMatch) {
+    const anchorNames = parseAnchorLine(rawLine);
+    if (anchorNames) {
       flushBody();
-      pendingAnchors.push(anchorMatch[1]);
+      pendingAnchors.push(...anchorNames);
       continue;
     }
 

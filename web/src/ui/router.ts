@@ -43,22 +43,23 @@ export function initRouter(refs: AppRefs): void {
     link.scrollIntoView({ block: "nearest" });
   };
 
-  const go = (hash: string): void => {
+  const go = (hash: string, smooth = true): void => {
     const { id, top } = resolve(hash);
     if (top) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: smooth ? "smooth" : "auto" });
       setActive("");
       return;
     }
     if (!id) return;
     const section = document.getElementById(id);
     if (!section) return;
-    section.scrollIntoView({ behavior: "smooth", block: "start" });
+    section.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "start" });
     flash(section);
     setActive(id);
   };
 
-  if (location.hash) window.setTimeout(() => go(location.hash), 0);
+  // Jump straight to the deep link on load; animate only for in-page navigation.
+  if (location.hash) window.setTimeout(() => go(location.hash, false), 0);
   window.addEventListener("hashchange", () => go(location.hash));
 
   const closeDrawer = (): void => {
