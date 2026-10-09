@@ -552,7 +552,7 @@ Equally important as asset names, the directory structure style of a project sho
 
 All of a project's content lives under a folder named after the project (`Content/Haeretica`). Beneath that, the content is split into a fixed set of top-level folders, each a single, obvious home for one class of asset: `Art`, `Blueprint`, `FX`, `Maps`, `Prototype`, `SFX`, and `UI`. Because every asset already carries its type in its [prefix](#1.2), these folders group assets by _purpose_ rather than by raw asset type, and the Content Browser's filters and search are used to narrow down by type within a folder. Anyone on the team can then always find an asset's home without having to ask.
 
-> Do not create a folder called `Assets`, and do not split a folder into sibling folders that are only distinguished by asset type (for example a `Meshes` folder next to a `Textures` folder). Name folders after the thing they contain, not the type of asset that happens to live there. The one deliberate exception is [`Art/Materials`](#2.8): a `Materials` folder holding shared materials is allowed.
+> Do not create a folder called `Assets`, and do not split a folder into sibling folders that are only distinguished by asset type (for example a `Meshes` folder next to a `Textures` folder). Name folders after the thing they contain, not the type of asset that happens to live there. The one deliberate exception is [`Art/Materials`](#2.8): a `Materials` folder holding master materials and material functions is allowed.
 
 <a name="2e1"><a>
 ### 2e1 Example Project Content Structure
@@ -723,7 +723,7 @@ Not every project needs every folder. What matters is that when a folder exists,
 * `Art/Decals` - Decal materials and the textures they use, such as bullet holes and blood decals.
 * `Art/Environment` - Environment art: the meshes, materials, and material instances used to build levels. Material instances live here alongside the environment sets they belong to so the whole set can be migrated together.
 * `Art/LUT` - Color lookup tables (LUTs) used for color grading.
-* `Art/Materials` - Shared materials. See [2.8](#2.8).
+* `Art/Materials` - Master materials and material functions only. See [2.8](#2.8).
   * `Art/Materials/MasterMaterials` - Master materials that other materials instance from.
   * `Art/Materials/MaterialFunctions` - Reusable material functions.
 * `Art/PhysicalMaterials` - [Physical materials](#1.2.9) used for surface responses such as footstep and impact effects.
@@ -800,7 +800,7 @@ For example, a weapons system might look like this:
         |-- BP_Rifle
 </pre>
 
-> Do not create a folder that is only named after an asset type (such as a `Meshes` or `SkeletalMeshes` folder) just to separate assets inside a system. The exception is a `Materials` folder for shared materials, as in [`Art/Materials`](#2.8). Asset names already carry their type via their [prefix](#1.2) and the Content Browser can filter by type, so such folders only add redundant path segments. Want to see every static mesh under `Art/Environment/`? Turn on the Static Mesh filter. If assets are named correctly they sort alphabetically regardless of prefix.
+> Do not create a folder that is only named after an asset type (such as a `Meshes` or `SkeletalMeshes` folder) just to separate assets inside a system. The exception is a `Materials` folder holding only master materials and material functions, as in [`Art/Materials`](#2.8). Asset names already carry their type via their [prefix](#1.2) and the Content Browser can filter by type, so such folders only add redundant path segments. Want to see every static mesh under `Art/Environment/`? Turn on the Static Mesh filter. If assets are named correctly they sort alphabetically regardless of prefix.
 
 <a name="2.7"></a>
 <a name="structure-large-sets"></a>
@@ -824,7 +824,7 @@ This way all 'global' materials have a place to live and are easily located.
 
 > This also makes it incredibly easy to enforce a 'use material instances only' policy within a project. If all artists and assets should be using material instances, then the only regular material assets that should exist are within this folder. You can easily verify this by searching for base materials in any folder that isn't `Art/Materials`.
 
-`Art/Materials` doesn't have to consist of purely materials. Master materials live in `Art/Materials/MasterMaterials`, material functions in `Art/Materials/MaterialFunctions`, and material instances directly in `Art/Materials`. Shared textures and post-process materials have their own Art folders: see [`Art/Textures`](#2.4.1) and [`Art/PostProcess`](#2.4.1).
+`Art/Materials` holds only master materials and material functions, in `Art/Materials/MasterMaterials` and `Art/Materials/MaterialFunctions` respectively. Material instances are not stored here: an instance lives with the mesh asset it is applied to, for example alongside its environment set in [`Art/Environment`](#2.4.1). Shared textures and post-process materials have their own Art folders: see [`Art/Textures`](#2.4.1) and [`Art/PostProcess`](#2.4.1).
 
 Any testing or debug materials should be within `Art/Materials/Debug`. This allows debug materials to be easily stripped from a project before shipping and makes it incredibly apparent if production assets are using them if reference errors are shown.
 
