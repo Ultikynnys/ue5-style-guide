@@ -87,16 +87,14 @@ If you have made a notable fork or translation that is not suitable for a pull r
     - [2.4.2 Core](#2.4.2)
     - [2.4.3 Decals](#2.4.3)
     - [2.4.4 Effects](#2.4.4)
-    - [2.4.5 Environment](#2.4.5)
-    - [2.4.6 Maps](#2.4.6)
-    - [2.4.7 MaterialLibrary](#2.4.7)
-    - [2.4.8 SFX](#2.4.8)
-    - [2.4.9 UI](#2.4.9)
+    - [2.4.5 Maps](#2.4.5)
+    - [2.4.6 SFX](#2.4.6)
+    - [2.4.7 UI](#2.4.7)
   - [2.5 Use The `Core` Folder For Critical Blueprints](#structure-core)
   - [2.6 Give Every Blueprint System Its Own Folder](#structure-systems)
   - [2.7 Very Large Asset Sets Get Their Own Folder Layout](#structure-large-sets)
-  - [2.8 `MaterialLibrary`](#structure-material-library)
-  - [2.9 No Empty Folders](#structure-no-empty-folders)
+  - [2.8 `Art/Materials`](#structure-materials)
+  - [2.9 No Stray Empty Folders](#structure-no-empty-folders)
 - [3. Blueprints](#bp)
   - [3.1 Compiling](#bp-compiling)
   - [3.2 Variables](#bp-vars)
@@ -342,7 +340,7 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 
 | Asset Type              | Prefix     | Suffix     | Notes                            |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
-| Level / Map             |            |            | [Should be in a folder called Maps.](#2.4.6) |
+| Level / Map             |            |            | [Should be in a folder called Maps.](#2.4.5) |
 | Level (Persistent)      |            | _P         |                                  |
 | Level (Audio)           |            | _Audio     |                                  |
 | Level (Lighting)        |            | _Lighting  |                                  |
@@ -552,7 +550,7 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 
 Equally important as asset names, the directory structure style of a project should be considered law. Asset naming conventions and content directory structure go hand in hand, and a violation of either causes unneeded chaos.
 
-All of a project's content lives under a folder named after the project (`Content/Haeretica`). Beneath that, the content is split into a fixed set of top-level folders, each a single, obvious home for one class of asset: `Art`, `Core`, `Decals`, `Effects`, `Environment`, `Maps`, `MaterialLibrary`, `SFX`, and `UI`. Because every asset already carries its type in its [prefix](#1.2), these folders group assets by _purpose_ rather than by raw asset type, and the Content Browser's filters and search are used to narrow down by type within a folder. Anyone on the team can then always find an asset's home without having to ask.
+All of a project's content lives under a folder named after the project (`Content/Haeretica`). Beneath that, the content is split into a fixed set of top-level folders, each a single, obvious home for one class of asset: `Art`, `Core`, `Decals`, `Effects`, `Maps`, `SFX`, and `UI`. Because every asset already carries its type in its [prefix](#1.2), these folders group assets by _purpose_ rather than by raw asset type, and the Content Browser's filters and search are used to narrow down by type within a folder. Anyone on the team can then always find an asset's home without having to ask.
 
 > Do not create a folder called `Assets`, and do not split a folder into sibling folders that are only distinguished by asset type (for example a `Meshes` folder next to a `Textures` folder). Name folders after the thing they contain, not the type of asset that happens to live there.
 
@@ -562,6 +560,18 @@ All of a project's content lives under a folder named after the project (`Conten
 |-- Content
     |-- <a href="#2.2">Haeretica</a>
         |-- <a href="#2.4.1">Art</a>
+        |   |-- Characters
+        |   |   |-- Mech
+        |   |   |-- Priest
+        |   |   |-- Tank
+        |   |-- Environment
+        |   |-- LUT
+        |   |-- <a href="#2.8">Materials</a>
+        |   |   |-- MasterMaterials
+        |   |   |-- MaterialFunctions
+        |   |-- PhysicalMaterials
+        |   |-- PostProcess
+        |   |-- Textures
         |-- <a href="#2.4.2">Core</a>
         |   |-- <a href="#2.5">Components</a>
         |   |-- Enemies
@@ -572,21 +582,17 @@ All of a project's content lives under a folder named after the project (`Conten
         |   |-- <a href="#2.6">Weapons</a>
         |-- <a href="#2.4.3">Decals</a>
         |-- <a href="#2.4.4">Effects</a>
-        |-- <a href="#2.4.5">Environment</a>
-        |-- <a href="#2.4.6">Maps</a>
+        |-- <a href="#2.4.5">Maps</a>
         |   |-- ArenaLevel1
         |   |-- Level1
         |   |-- Level2
         |   |-- Level3
         |   |-- MainMenu
         |   |-- TestLevels
-        |-- <a href="#2.4.7">MaterialLibrary</a>
-        |   |-- PostProcess
-        |   |-- TextureLibrary
-        |-- <a href="#2.4.8">SFX</a>
+        |-- <a href="#2.4.6">SFX</a>
         |   |-- Attenuation
         |   |-- Music
-        |-- <a href="#2.4.9">UI</a>
+        |-- <a href="#2.4.7">UI</a>
             |-- HUD
             |-- MainMenu
             |-- Options
@@ -653,13 +659,13 @@ After a migration, safe merging of assets can be done using the 'Replace Referen
 <a name="2.2.2e1"></a>
 ##### 2.2.2e1 Master Material Example
 
-For example, say you created a master material in one project that you would like to use in another project so you migrated that asset over. If this asset is not in a top level folder, it may have a name like `Content/MaterialLibrary/M_Master`. If the target project doesn't have a master material already, this should work without issue.
+For example, say you created a master material in one project that you would like to use in another project so you migrated that asset over. If this asset is not in a top level folder, it may have a name like `Content/M_Master`. If the target project doesn't have a master material already, this should work without issue.
 
 As work on one or both projects progress, their respective master materials may change to be tailored for their specific projects due to the course of normal development.
 
-The issue comes when, for example, an artist for one project created a nice generic modular set of static meshes and someone wants to include that set of static meshes in the second project. If the artist who created the assets used material instances based on `Content/MaterialLibrary/M_Master` as they're instructed to, when a migration is performed there is a great chance of conflict for the previously migrated `Content/MaterialLibrary/M_Master` asset.
+The issue comes when, for example, an artist for one project created a nice generic modular set of static meshes and someone wants to include that set of static meshes in the second project. If the artist who created the assets used material instances based on `Content/M_Master` as they're instructed to, when a migration is performed there is a great chance of conflict for the previously migrated `Content/M_Master` asset.
 
-This issue can be hard to predict and hard to account for. The person migrating the static meshes may not be the same person who is familiar with the development of both project's master material, and they may not be even aware that the static meshes in question rely on material instances which then rely on the master material. The Migrate tool requires the entire chain of dependencies to work however, and so it will be forced to grab `Content/MaterialLibrary/M_Master` when it copies these assets to the other project and it will overwrite the existing asset.
+This issue can be hard to predict and hard to account for. The person migrating the static meshes may not be the same person who is familiar with the development of both project's master material, and they may not be even aware that the static meshes in question rely on material instances which then rely on the master material. The Migrate tool requires the entire chain of dependencies to work however, and so it will be forced to grab `Content/M_Master` when it copies these assets to the other project and it will overwrite the existing asset.
 
 It is at this point where if the master materials for both projects are incompatible in _any way_, you risk breaking possibly the entire material library for a project as well as any other dependencies that may have already been migrated, simply because assets were not stored in a top level folder. The simple migration of static meshes now becomes a very ugly task.
 
@@ -695,13 +701,11 @@ Once the assets are ready for use, an artist simply has to move the assets into 
 
 Beneath the [project folder](#2.2), content is split into a fixed set of top-level folders. Each folder is a single, obvious home for one class of asset:
 
-* `Art` - Art source and work-in-progress visual assets.
+* `Art` - All visual assets, organized by kind. See [2.4.1](#2.4.1).
 * `Core` - The Blueprints that make up the project's logic. See [2.5](#2.5).
 * `Decals` - Decal materials and the textures they use.
 * `Effects` - Niagara systems and the other assets that make up visual effects.
-* `Environment` - Environment art: the meshes, materials, and material instances used to build levels.
-* `Maps` - All [map](#terms-level-map) files. See [2.4.6](#2.4.6).
-* `MaterialLibrary` - Shared master materials, material functions, and utility textures. See [2.8](#2.8).
+* `Maps` - All [map](#terms-level-map) files. See [2.4.5](#2.4.5).
 * `SFX` - All audio content: sound cues, sound waves, and related assets.
 * `UI` - User interface assets: widget Blueprints, UI materials, and UI textures.
 
@@ -710,7 +714,17 @@ Not every project needs every folder. What matters is that when a folder exists,
 <a name="2.4.1"></a>
 #### 2.4.1 Art
 
-`Art` holds art source and work-in-progress visual assets: modeling, sculpting, and texture source files, plus anything an artist is still iterating on. Finished art is promoted into the folder where it is used (`Environment`, `MaterialLibrary`, `Decals`, or `UI`).
+`Art` is the single home for the project's visual assets, grouped by kind:
+
+* `Art/Characters` - Character art, with a sub-folder per character (`Art/Characters/Priest`).
+* `Art/Environment` - Environment art: the meshes, materials, and material instances used to build levels. Material instances live here alongside the environment sets they belong to so the whole set can be migrated together.
+* `Art/LUT` - Color lookup tables (LUTs) used for color grading.
+* `Art/Materials` - Shared materials. See [2.8](#2.8).
+  * `Art/Materials/MasterMaterials` - Master materials that other materials instance from.
+  * `Art/Materials/MaterialFunctions` - Reusable material functions.
+* `Art/PhysicalMaterials` - [Physical materials](#1.2.9) used for surface responses such as footstep and impact effects.
+* `Art/PostProcess` - Post-process materials and related assets.
+* `Art/Textures` - Shared textures that are not owned by a single asset or material.
 
 <a name="2.4.2"></a>
 #### 2.4.2 Core
@@ -731,12 +745,7 @@ Not every project needs every folder. What matters is that when a folder exists,
 `Effects` holds visual effects: Niagara systems and emitters, the meshes and materials they rely on, and any other asset that only exists to serve a visual effect.
 
 <a name="2.4.5"></a>
-#### 2.4.5 Environment
-
-`Environment` holds environment art: the meshes, materials, and material instances used to build levels. Material instances live alongside the environment sets they belong to so the whole set can be migrated together.
-
-<a name="2.4.6"></a>
-#### 2.4.6 Maps
+#### 2.4.5 Maps
 
 Map files are incredibly special and it is common for every project to have its own map naming system, especially if they work with sub-levels or streaming levels. No matter what system of map organization is in place for the specific project, all levels should belong in `/Content/Project/Maps`.
 
@@ -744,18 +753,13 @@ Being able to tell someone to open a specific map without having to explain wher
 
 This also simplifies the job of cooking for engineers. Wrangling levels for a build process can be extremely frustrating if they have to dig through arbitrary folders for them. If a team's maps are all in one place, it is much harder to accidentally not cook a map in a build. It also simplifies lighting build scripts as well as QA processes.
 
-<a name="2.4.7"></a>
-#### 2.4.7 MaterialLibrary
-
-`MaterialLibrary` holds shared master materials, material functions, and utility textures that do not belong to a specific asset set. See [2.8](#2.8).
-
-<a name="2.4.8"></a>
-#### 2.4.8 SFX
+<a name="2.4.6"></a>
+#### 2.4.6 SFX
 
 `SFX` holds all audio content: sound cues, sound waves, attenuation and concurrency assets, and any related audio assets. Group them by purpose, such as `Music` or `Attenuation`.
 
-<a name="2.4.9"></a>
-#### 2.4.9 UI
+<a name="2.4.7"></a>
+#### 2.4.7 UI
 
 `UI` holds user interface assets: widget Blueprints, UI materials, UI textures, and fonts. Group them by screen or element, such as `UI/HUD`, `UI/MainMenu`, `UI/Options`, or `UI/Textures`.
 
@@ -802,24 +806,24 @@ For example, animations that are shared across multiple characters should live t
 > This does not apply to assets like textures and materials. It is common for a `Rocks` folder to have a large amount of textures if there are a large amount of rocks, however these textures are generally only related to a few specific rocks and should be named appropriately. Even if these textures are part of a [shared material](#2.8).
 
 <a name="2.8"></a>
-<a name="structure-material-library"></a>
-### 2.8 `MaterialLibrary`
+<a name="structure-materials"></a>
+### 2.8 `Art/Materials`
 
-If your project makes use of master materials, layered materials, or any form of reusable material or texture that does not belong to any subset of assets, these assets should be located in `Content/Project/MaterialLibrary`.
+If your project makes use of master materials, layered materials, or any form of reusable material or texture that does not belong to any subset of assets, these assets should be located in `Content/Project/Art/Materials`.
 
 This way all 'global' materials have a place to live and are easily located.
 
-> This also makes it incredibly easy to enforce a 'use material instances only' policy within a project. If all artists and assets should be using material instances, then the only regular material assets that should exist are within this folder. You can easily verify this by searching for base materials in any folder that isn't `MaterialLibrary`.
+> This also makes it incredibly easy to enforce a 'use material instances only' policy within a project. If all artists and assets should be using material instances, then the only regular material assets that should exist are within this folder. You can easily verify this by searching for base materials in any folder that isn't `Art/Materials`.
 
-The `MaterialLibrary` doesn't have to consist of purely materials. Shared material functions, textures, and other utility assets live here too, in folders that name their purpose. For example, master materials should be located in `MaterialLibrary/MasterMaterials`, shared textures in `MaterialLibrary/TextureLibrary`, and post-process materials in `MaterialLibrary/PostProcess`.
+`Art/Materials` doesn't have to consist of purely materials. Master materials live in `Art/Materials/MasterMaterials`, material functions in `Art/Materials/MaterialFunctions`, and material instances directly in `Art/Materials`. Shared textures and post-process materials have their own Art folders: see [`Art/Textures`](#2.4.1) and [`Art/PostProcess`](#2.4.1).
 
-Any testing or debug materials should be within `MaterialLibrary/Debug`. This allows debug materials to be easily stripped from a project before shipping and makes it incredibly apparent if production assets are using them if reference errors are shown.
+Any testing or debug materials should be within `Art/Materials/Debug`. This allows debug materials to be easily stripped from a project before shipping and makes it incredibly apparent if production assets are using them if reference errors are shown.
 
 <a name="2.9"></a>
 <a name="structure-no-empty-folders"></a>
-### 2.9 No Empty Folders
+### 2.9 No Stray Empty Folders
 
-There simply shouldn't be any empty folders. They clutter the content browser.
+There shouldn't be stray empty folders; they clutter the content browser. The structural folders named in [2.4](#2.4) are the exception, though: it's fine to create one ahead of content, such as `Art/LUT` or `Art/PhysicalMaterials` before the project has any LUT or physical material assets.
 
 If you find that the content browser has an empty folder you can't delete, you should perform the following:
 1. Be sure you're using source control.
