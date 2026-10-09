@@ -4,9 +4,17 @@
 
 const FILTER_ID = "logo-outline-shadow";
 const NS = "http://www.w3.org/2000/svg";
+let themeObserver: MutationObserver | undefined;
+
+function syncLogoGlow(): void {
+  const dark = document.documentElement.getAttribute("data-theme") === "dark";
+  const shadow = document.querySelector(`#${FILTER_ID} feDropShadow`);
+  shadow?.setAttribute("flood-color", dark ? "#ffffff" : "#000000");
+}
 
 function ensureFilter(): string {
-  if (!document.getElementById(FILTER_ID)) {
+  let filter = document.getElementById(FILTER_ID) as SVGFilterElement | null;
+  if (!filter) {
     const svg = document.createElementNS(NS, "svg");
     svg.setAttribute("width", "0");
     svg.setAttribute("height", "0");
@@ -15,11 +23,11 @@ function ensureFilter(): string {
 
     const filter = document.createElementNS(NS, "filter");
     filter.setAttribute("id", FILTER_ID);
-    // Room for the dilated outline plus the offset shadow.
-    filter.setAttribute("x", "-25%");
-    filter.setAttribute("y", "-25%");
-    filter.setAttribute("width", "150%");
-    filter.setAttribute("height", "150%");
+    // Leave generous room around the artwork for the wider soft shadow.
+    filter.setAttribute("x", "-40%");
+    filter.setAttribute("y", "-40%");
+    filter.setAttribute("width", "180%");
+    filter.setAttribute("height", "180%");
     filter.setAttribute("color-interpolation-filters", "sRGB");
 
     const morph = document.createElementNS(NS, "feMorphology");
@@ -41,10 +49,10 @@ function ensureFilter(): string {
     const shadow = document.createElementNS(NS, "feDropShadow");
     shadow.setAttribute("in", "SourceGraphic");
     shadow.setAttribute("dx", "0");
-    shadow.setAttribute("dy", "2");
-    shadow.setAttribute("stdDeviation", "1.4");
+    shadow.setAttribute("dy", "5");
+    shadow.setAttribute("stdDeviation", "4");
     shadow.setAttribute("flood-color", "#000000");
-    shadow.setAttribute("flood-opacity", "0.5");
+    shadow.setAttribute("flood-opacity", "0.7");
     shadow.setAttribute("result", "shadow");
 
     const merge = document.createElementNS(NS, "feMerge");
@@ -64,6 +72,14 @@ function ensureFilter(): string {
 /** Give a white logo mark a crisp black outline and a soft drop shadow. */
 export function applyLogoEffect(img: HTMLElement): void {
   img.style.filter = ensureFilter();
+  syncLogoGlow();
+  if (!themeObserver) {
+    themeObserver = new MutationObserver(syncLogoGlow);
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+  }
 }
 
 /**

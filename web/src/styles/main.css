@@ -703,6 +703,29 @@ img.brand-mark {
   border: 1px solid var(--border);
 }
 
+.prose p:has(> img) {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.prose p:has(> img) + p:has(> strong:first-child) {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto 1.5em;
+  padding: 0.7em 1em;
+  border: 1px solid var(--border-strong);
+  border-left: 4px solid var(--accent);
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 1em;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: left;
+}
+
 .prose hr {
   border: none;
   border-top: 1px solid var(--border);

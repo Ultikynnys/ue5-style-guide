@@ -54,6 +54,8 @@ For example, `Art/Environment` keeps static environment meshes together so level
 
 ![Example of environment assets organized together in a browseable folder](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/02beb21/images/folder-organization-example.png)
 
+**Figure 1.** Static environment assets grouped together in the Content Browser.
+
 <a name="1"></a>
 ## 1. Globally Enforced Opinions
 
@@ -1132,11 +1134,17 @@ Always align wires, not nodes. You can't always control the size and pin locatio
 Good example: The tops of the nodes are staggered to keep a perfectly straight white exec line.
 ![Aligned By Wires](https://github.com/Allar/ue5-style-guide/blob/main/images/bp-graphs-align-wires-good.png?raw=true "Aligned By Wires")
 
+**Figure 2.** Good: Staggered node tops keep the white execution wire straight.
+
 Bad Example: The tops of the nodes are aligned creating a wiggly white exec line.
 ![Bad](https://github.com/Allar/ue5-style-guide/blob/main/images/bp-graphs-align-wires-bad.png?raw=true "Wiggly")
 
+**Figure 3.** Bad: Aligning node tops makes the execution wire wiggly.
+
 Acceptable Example: Certain nodes might not cooperate no matter how you use the alignment tools. In this situation, try to minimize the wiggle by bringing the node in closer.
 ![Acceptable](https://github.com/Allar/ue5-style-guide/blob/main/images/bp-graphs-align-wires-acceptable.png?raw=true "Acceptable")
+
+**Figure 4.** Acceptable: When nodes cannot align perfectly, reduce the wire wiggle by moving them closer.
 
 <a name="4.4.3"></a>
 <a name="bp-graphs-exec-first-class"></a>
@@ -1313,6 +1321,8 @@ Name the main component with the `_P` suffix. Split independently owned work int
 This composition model reduces multi-person edit conflicts: each contributor can work in a specific component while the Persistent Level remains the stable assembly point. The Level panel example below shows a Persistent Level with separate gameplay, geometry, lighting, audio, and segment components.
 
 ![Example of a composed level with a Persistent Level and separate level components](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/level-composition-example.png)
+
+**Figure 5.** A Persistent Level assembling separate gameplay, geometry, lighting, audio, and segment components.
 
 <a name="8"></a>
 <a name="textures"></a>
