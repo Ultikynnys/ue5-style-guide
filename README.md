@@ -52,7 +52,7 @@ More folders do not automatically make content easier to find. Over-organizing a
 
 For example, `Art/Environment` keeps static environment meshes together so level designers can quickly see which scenery assets are available. Keep supporting materials and textures organized in the `Materials` and `Textures` sub-folders, but avoid creating a separate folder for every prop and then splitting each prop into `Meshes`, `Materials`, and `Textures`. Use folders to make a collection easier to browse, not to add structure for its own sake.
 
-![Example of environment assets organized together in a browseable folder](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/folder-organization-example.png)
+![Example of environment assets organized together in a browseable folder](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/02beb21/images/folder-organization-example.png)
 
 <a name="1"></a>
 ## 1. Globally Enforced Opinions
