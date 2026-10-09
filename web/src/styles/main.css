@@ -191,6 +191,23 @@ input:focus-visible {
   max-width: 100%;
 }
 
+.hero-intro {
+  max-width: 62ch;
+  margin: 14px auto 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.hero-intro p {
+  margin: 0.45em 0;
+}
+
+.hero-intro a {
+  color: var(--accent);
+}
+
 img.brand-mark {
   background: none;
   object-fit: contain;
@@ -199,6 +216,39 @@ img.brand-mark {
 .brand-sub {
   font-size: 0.72rem;
   color: var(--muted);
+}
+
+.version {
+  flex: none;
+  align-self: center;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.7rem;
+  color: var(--muted);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  padding: 1px 6px;
+}
+
+.repo-link {
+  flex: none;
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  color: var(--muted);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+}
+
+.repo-link:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.repo-link svg {
+  display: block;
 }
 
 .btn {
@@ -302,23 +352,6 @@ img.brand-mark {
   padding: 10px 12px;
   color: var(--muted);
   font-size: 0.85rem;
-}
-
-.progress {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  z-index: 60;
-  pointer-events: none;
-}
-
-.progress-bar {
-  display: block;
-  height: 100%;
-  width: 0;
-  background: var(--accent);
 }
 
 /* ---------------------------------- layout --------------------------------- */
@@ -631,7 +664,8 @@ img.brand-mark {
 }
 
 .prose table {
-  width: 100%;
+  width: auto;
+  max-width: 100%;
   border-collapse: collapse;
   margin: 0.8em 0;
   font-size: 0.88rem;
@@ -675,15 +709,7 @@ img.brand-mark {
   margin: 1.2em 0;
 }
 
-/* ------------------------------ footer / widgets --------------------------- */
-
-.footer {
-  margin-top: 44px;
-  padding-top: 16px;
-  border-top: 2px solid var(--border);
-  color: var(--muted);
-  font-size: 0.82rem;
-}
+/* ---------------------------------- widgets -------------------------------- */
 
 .to-top {
   position: fixed;

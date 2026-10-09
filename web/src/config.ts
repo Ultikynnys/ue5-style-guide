@@ -3,3 +3,5 @@
 export const SITE_TITLE = "Haeretica Style Guide";
 export const SITE_REPO = "https://github.com/Ultikynnys/ue5-style-guide";
 export const SITE_REPO_BRANCH = "main";
+export const SITE_REPO_UPSTREAM = "https://github.com/Allar/ue5-style-guide";
+export const SITE_GAME_URL = "https://justcreative.itch.io/haeretica";

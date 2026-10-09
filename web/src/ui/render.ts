@@ -1,5 +1,5 @@
 import type { StyleGuide, StyleRule } from "../types";
-import { SITE_REPO, SITE_REPO_BRANCH } from "../config";
+import { SITE_GAME_URL, SITE_REPO, SITE_REPO_UPSTREAM } from "../config";
 import { el } from "./dom";
 import { buildToc } from "./toc";
 import { applyLogoEffect, trimLogo } from "./logoEffect";
@@ -14,7 +14,6 @@ export interface AppRefs {
   contentEl: HTMLElement;
   searchInput: HTMLInputElement;
   resultsEl: HTMLElement;
-  progressBar: HTMLElement;
   toast: HTMLElement;
 }
 
@@ -70,13 +69,24 @@ export function renderApp(root: HTMLElement, guide: StyleGuide): AppRefs {
           text: `${guide.stats.rules} rules - ${guide.stats.sections} sections - parsed live from README.md`,
         }),
       ]),
+      el("span", {
+        class: "version",
+        text: `v${__APP_VERSION__}`,
+        title: `${__APP_COMMITS__} commits`,
+      }),
+      el("a", {
+        class: "repo-link",
+        href: SITE_REPO,
+        target: "_blank",
+        rel: "noopener",
+        title: "View the repository on GitHub",
+        "aria-label": "View the repository on GitHub",
+        html: '<svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>',
+      }),
     ]),
     el("div", { class: "search" }, [searchInput, resultsEl]),
     themeToggle,
   ]);
-
-  const progressBar = el("span", { id: "progress-bar", class: "progress-bar" });
-  const progress = el("div", { class: "progress", "aria-hidden": "true" }, [progressBar]);
 
   const tocEl = el("nav", { id: "toc", class: "toc", "aria-label": "Rule navigation" });
   const sidebar = el("aside", { id: "sidebar", class: "sidebar" }, [
@@ -138,6 +148,30 @@ export function renderApp(root: HTMLElement, guide: StyleGuide): AppRefs {
   applyLogoEffect(heroLogo);
   trimLogo(heroLogo);
   contentEl.append(el("div", { class: "hero" }, [heroLogo]));
+  contentEl.append(
+    el("div", { class: "hero-intro" }, [
+      el("p", {}, [
+        el("span", { text: "A modified fork of the " }),
+        el("a", {
+          href: SITE_REPO_UPSTREAM,
+          target: "_blank",
+          rel: "noopener",
+          text: "Allar/ue5-style-guide",
+        }),
+        el("span", { text: " repository, adapted for Haeretica, a " }),
+        el("a", {
+          href: SITE_GAME_URL,
+          target: "_blank",
+          rel: "noopener",
+          text: "GMTK 2026 game jam",
+        }),
+        el("span", { text: " game." }),
+      ]),
+      el("p", {
+        text: "This is the post-jam comprehensive guide. It is updated as needed to keep development standards consistent across everyone working on the project.",
+      }),
+    ]),
+  );
 
   const rulesWrap = el("div", { class: "rules" });
   for (const id of guide.roots) {
@@ -145,19 +179,6 @@ export function renderApp(root: HTMLElement, guide: StyleGuide): AppRefs {
     if (rule) rulesWrap.append(renderRule(rule));
   }
   contentEl.append(rulesWrap);
-  contentEl.append(
-    el("footer", { class: "footer" }, [
-      el("span", { text: `${guide.title} - rules rendered from ` }),
-      el("a", {
-        href: `${SITE_REPO}/blob/${SITE_REPO_BRANCH}/README.md`,
-        target: "_blank",
-        rel: "noopener",
-        text: "README.md",
-      }),
-      el("span", { text: " - " }),
-      el("a", { href: SITE_REPO, target: "_blank", rel: "noopener", text: "view the repo" }),
-    ]),
-  );
 
   const toTop = el("button", {
     id: "to-top",
@@ -178,7 +199,7 @@ export function renderApp(root: HTMLElement, guide: StyleGuide): AppRefs {
 
   const shell = el("div", { class: "shell" }, [sidebar, contentEl]);
 
-  root.append(header, progress, shell, toTop, toast);
+  root.append(header, shell, toTop, toast);
   tocEl.append(buildToc(guide, byId));
 
   return {
@@ -189,7 +210,6 @@ export function renderApp(root: HTMLElement, guide: StyleGuide): AppRefs {
     contentEl,
     searchInput,
     resultsEl,
-    progressBar,
     toast,
   };
 }

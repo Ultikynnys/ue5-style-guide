@@ -7,9 +7,9 @@ function flash(target: HTMLElement): void {
   window.setTimeout(() => target.classList.remove("is-target"), 1400);
 }
 
-/** Deep-link routing, active-section tracking, reading progress, permalinks. */
+/** Deep-link routing, active-section tracking and permalinks. */
 export function initRouter(refs: AppRefs): void {
-  const { guide, contentEl, tocEl, sidebar, progressBar, toast } = refs;
+  const { guide, contentEl, tocEl, sidebar, toast } = refs;
   const toTop = document.getElementById("to-top");
 
   const resolve = (rawHash: string): { id: string; top: boolean } => {
@@ -40,7 +40,10 @@ export function initRouter(refs: AppRefs): void {
         ?.setAttribute("aria-expanded", "true");
       parentLi = parentLi.parentElement?.closest("li.toc-item") ?? null;
     }
-    link.scrollIntoView({ block: "nearest" });
+    sidebar.scrollTop = Math.max(
+      0,
+      link.offsetTop - sidebar.clientHeight / 2 + link.offsetHeight / 2,
+    );
   };
 
   const go = (hash: string, smooth = true): void => {
@@ -99,7 +102,7 @@ export function initRouter(refs: AppRefs): void {
     showToast(`Copied link to #${id}`);
   });
 
-  toTop?.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  toTop?.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "auto" }));
 
   let ticking = false;
   const onScroll = (): void => {
@@ -107,10 +110,6 @@ export function initRouter(refs: AppRefs): void {
     ticking = true;
     requestAnimationFrame(() => {
       ticking = false;
-      const doc = document.documentElement;
-      const max = doc.scrollHeight - window.innerHeight;
-      const percent = max > 0 ? Math.min(100, Math.max(0, (window.scrollY / max) * 100)) : 0;
-      progressBar.style.width = `${percent}%`;
       if (toTop) toTop.classList.toggle("is-visible", window.scrollY > 500);
 
       const sections = contentEl.querySelectorAll<HTMLElement>(".rule");
