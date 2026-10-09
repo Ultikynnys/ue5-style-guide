@@ -732,7 +732,7 @@ Not every project needs every folder. What matters is that when a folder exists,
 
 * `Art/Characters` - Character art, with a sub-folder per character (`Art/Characters/Priestess`).
 * `Art/Decals` - All decal materials, decal material instances, and their textures, such as bullet holes and blood decals.
-* `Art/Environment` - The assets a level designer places in a level: environment meshes plus the materials and textures they use. It stays mostly flat on purpose, one folder for the whole set so it migrates as a unit. Two sub-folders add order without splitting the set: `Art/Environment/Materials` (materials and their instances) and `Art/Environment/Textures` (the textures they use).
+* `Art/Environment` - A special folder, the one place a level designer looks: everything they place in a level lives here, so they never have to dig for a prop. It is the one set allowed to split by type for organization: environment meshes sit flat at the root, with `Art/Environment/Materials` (materials and their instances) and `Art/Environment/Textures` (the textures they use) beside them. A level-facing actor Blueprint that a designer drops into a level, such as a prop or decor actor, belongs here too, next to the meshes it goes with, rather than in [`Blueprint`](#2.4.2).
 * `Art/LUT` - Color lookup tables (LUTs) used for color grading.
 * `Art/Materials` - Global master materials, at the root of the folder. A master that serves one asset set lives with that set instead. See [2.8](#2.8).
   * `Art/Materials/MaterialInstances` - Generic material instances used by several assets.
@@ -749,7 +749,7 @@ A gameplay system whose art does not fit one of the folders above gets a matchin
 `Blueprint` holds the Blueprints that make up the project's logic. It is special: **it contains Blueprint assets only.** It must not contain textures, materials, meshes, material instances, sounds, animations, animation Blueprints, or any other non-Blueprint asset; all of those live in [`Art`](#2.4.1), next to the asset they belong to.
 
 * `Blueprint/Core` - The base classes that are fundamental to the project. See [2.5](#2.5).
-* `Blueprint/LevelActors` - Placeable actor Blueprints that designers drop into levels.
+* `Blueprint/LevelActors` - Placeable actor Blueprints that are part of a gameplay system. A level-facing prop or decor actor Blueprint lives in [`Art/Environment`](#2.4.1) instead.
 * `Blueprint/Components` - Reusable actor components.
 * `Blueprint/Enemies`, `Blueprint/Player`, `Blueprint/Weapons`, `Blueprint/InteractiveElements`, `Blueprint/GameModes`, and `Blueprint/Tools` - One folder per gameplay system, holding the Blueprints that make up that system. See [2.6](#2.6).
 
