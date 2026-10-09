@@ -421,7 +421,7 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 | Material Parameter Collection | MPC_       |            |                                  |
 | Subsurface Profile            | SP_        |            |                                  |
 | Physical Materials            | PM_        |            |                                  |
-| Decal                         | M_, MI_    |            | The `Decal` token goes right after the type: `M_Decal_<Name>` and `MI_Decal_<Name>`. A deliberate exception to PascalCase, so a decal is named explicitly and cannot be misused. |
+| Decal                         | M_, MI_, T_ |            | The `Decal` token goes right after the type: `M_Decal_<Name>`, `MI_Decal_<Name>`, and `T_Decal_<Name>`. A deliberate exception to PascalCase, so a decal is named explicitly and cannot be misused. |
 
 <a name="anc-textures"></a>
 <a name="1.2.6"></a>
@@ -429,7 +429,7 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 
 | Asset Type              | Prefix     | Suffix     | Notes                            |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
-| Texture                 | T_         |            |                                  |
+| Texture                 | T_         |            | A texture with no suffix is implied to be Diffuse/Albedo/Base Color. |
 | Texture (Post Process)  | T_         |            | `PP` marks post-processing; lives in [`Art/PostProcess`](#2.4.1). |
 | Texture (Diffuse/Albedo/Base Color)| T_ | _D / _BC | `_D` and `_BC` are interchangeable. |
 | Texture (Normal)        | T_         | _N         |                                  |
@@ -438,7 +438,7 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 | Texture (Ambient Occlusion) | T_     | _O         |                                  |
 | Texture (Bump)          | T_         | _B         |                                  |
 | Texture (Emissive)      | T_         | _E         |                                  |
-| Texture (Mask)          | T_         | _MSK       |                                  |
+| Texture (Mask)          | T_         | _Mask / _MSK | `_Mask` and `_MSK` are both allowed. |
 | Texture (Specular)      | T_         | _S         |                                  |
 | Texture (Metallic)      | T_         | _M         |                                  |
 | Texture (Packed)        | T_         | _*         | See notes below about [packing](#anc-textures-packing). |
@@ -752,6 +752,7 @@ A gameplay system whose art does not fit one of the folders above gets a matchin
 * `Blueprint/LevelActors` - Rarely needed: a Blueprint a designer drops into a level normally belongs to a system and lives in that system's folder (`Blueprint/<System>`); only a lone actor with no system of its own lands here.
 * `Blueprint/Components` - Reusable actor components.
 * `Blueprint/Enemies`, `Blueprint/Player`, `Blueprint/Weapons`, `Blueprint/Interactables`, `Blueprint/GameModes`, and `Blueprint/Tools` - One folder per gameplay system, holding all of the system's Blueprints. See [2.6](#2.6). The system's art and animation live in `Art/<System>`, so `Blueprint/Interactables` holds every interactable Blueprint while `Art/Interactables` keeps the meshes, materials, and textures they use.
+* `Blueprint/UI` - UI logic: the non-widget UI Blueprints, such as HUD classes, plus UI data such as enumerations. Every UI Blueprint that is not a widget lives here; the widgets themselves are the UI and stay in [`UI`](#2.4.7).
 
 <a name="2.4.3"></a>
 #### 2.4.3 FX
@@ -766,6 +767,8 @@ Map files are incredibly special and it is common for every project to have its 
 Being able to tell someone to open a specific map without having to explain where it is is a great time saver and general 'quality of life' improvement. It is common for levels to be within sub-folders of `Maps`, such as `Maps/Level1/` or `Maps/ArenaLevel1/`, but the most important thing here is that they all exist within `/Content/Haeretica/Maps`.
 
 This also simplifies the job of cooking for engineers. Wrangling levels for a build process can be extremely frustrating if they have to dig through arbitrary folders for them. If a team's maps are all in one place, it is much harder to accidentally not cook a map in a build. It also simplifies lighting build scripts as well as QA processes.
+
+A level folder may also contain a `_GENERATED` folder, either at the root of `Maps` or inside a level folder: this is the editor's own transient output. `_GENERATED` is off-limits: it is machine-generated, fair to delete and regenerate at any time, and none of the naming or structure rules in this guide apply to what is inside it, so do not rename, move, or otherwise tidy its contents.
 
 <a name="2.4.5"></a>
 #### 2.4.5 Prototype
@@ -784,7 +787,7 @@ Keeping prototype content in one place makes it obvious what is disposable and m
 <a name="2.4.7"></a>
 #### 2.4.7 UI
 
-`UI` holds user interface assets: widget Blueprints, UI textures, UI materials (both masters and instances), and fonts. Group them by screen or element, such as `UI/HUD`, `UI/MainMenu`, or `UI/Options`, so a screen's widgets, textures, and materials migrate together: a crosshair material lives in `UI/HUD`, a button material in `UI/BaseElements`. UI assets carry the `UI` name modifier: `M_UI_` for materials, `MI_UI_` for instances, and `T_UI_` for textures. A weapon's HUD icon instance and its texture stay with the weapon in `Art/Weapons`, not here, even though the icon texture carries the `T_UI_` modifier. A generic weapon icon that names no single weapon, a placeholder or fallback, is a base element and lives in `UI/BaseElements`. Fonts are a UI-only concept with no home anywhere else, so `UI/Fonts` is the one type-named folder allowed inside `UI`.
+`UI` holds user interface assets: widget Blueprints, UI textures, UI materials (both masters and instances), and fonts. Group them by screen or element, such as `UI/HUD`, `UI/MainMenu`, or `UI/Options`, so a screen's widgets, textures, and materials migrate together: a crosshair material lives in `UI/HUD`, a button material in `UI/BaseElements`. UI assets carry the `UI` name modifier: `M_UI_` for materials, `MI_UI_` for instances, and `T_UI_` for textures. A weapon's HUD icon instance and its texture stay with the weapon in `Art/Weapons`, not here, even though the icon texture carries the `T_UI_` modifier. A generic weapon icon that names no single weapon, a placeholder or fallback, is a base element and lives in `UI/BaseElements`. Fonts are a UI-only concept with no home anywhere else, so `UI/Fonts` is the one type-named folder allowed inside `UI`. A non-widget UI Blueprint, such as a HUD class, is UI logic rather than UI itself and lives in [`Blueprint/UI`](#2.4.2) instead; only the widgets, their textures and materials, and the fonts stay in `UI`.
 
 
 <a name="2.5"></a>
@@ -838,9 +841,9 @@ This way all 'global' materials have a place to live and are easily located.
 
 > This also makes it incredibly easy to enforce a 'use material instances only' policy within a project. If all artists and assets should be using material instances, then the only regular material assets that exist are the global masters here and the one-asset-set masters that live with their art. You can easily verify this by searching for base materials in any folder other than `Art/Materials` and the `Art` and `FX` set folders.
 
-`Art/Materials` holds master materials at its root, a `MaterialInstances` sub-folder for generic instances used by several assets, and a `MaterialFunctions` sub-folder for reusable functions. Only global materials live here: a master shared by several asset sets, a master that feeds a generic instance, or one with no single art folder of its own. A master material that serves one asset set lives with that set instead: in [`Art/Environment`](#2.4.1), `Art/Weapons/<Weapon>`, `Art/Characters/<Character>`, `Art/Interactables/<System>`, or alongside the effect in `FX`. An instance that belongs to one asset set is likewise not stored here: it lives with that set, next to the mesh it is applied to, while one shared by several assets is generic and stays in `MaterialInstances`. Shared textures have their own folder: see [`Art/Textures`](#2.4.1). Post-process materials have their own folder: see [`Art/PostProcess`](#2.4.1); UI materials live with their screen, see [2.4.7](#2.4.7).
+`Art/Materials` holds master materials at its root, a `MaterialInstances` sub-folder for generic instances used by several assets, and a `MaterialFunctions` sub-folder for reusable functions. Only global materials live here: a master shared by several asset sets, a master that feeds a generic instance, or one with no single art folder of its own. A master material that serves one asset set lives with that set instead: in [`Art/Environment`](#2.4.1), `Art/Weapons/<Weapon>`, `Art/Characters/<Character>`, `Art/Interactables/<System>`, or alongside the effect in `FX`. An instance that belongs to one asset set is likewise not stored here: it lives with that set, next to the mesh it is applied to, while one shared by several assets is generic and stays in `MaterialInstances`. Shared textures have their own folder: see [`Art/Textures`](#2.4.1). Post-process materials have their own folder: see [`Art/PostProcess`](#2.4.1). This folder is for generic, non-UI materials only: a UI material never lives here, it lives with its screen, see [2.4.7](#2.4.7).
 
-Any testing or debug materials should be within `Art/Materials/Debug`. This allows debug materials to be easily stripped from a project before shipping and makes it incredibly apparent if production assets are using them if reference errors are shown.
+There is no separate debug folder: a testing or debug material simply lives in `Art/Materials` like any other generic master, because that folder already holds exactly this kind of reusable, non-production-specific material. A `Debug` sub-folder would just duplicate a place the folder already provides.
 
 <a name="2.9"></a>
 <a name="structure-no-empty-folders"></a>
