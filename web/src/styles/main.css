@@ -178,6 +178,24 @@ input:focus-visible {
   max-width: 34ch;
 }
 
+.hero {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0 6px;
+}
+
+.hero-logo {
+  display: block;
+  height: 150px;
+  width: auto;
+  max-width: 100%;
+}
+
+img.brand-mark {
+  background: none;
+  object-fit: contain;
+}
+
 .brand-sub {
   font-size: 0.72rem;
   color: var(--muted);

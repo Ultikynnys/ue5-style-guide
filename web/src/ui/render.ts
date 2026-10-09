@@ -2,6 +2,9 @@ import type { StyleGuide, StyleRule } from "../types";
 import { SITE_REPO, SITE_REPO_BRANCH } from "../config";
 import { el } from "./dom";
 import { buildToc } from "./toc";
+import { applyLogoEffect, trimLogo } from "./logoEffect";
+import logoUrl from "../assets/haeretica-logo.png";
+import hLogoUrl from "../assets/Haeretica_H.png";
 
 export interface AppRefs {
   guide: StyleGuide;
@@ -54,12 +57,14 @@ export function renderApp(root: HTMLElement, guide: StyleGuide): AppRefs {
 
   const resultsEl = el("div", { id: "search-results", class: "results", hidden: "hidden" });
 
+  const brandMark = el("img", { class: "brand-mark", src: hLogoUrl, alt: "" });
+  applyLogoEffect(brandMark);
+
   const header = el("header", { class: "topbar" }, [
     navToggle,
     el("div", { class: "brand" }, [
-      el("span", { class: "brand-mark", text: "SG" }),
+      brandMark,
       el("span", { class: "brand-text" }, [
-        el("span", { class: "brand-title", text: guide.title }),
         el("span", {
           class: "brand-sub",
           text: `${guide.stats.rules} rules - ${guide.stats.sections} sections - parsed live from README.md`,
@@ -128,6 +133,11 @@ export function renderApp(root: HTMLElement, guide: StyleGuide): AppRefs {
 
     return section;
   };
+
+  const heroLogo = el("img", { class: "hero-logo", src: logoUrl, alt: guide.title });
+  applyLogoEffect(heroLogo);
+  trimLogo(heroLogo);
+  contentEl.append(el("div", { class: "hero" }, [heroLogo]));
 
   const rulesWrap = el("div", { class: "rules" });
   for (const id of guide.roots) {
