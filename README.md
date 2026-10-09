@@ -577,7 +577,7 @@ All of a project's content lives under a folder named after the project (`Conten
         |   |-- Environment
         |   |-- InteractiveElements
         |   |-- <a href="#2.8">Materials</a>
-        |   |   |-- MasterMaterials
+        |   |   |-- MaterialInstances
         |   |   |-- MaterialFunctions
         |   |-- Textures
         |   |-- Tools
@@ -735,8 +735,8 @@ Not every project needs every folder. What matters is that when a folder exists,
 * `Art/Decals` - Decal materials and the textures they use, such as bullet holes and blood decals.
 * `Art/Environment` - Environment art: the meshes, materials, and material instances used to build levels. Material instances live here alongside the environment sets they belong to so the whole set can be migrated together.
 * `Art/LUT` - Color lookup tables (LUTs) used for color grading.
-* `Art/Materials` - Master materials and material functions, plus generic material instances shared by several assets. See [2.8](#2.8).
-  * `Art/Materials/MasterMaterials` - Master materials that other materials instance from.
+* `Art/Materials` - Master materials, at the root of the folder. See [2.8](#2.8).
+  * `Art/Materials/MaterialInstances` - Generic material instances used by several assets.
   * `Art/Materials/MaterialFunctions` - Reusable material functions.
 * `Art/PhysicalMaterials` - [Physical materials](#1.2.9) used for surface responses such as footstep and impact effects.
 * `Art/Textures` - Generic textures that are not tied to a specific asset: seamless textures, bricks, wood, and similar reusable material inputs. A texture that belongs to one specific asset, or is consumed by only one material instance, lives next to that asset in `Art`, not here.
@@ -837,7 +837,7 @@ This way all 'global' materials have a place to live and are easily located.
 
 > This also makes it incredibly easy to enforce a 'use material instances only' policy within a project. If all artists and assets should be using material instances, then the only regular material assets that should exist are within this folder. You can easily verify this by searching for base materials in any folder that isn't `Art/Materials`.
 
-`Art/Materials` holds master materials (in `Art/Materials/MasterMaterials`), material functions (in `Art/Materials/MaterialFunctions`), and generic material instances used by several assets. An instance tied to one asset is not stored here: it lives with the mesh it is applied to, for example alongside its environment set in [`Art/Environment`](#2.4.1). Shared textures have their own folder: see [`Art/Textures`](#2.4.1); post-process materials are ordinary materials and live here as well.
+`Art/Materials` holds master materials at its root, a `MaterialInstances` sub-folder for generic instances used by several assets, and a `MaterialFunctions` sub-folder for reusable functions. An instance tied to one asset is not stored here: it lives with the mesh it is applied to, for example alongside its environment set in [`Art/Environment`](#2.4.1). Shared textures have their own folder: see [`Art/Textures`](#2.4.1); post-process materials are ordinary materials and live here as well.
 
 Any testing or debug materials should be within `Art/Materials/Debug`. This allows debug materials to be easily stripped from a project before shipping and makes it incredibly apparent if production assets are using them if reference errors are shown.
 
