@@ -782,7 +782,7 @@ Keeping prototype content in one place makes it obvious what is disposable and m
 <a name="2.4.7"></a>
 #### 2.4.7 UI
 
-`UI` holds user interface assets: widget Blueprints, UI textures, and fonts. UI materials are ordinary materials and live in [`Art/Materials`](#2.8). Group them by screen or element, such as `UI/HUD`, `UI/MainMenu`, or `UI/Options`.
+`UI` holds user interface assets: widget Blueprints, UI textures, UI material instances, and fonts. Group them by screen or element, such as `UI/HUD`, `UI/MainMenu`, or `UI/Options`. A UI master material is an ordinary material and lives in [`Art/Materials`](#2.8); a UI material instance lives with the screen it serves, for example a frame or border instance in `UI/BaseElements`.
 
 
 <a name="2.5"></a>
