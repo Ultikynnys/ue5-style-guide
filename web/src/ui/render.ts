@@ -83,12 +83,6 @@ export function renderApp(root: HTMLElement, guide: StyleGuide): AppRefs {
 
   const contentEl = el("main", { id: "content", class: "content" });
 
-  if (guide.introHtml) {
-    contentEl.append(
-      el("section", { class: "intro" }, [el("div", { class: "prose", html: guide.introHtml })]),
-    );
-  }
-
   const renderRule = (rule: StyleRule): HTMLElement => {
     const section = el("section", {
       id: rule.id,

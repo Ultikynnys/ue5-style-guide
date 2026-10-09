@@ -34,6 +34,12 @@ function anchorHtml(anchors: string[]): string {
   return anchors.map((a) => `<a name="${a}"></a>`).join("\n");
 }
 
+// The README repeats a "Back to Top" jump link in every section; it is
+// navigation chrome, not rule content.
+function stripBoilerplate(lines: string[]): string[] {
+  return lines.filter((line) => !/Back to Top/i.test(line));
+}
+
 export function parseStyleGuide(markdown: string): StyleGuide {
   const lines = markdown.replace(/\r\n?/g, "\n").split("\n");
 
@@ -141,9 +147,8 @@ export function parseStyleGuide(markdown: string): StyleGuide {
     pendingAnchors = [];
   }
 
-  // The leading level-1 heading becomes the guide title; its non-heading body
-  // becomes the intro. The README's own table of contents is dropped because
-  // the site generates a live one.
+  // The leading level-1 heading becomes the guide title. The README's own
+  // table of contents is dropped because the site generates a live one.
   const removed = new Set<string>();
   const tocNode = nodes.find(
     (n) => n.title.toLowerCase() === "table of contents",
@@ -151,25 +156,39 @@ export function parseStyleGuide(markdown: string): StyleGuide {
   if (tocNode) removed.add(tocNode.id);
 
   let title = "Unreal Engine Style Guide";
-  let introHtml = "";
   const first = nodes[0];
   const hasTitleHeading = Boolean(first && first.level === 1);
   if (first && hasTitleHeading) {
     // The README title carries the idiomatic.js-style trailing "() {" badge.
     title =
       stripInlineMarkdown(first.heading).replace(/[\s(){}[\]]+$/, "") || title;
-    introHtml = renderMarkdown(first.bodyLines.join("\n"));
     removed.add(first.id);
   }
 
-  const finalRoots = (hasTitleHeading ? first!.childIds : roots).filter(
+  const topRoots = (hasTitleHeading ? first!.childIds : roots).filter(
     (id) => !removed.has(id),
   );
 
-  const kept = nodes.filter((n) => !removed.has(n.id));
+  const byId = new Map(nodes.map((n) => [n.id, n] as const));
+
+  // Only the numbered top-level sections are the guide itself. Everything the
+  // README carries around them (repo notice, translations, terminology,
+  // contributors, license, amendments) is unnumbered "meta" and is dropped,
+  // together with anything nested beneath it.
+  const contentRoots = topRoots.filter((id) => byId.get(id)?.kind === "section");
+
+  const reachable = new Set<string>();
+  const visit = (id: string): void => {
+    if (reachable.has(id)) return;
+    reachable.add(id);
+    for (const childId of byId.get(id)?.childIds ?? []) visit(childId);
+  };
+  for (const id of contentRoots) visit(id);
+
+  const kept = nodes.filter((n) => reachable.has(n.id));
 
   const rules: StyleRule[] = kept.map((n) => {
-    const html = renderMarkdown(n.bodyLines.join("\n"));
+    const html = renderMarkdown(stripBoilerplate(n.bodyLines).join("\n"));
     return {
       id: n.id,
       number: n.number,
@@ -179,7 +198,7 @@ export function parseStyleGuide(markdown: string): StyleGuide {
       kind: n.kind,
       anchors: n.anchors,
       parentId: n.parentId,
-      childIds: n.childIds.filter((id) => !removed.has(id)),
+      childIds: n.childIds.filter((id) => reachable.has(id)),
       html,
       text: `${n.number ? n.number + " " : ""}${n.title} ${htmlToText(html)}`.trim(),
       order: n.order,
@@ -205,5 +224,5 @@ export function parseStyleGuide(markdown: string): StyleGuide {
     else stats.meta += 1;
   }
 
-  return { title, introHtml, rules, roots: finalRoots, aliases, stats };
+  return { title, introHtml: "", rules, roots: contentRoots, aliases, stats };
 }

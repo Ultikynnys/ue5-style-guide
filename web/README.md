@@ -17,7 +17,10 @@ is no framework.
     sub-headings become child nodes.
   - Every anchor, rule number and GitHub-style slug is registered as a deep-link
     alias, so links like `#0.1` and `#textures-dimensions` resolve.
-- The leading level-1 heading becomes the guide title; its body becomes the intro.
+- The leading level-1 heading becomes the guide title. Only the numbered
+  top-level sections and their rules are kept; the README's front/back matter
+  (repo notice, translations, terminology, contributors, license, amendments)
+  and the repeated "Back to Top" links are dropped.
 
 Because parsing happens in the browser against the README string, editing the
 markdown and rebuilding is all it takes to update the site.
