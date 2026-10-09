@@ -312,7 +312,7 @@ Depending on how your asset variants are made, you can chain together variant na
 
 | Asset Type              | Asset Name                                                 |
 | ----------------------- | ---------------------------------------------------------- |
-| Skeletal Mesh           | SK_Bob                                                     |
+| Skeletal Mesh           | SKM_Bob                                                    |
 | Material                | M_Bob                                                      |
 | Texture (Diffuse/Albedo)| T_Bob_D                                                    |
 | Texture (Normal)        | T_Bob_N                                                    |
@@ -322,9 +322,9 @@ Depending on how your asset variants are made, you can chain together variant na
 
 | Asset Type              | Asset Name                                                 |
 | ----------------------- | ---------------------------------------------------------- |
-| Static Mesh (01)        | S_Rock_01                                                  |
-| Static Mesh (02)        | S_Rock_02                                                  |
-| Static Mesh (03)        | S_Rock_03                                                  |
+| Static Mesh (01)        | SM_Rock_01                                                 |
+| Static Mesh (02)        | SM_Rock_02                                                 |
+| Static Mesh (03)        | SM_Rock_03                                                 |
 | Material                | M_Rock                                                     |
 | Material Instance (Snow)| MI_Rock_Snow                                               |
 
@@ -343,13 +343,13 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 | Level / Map             |            |            | [Should be in a folder called Maps.](#2.4.4) |
 | Level (Persistent)      |            | _P         |                                  |
 | Level (Audio)           |            | _Audio     |                                  |
-| Level (Lighting)        |            | _Lighting  |                                  |
+| Level (Lighting)        |            | _Light     |                                  |
 | Level (Geometry)        |            | _Geo       |                                  |
 | Level (Gameplay)        |            | _Gameplay  |                                  |
 | Blueprint               | BP_        |            |                                  |
 | Material                | M_         |            |                                  |
-| Static Mesh             | S_         |            | Many use SM_. We use S_.         |
-| Skeletal Mesh           | SK_        |            |                                  |
+| Static Mesh             | SM_        |            |                                  |
+| Skeletal Mesh           | SKM_       |            |                                  |
 | Texture                 | T_         | _?         | See [Textures](#anc-textures)    |
 | Particle System         | PS_        |            |                                  |
 | Widget Blueprint        | WBP_       |            |                                  |
@@ -372,7 +372,7 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 | Morph Target            | MT_        |            |                                  |
 | Paper Flipbook          | PFB_       |            |                                  |
 | Rig                     | Rig_       |            |                                  |
-| Skeletal Mesh           | SK_        |            |                                  |
+| Skeletal Mesh           | SKM_       |            |                                  |
 | Skeleton                | SKEL_      |            |                                  |
 
 <a name="anc-ai"></a>
@@ -384,9 +384,9 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 | AI Controller           | AIC_       |            |                                  |
 | Behavior Tree           | BT_        |            |                                  |
 | Blackboard              | BB_        |            |                                  |
-| Decorator               | BTDecorator_ |          |                                  |
-| Service                 | BTService_ |            |                                  |
-| Task                    | BTTask_    |            |                                  |
+| Decorator               | BTD_       |            |                                  |
+| Service                 | BTS_       |            |                                  |
+| Task                    | BTT_       |            |                                  |
 | Environment Query       | EQS_       |            |                                  |
 | EnvQueryContext         | EQS_       | Context    |                                  |
 
@@ -397,13 +397,15 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 | Asset Type              | Prefix     | Suffix     | Notes                            |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
 | Blueprint               | BP_        |            |                                  |
-| Blueprint Component     | BP_        | Component  | I.e. BP_InventoryComponent       |
+| Blueprint Component     | BPC_       |            | I.e. BPC_InventoryComponent      |
 | Blueprint Function Library | BPFL_   |            |                                  |
 | Blueprint Interface     | BPI_       |            |                                  |
 | Blueprint Macro Library | BPML_      |            | Do not use macro libraries if possible. |
-| Enumeration             | E          |            | No underscore.                   |
-| Structure               | F or S     |            | No underscore.                   |
+| Enumeration             | E_         |            |                                  |
+| Structure               | ST_        |            |                                  |
 | Tutorial Blueprint      | TBP_       |            |                                  |
+| Camera Shake            | CS_        |            |                                  |
+| Anim Notify             | AN_        |            |                                  |
 | Widget Blueprint        | WBP_       |            |                                  |
 
 <a name="anc-materials"></a>
@@ -464,8 +466,10 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 | Camera Anim                | CA_        |            |                                  |
 | Color Curve                | Curve_     | _Color     |                                  |
 | Curve Table                | Curve_     | _Table     |                                  |
-| Data Asset                 | *_         |            | Prefix should be based on class. |
+| Data Asset                 | DA_        |            |                                  |
 | Data Table                 | DT_        |            |                                  |
+| Input Action               | IA_        |            |                                  |
+| Input Mapping Context      | IMC_       |            |                                  |
 | Float Curve                | Curve_     | _Float     |                                  |
 | Foliage Type               | FT_        |            |                                  |
 | Force Feedback Effect      | FFE_       |            |                                  |
@@ -502,7 +506,7 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 | Asset Type              | Prefix     | Suffix     | Notes                            |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
 | Physical Material       | PM_        |            |                                  |
-| Physics Asset           | PHYS_      |            |                                  |
+| Physics Asset           | PA_        |            |                                  |
 | Destructible Mesh       | DM_        |            |                                  |
 
 <a name="anc-sounds"></a>
@@ -515,12 +519,12 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 | Dialogue Wave           | DW_        |            |                                  |
 | Media Sound Wave        | MSW_       |            |                                  |
 | Reverb Effect           | Reverb_    |            |                                  |
-| Sound Attenuation       | ATT_       |            |                                  |
-| Sound Class             |            |            | No prefix/suffix. Should be put in a folder called SoundClasses |
+| Sound Attenuation       | SA_        |            |                                  |
+| Sound Class             | SC_        |            |                                  |
 | Sound Concurrency       |            | _SC        | Should be named after a SoundClass |
-| Sound Cue               | A_         | _Cue       |                                  |
+| Sound Cue               | Cue_       |            |                                  |
 | Sound Mix               | Mix_       |            |                                  |
-| Sound Wave              | A_         |            |                                  |
+| Sound Wave              |            |            |                                  |
 
 <a name="anc-ui"></a>
 <a name="1.2.11"></a>
@@ -528,7 +532,8 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 
 | Asset Type              | Prefix     | Suffix     | Notes                            |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
-| Font                    | Font_      |            |                                  |
+| Font                    | F_         |            |                                  |
+| Font Face               | FF_        |            |                                  |
 | Slate Brush             | Brush_     |            |                                  |
 | Slate Widget Style      | Style_     |            |                                  |
 | Widget Blueprint        | WBP_       |            |                                  |
