@@ -732,7 +732,7 @@ Not every project needs every folder. What matters is that when a folder exists,
 `Art` is the single home for the project's visual assets, grouped by kind:
 
 * `Art/Characters` - Character art, with a sub-folder per character (`Art/Characters/Priestess`).
-* `Art/Decals` - Decal materials and the textures they use, such as bullet holes and blood decals.
+* `Art/Decals` - All decal materials, decal material instances, and their textures, such as bullet holes and blood decals.
 * `Art/Environment` - Environment art: the meshes, materials, and material instances used to build levels. Material instances live here alongside the environment sets they belong to so the whole set can be migrated together.
 * `Art/LUT` - Color lookup tables (LUTs) used for color grading.
 * `Art/Materials` - Global master materials, at the root of the folder. A master that serves one asset set lives with that set instead. See [2.8](#2.8).
@@ -783,7 +783,7 @@ Keeping prototype content in one place makes it obvious what is disposable and m
 <a name="2.4.7"></a>
 #### 2.4.7 UI
 
-`UI` holds user interface assets: widget Blueprints, UI textures, UI material instances, and fonts. Group them by screen or element, such as `UI/HUD`, `UI/MainMenu`, or `UI/Options`. A UI master material is an ordinary material and lives in [`Art/Materials`](#2.8); a UI material instance lives with the screen it serves, for example a frame or border instance in `UI/BaseElements`.
+`UI` holds user interface assets: widget Blueprints, UI textures, UI materials (both masters and instances), and fonts. Group them by screen or element, such as `UI/HUD`, `UI/MainMenu`, or `UI/Options`, so a screen's widgets, textures, and materials migrate together: a crosshair material lives in `UI/HUD`, a button material in `UI/BaseElements`.
 
 
 <a name="2.5"></a>
@@ -838,7 +838,7 @@ This way all 'global' materials have a place to live and are easily located.
 
 > This also makes it incredibly easy to enforce a 'use material instances only' policy within a project. If all artists and assets should be using material instances, then the only regular material assets that exist are the global masters here and the one-asset-set masters that live with their art. You can easily verify this by searching for base materials in any folder other than `Art/Materials` and the `Art` and `FX` set folders.
 
-`Art/Materials` holds master materials at its root, a `MaterialInstances` sub-folder for generic instances used by several assets, and a `MaterialFunctions` sub-folder for reusable functions. Only global materials live here: a master shared by several asset sets, a master that feeds a generic instance, or one with no single art folder of its own. A master material that serves one asset set lives with that set instead: in [`Art/Environment`](#2.4.1), `Art/Weapons/<Weapon>`, `Art/Characters/<Character>`, `Art/InteractiveElements/<System>`, or alongside the effect in `FX`. An instance that belongs to one asset set is likewise not stored here: it lives with that set, next to the mesh it is applied to, while one shared by several assets is generic and stays in `MaterialInstances`. Shared textures have their own folder: see [`Art/Textures`](#2.4.1). Post-process materials have their own folder: see [`Art/PostProcess`](#2.4.1).
+`Art/Materials` holds master materials at its root, a `MaterialInstances` sub-folder for generic instances used by several assets, and a `MaterialFunctions` sub-folder for reusable functions. Only global materials live here: a master shared by several asset sets, a master that feeds a generic instance, or one with no single art folder of its own. A master material that serves one asset set lives with that set instead: in [`Art/Environment`](#2.4.1), `Art/Weapons/<Weapon>`, `Art/Characters/<Character>`, `Art/InteractiveElements/<System>`, or alongside the effect in `FX`. An instance that belongs to one asset set is likewise not stored here: it lives with that set, next to the mesh it is applied to, while one shared by several assets is generic and stays in `MaterialInstances`. Shared textures have their own folder: see [`Art/Textures`](#2.4.1). Post-process materials have their own folder: see [`Art/PostProcess`](#2.4.1); UI materials live with their screen, see [2.4.7](#2.4.7).
 
 Any testing or debug materials should be within `Art/Materials/Debug`. This allows debug materials to be easily stripped from a project before shipping and makes it incredibly apparent if production assets are using them if reference errors are shown.
 
