@@ -728,7 +728,7 @@ Not every project needs every folder. What matters is that when a folder exists,
   * `Art/Materials/MaterialFunctions` - Reusable material functions.
 * `Art/PhysicalMaterials` - [Physical materials](#1.2.9) used for surface responses such as footstep and impact effects.
 * `Art/PostProcess` - Post-process materials and related assets.
-* `Art/Textures` - Shared textures that are not owned by a single asset or material.
+* `Art/Textures` - Generic textures that are not tied to a specific asset: seamless textures, bricks, wood, and similar reusable material inputs. A texture that belongs to one specific asset lives next to that asset in `Art`, not here.
 
 <a name="2.4.2"></a>
 #### 2.4.2 Blueprint
