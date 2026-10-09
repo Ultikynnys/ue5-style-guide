@@ -45,13 +45,11 @@ Gamemakin LLC is not a lawyer, but please don't introduce illegal actions and be
 * Don't steal content
 * Follow licensing restrictions on content, e.g. attribute when attributions are needed
 
-<a name="00"></a>
-## 00. Globally Enforced Opinions
+<a name="1"></a>
+## 1. Globally Enforced Opinions
 
-@TODO: Make this section 1 and update this document accordingly. Or maybe we don't?
-
-<a name="00.1"></a>
-### 00.1 Forbidden Characters
+<a name="1.1"></a>
+### 1.1 Forbidden Characters
 
 <a name="identifiers-1"></a>
 #### Identifiers
@@ -73,16 +71,16 @@ Any `Identifier` should strive to only have the following characters when possib
 The reasoning for this is this will ensure the greatest compatibility of all data across all platforms across all tools, and help prevent downtime due to potentially bad character handling for identifiers in code you don't control.
 
 <a name="anc"></a>
-<a name="1"></a>
-## 1. Asset Naming Conventions
+<a name="2"></a>
+## 2. Asset Naming Conventions
 
 Naming conventions should be treated as law. A project that conforms to a naming convention is able to have its assets managed, searched, parsed, and maintained with incredible ease.
 
 Most things are prefixed with prefixes being generally an acronym of the asset type followed by an underscore.
 
 <a name="base-asset-name"></a>
-<a name="1.1"></a>
-### 1.1 Base Asset Name - `Prefix_BaseAssetName_Variant_Suffix`
+<a name="2.1"></a>
+### 2.1 Base Asset Name - `Prefix_BaseAssetName_Variant_Suffix`
 
 All assets should have a _Base Asset Name_. A Base Asset Name represents a logical grouping of related assets. Any asset that is part of this logical group should follow the standard of  `Prefix_BaseAssetName_Variant_Suffix`.
 
@@ -98,10 +96,10 @@ For unique but generic variations of assets, `Variant` is a two digit number sta
 
 Depending on how your asset variants are made, you can chain together variant names. For example, if you are creating flooring assets for an Arch Viz project you should use the base name `Flooring` with chained variants such as `Flooring_Marble_01`, `Flooring_Maple_01`, `Flooring_Tile_Squares_01`.
 
-<a name="1.1-examples"></a>
-#### 1.1 Examples
+<a name="2.1-examples"></a>
+#### 2.1 Examples
 
-##### 1.1e1 Bob
+##### 2.1e1 Bob
 
 | Asset Type              | Asset Name                                                 |
 | ----------------------- | ---------------------------------------------------------- |
@@ -111,7 +109,7 @@ Depending on how your asset variants are made, you can chain together variant na
 | Texture (Normal)        | T_Bob_N                                                    |
 | Texture (Evil Diffuse)  | T_Bob_Evil_D                                               |
 
-##### 1.1e2 Rocks
+##### 2.1e2 Rocks
 
 | Asset Type              | Asset Name                                                 |
 | ----------------------- | ---------------------------------------------------------- |
@@ -122,18 +120,18 @@ Depending on how your asset variants are made, you can chain together variant na
 | Material Instance (Snow)| MI_Rock_Snow                                               |
 
 <a name="asset-name-modifiers"></a>
-<a name="1.2"></a>
-### 1.2 Asset Name Modifiers
+<a name="2.2"></a>
+### 2.2 Asset Name Modifiers
 
 When naming an asset, use these tables to determine the prefix and suffix to use with an asset's [Base Asset Name](#base-asset-name).
 
 <a name="anc-common"></a>
-<a name="1.2.1"></a>
-#### 1.2.1 Most Common
+<a name="2.2.1"></a>
+#### 2.2.1 Most Common
 
 | Asset Type              | Prefix     | Suffix     | Notes                            |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
-| Level / Map             |            |            | [Should be in a folder called Maps.](#2.4.4) |
+| Level / Map             |            |            | [Should be in a folder called Maps.](#3.4.4) |
 | Level (Persistent)      |            | _P         |                                  |
 | Level (Audio)           |            | _Audio     |                                  |
 | Level (Lighting)        |            | _Light     |                                  |
@@ -148,8 +146,8 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 | Widget Blueprint        | WBP_       |            |                                  |
 
 <a name="anc-animations"></a>
-<a name="1.2.2"></a>
-#### 1.2.2 Animations
+<a name="2.2.2"></a>
+#### 2.2.2 Animations
 
 | Asset Type              | Prefix     | Suffix     | Notes                            |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
@@ -169,8 +167,8 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 | Skeleton                | SK_        |            |                                  |
 
 <a name="anc-ai"></a>
-<a name="1.2.3"></a>
-### 1.2.3 Artificial Intelligence
+<a name="2.2.3"></a>
+### 2.2.3 Artificial Intelligence
 
 | Asset Type              | Prefix     | Suffix     | Notes                            |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
@@ -184,8 +182,8 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 | EnvQueryContext         | EQS_       | Context    |                                  |
 
 <a name="anc-bp"></a>
-<a name="1.2.4"></a>
-### 1.2.4 Blueprints
+<a name="2.2.4"></a>
+### 2.2.4 Blueprints
 
 | Asset Type              | Prefix     | Suffix     | Notes                            |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
@@ -202,13 +200,13 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 | Widget Blueprint        | WBP_       |            |                                  |
 
 <a name="anc-materials"></a>
-<a name="1.2.5"></a>
-### 1.2.5 Materials
+<a name="2.2.5"></a>
+### 2.2.5 Materials
 
 | Asset Type                    | Prefix     | Suffix     | Notes                            |
 | ----------------------------- | ---------- | ---------- | -------------------------------- |
 | Material                      | M_         |            |                                  |
-| Material (Post Process)       | M_, MI_    |            | `PP` is the post-processing modifier, placed right after the material's type (`M_PP_`, `MI_PP_`). Any material whose name carries `PP` that way lives in [`Art/PostProcess`](#2.4.1) and nowhere else. |
+| Material (Post Process)       | M_, MI_    |            | `PP` is the post-processing modifier, placed right after the material's type (`M_PP_`, `MI_PP_`). Any material whose name carries `PP` that way lives in [`Art/PostProcess`](#3.4.1) and nowhere else. |
 | Material Function             | MF_        |            |                                  |
 | Material Instance             | MI_        |            |                                  |
 | Material Parameter Collection | MPC_       |            |                                  |
@@ -217,13 +215,13 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 | Decal                         | M_, MI_, T_ |            | The `Decal` token goes right after the type: `M_Decal_<Name>`, `MI_Decal_<Name>`, and `T_Decal_<Name>`. A deliberate exception to PascalCase, so a decal is named explicitly and cannot be misused. |
 
 <a name="anc-textures"></a>
-<a name="1.2.6"></a>
-### 1.2.6 Textures
+<a name="2.2.6"></a>
+### 2.2.6 Textures
 
 | Asset Type              | Prefix     | Suffix     | Notes                            |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
 | Texture                 | T_         |            | A texture with no suffix is implied to be Diffuse/Albedo/Base Color. |
-| Texture (Post Process)  | T_         |            | `PP` marks post-processing; lives in [`Art/PostProcess`](#2.4.1). |
+| Texture (Post Process)  | T_         |            | `PP` marks post-processing; lives in [`Art/PostProcess`](#3.4.1). |
 | Texture (Diffuse/Albedo/Base Color)| T_ | _D / _BC | `_D` and `_BC` are interchangeable. |
 | Texture (Normal)        | T_         | _N         |                                  |
 | Texture (Roughness)     | T_         | _R         |                                  |
@@ -242,8 +240,8 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 | Texture Light Profile   | TLP        |            |                                  |
 
 <a name="anc-textures-packing"></a>
-<a name="1.2.6.1"></a>
-#### 1.2.6.1 Texture Packing
+<a name="2.2.6.1"></a>
+#### 2.2.6.1 Texture Packing
 It is common practice to pack multiple layers of texture data into one texture. An example of this is packing Emissive, Roughness, Ambient Occlusion together as the Red, Green, and Blue channels of a texture respectively. To determine the suffix, simply stack the given suffix letters from above together, e.g. `_ERO`.
 
 > It is generally acceptable to include an Alpha/Opacity layer in your Diffuse/Albedo's alpha channel and as this is common practice, adding `A` to the `_D` or `_BC` suffix is optional.
@@ -251,8 +249,8 @@ It is common practice to pack multiple layers of texture data into one texture. 
 Packing 4 channels of data into a texture (RGBA) is not recommended except for an Alpha/Opacity mask in the Diffuse/Albedo's alpha channel as a texture with an alpha channel incurs more overhead than one without.
 
 <a name="anc-misc"></a>
-<a name="1.2.7"></a>
-### 1.2.7 Miscellaneous
+<a name="2.2.7"></a>
+### 2.2.7 Miscellaneous
 
 | Asset Type                 | Prefix     | Suffix     | Notes                            |
 | -------------------------- | ---------- | ---------- | -------------------------------- |
@@ -282,8 +280,8 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 | Vector Curve               | C_         | _Vector    |                                  |
 
 <a name="anc-paper2d"></a>
-<a name="1.2.8"></a>
-### 1.2.8 Paper 2D
+<a name="2.2.8"></a>
+### 2.2.8 Paper 2D
 
 | Asset Type              | Prefix     | Suffix     | Notes                            |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
@@ -294,8 +292,8 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 | Tile Set                | TS_        |            |                                  |
 
 <a name="anc-physics"></a>
-<a name="1.2.9"></a>
-### 1.2.9 Physics
+<a name="2.2.9"></a>
+### 2.2.9 Physics
 
 | Asset Type              | Prefix     | Suffix     | Notes                            |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
@@ -304,8 +302,8 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 | Destructible Mesh       | DM_        |            |                                  |
 
 <a name="anc-sounds"></a>
-<a name="1.2.10"></a>
-### 1.2.10 Sounds
+<a name="2.2.10"></a>
+### 2.2.10 Sounds
 
 | Asset Type              | Prefix     | Suffix     | Notes                            |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
@@ -321,8 +319,8 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 | Sound Wave              |            |            |                                  |
 
 <a name="anc-ui"></a>
-<a name="1.2.11"></a>
-### 1.2.11 User Interface
+<a name="2.2.11"></a>
+### 2.2.11 User Interface
 
 | Asset Type              | Prefix     | Suffix     | Notes                            |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
@@ -333,30 +331,30 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 | Widget Blueprint        | WBP_       |            |                                  |
 
 <a name="anc-effects"></a>
-<a name="1.2.12"></a>
-### 1.2.12 Effects
+<a name="2.2.12"></a>
+### 2.2.12 Effects
 
 | Asset Type              | Prefix     | Suffix     | Notes                            |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
 | Particle System         | PS_        |            |                                  |
-| Material (Post Process) | M_, MI_    |            | `PP` is the post-processing modifier, placed right after the material's type (`M_PP_`, `MI_PP_`). Any material whose name carries `PP` that way lives in [`Art/PostProcess`](#2.4.1) and nowhere else. |
+| Material (Post Process) | M_, MI_    |            | `PP` is the post-processing modifier, placed right after the material's type (`M_PP_`, `MI_PP_`). Any material whose name carries `PP` that way lives in [`Art/PostProcess`](#3.4.1) and nowhere else. |
 
-<a name="2"></a>
+<a name="3"></a>
 <a name="structure"></a>
-## 2. Content Directory Structure
+## 3. Content Directory Structure
 
 Equally important as asset names, the directory structure style of a project should be considered law. Asset naming conventions and content directory structure go hand in hand, and a violation of either causes unneeded chaos.
 
-All of a project's content lives under a folder named after the project (`Content/Haeretica`). Beneath that, the content is split into a fixed set of top-level folders, each a single, obvious home for one class of asset: `Art`, `Blueprint`, `FX`, `Maps`, `Prototype`, `SFX`, and `UI`. Because every asset already carries its type in its [prefix](#1.2), these folders group assets by _purpose_ rather than by raw asset type, and the Content Browser's filters and search are used to narrow down by type within a folder. Anyone on the team can then always find an asset's home without having to ask.
+All of a project's content lives under a folder named after the project (`Content/Haeretica`). Beneath that, the content is split into a fixed set of top-level folders, each a single, obvious home for one class of asset: `Art`, `Blueprint`, `FX`, `Maps`, `Prototype`, `SFX`, and `UI`. Because every asset already carries its type in its [prefix](#2.2), these folders group assets by _purpose_ rather than by raw asset type, and the Content Browser's filters and search are used to narrow down by type within a folder. Anyone on the team can then always find an asset's home without having to ask.
 
-> Do not create a folder called `Assets`, and do not split a folder into sibling folders that are only distinguished by asset type (for example a `Meshes` folder next to a `Textures` folder). Name folders after the thing they contain, not the type of asset that happens to live there. The deliberate exceptions are [`Art/Materials`](#2.8) and [`Art/Textures`](#2.4.1): a `Materials` folder holding master materials, material functions, and generic material instances, and a `Textures` folder holding generic textures, are allowed. `UI/Fonts` is the third: fonts are a user-interface-only concept with no other home, so a `Fonts` folder is allowed in `UI` and nowhere else. A set that would otherwise be one large flat pile may add the same two folders for order, such as `Art/Environment/Materials` and `Art/Environment/Textures`, without splitting the set apart.
+> Do not create a folder called `Assets`, and do not split a folder into sibling folders that are only distinguished by asset type (for example a `Meshes` folder next to a `Textures` folder). Name folders after the thing they contain, not the type of asset that happens to live there. The deliberate exceptions are [`Art/Materials`](#3.8) and [`Art/Textures`](#3.4.1): a `Materials` folder holding master materials, material functions, and generic material instances, and a `Textures` folder holding generic textures, are allowed. `UI/Fonts` is the third: fonts are a user-interface-only concept with no other home, so a `Fonts` folder is allowed in `UI` and nowhere else. A set that would otherwise be one large flat pile may add the same two folders for order, such as `Art/Environment/Materials` and `Art/Environment/Textures`, without splitting the set apart.
 
-<a name="2e1"><a>
-### 2e1 Example Project Content Structure
+<a name="3e1"><a>
+### 3e1 Example Project Content Structure
 <pre>
 |-- Content
-    |-- <a href="#2.2">Haeretica</a>
-        |-- <a href="#2.4.1">Art</a>
+    |-- <a href="#3.2">Haeretica</a>
+        |-- <a href="#3.4.1">Art</a>
         |   |-- Characters
         |   |   |-- Mech
         |   |   |-- MeleeDummy
@@ -370,34 +368,34 @@ All of a project's content lives under a folder named after the project (`Conten
         |   |   |-- Materials
         |   |   |-- Textures
         |   |-- Interactables
-        |   |-- <a href="#2.8">Materials</a>
+        |   |-- <a href="#3.8">Materials</a>
         |   |   |-- MaterialInstances
         |   |   |-- MaterialFunctions
         |   |-- PostProcess
         |   |-- Textures
         |   |-- Tools
         |   |-- Weapons
-        |-- <a href="#2.4.2">Blueprint</a>
+        |-- <a href="#3.4.2">Blueprint</a>
         |   |-- Components
         |   |-- Enemies
         |   |-- GameModes
         |   |-- Interactables
         |   |-- Player
         |   |-- Tools
-        |   |-- <a href="#2.6">Weapons</a>
-        |-- <a href="#2.4.3">FX</a>
-        |-- <a href="#2.4.4">Maps</a>
+        |   |-- <a href="#3.6">Weapons</a>
+        |-- <a href="#3.4.3">FX</a>
+        |-- <a href="#3.4.4">Maps</a>
         |   |-- ArenaLevel1
         |   |-- Level1
         |   |-- Level2
         |   |-- Level3
         |   |-- MainMenu
         |   |-- TestLevels
-        |-- <a href="#2.4.6">SFX</a>
+        |-- <a href="#3.4.6">SFX</a>
         |   |-- Attenuation
         |   |-- Enemies
         |   |-- Music
-        |-- <a href="#2.4.7">UI</a>
+        |-- <a href="#3.4.7">UI</a>
             |-- BaseElements
             |-- HUD
             |-- MainMenu
@@ -407,52 +405,52 @@ All of a project's content lives under a folder named after the project (`Conten
 
 The reasons for this structure are listed in the following sub-sections.
 
-<a name="2.1"></a>
+<a name="3.1"></a>
 <a name="structure-folder-names"><a>
-### 2.1 Folder Names
+### 3.1 Folder Names
 
 PascalCase is the only naming standard in the project: every folder name and every asset base name uses it, and the rules below follow from that.
 
-<a name="2.1.1"></a>
-#### 2.1.1 Always Use PascalCase[<sup>*</sup>](#terms-cases)
+<a name="3.1.1"></a>
+#### 3.1.1 Always Use PascalCase[<sup>*</sup>](#terms-cases)
 
 PascalCase refers to starting a name with a capital letter and then instead of using spaces, every following word also starts with a capital letter. For example, `DesertEagle`, `RocketPistol`, and `ASeriesOfWords`.
 
 See [Cases](#terms-cases).
 
-<a name="2.1.2"></a>
-#### 2.1.2 Never Use Spaces
+<a name="3.1.2"></a>
+#### 3.1.2 Never Use Spaces
 
-Re-enforcing [2.1.1](#2.1.1), never use spaces. Spaces can cause various engineering tools and batch processes to fail. Ideally, your project's root also contains no spaces and is located somewhere such as `D:\Project` instead of `C:\Users\My Name\My Documents\Unreal Projects`.
+Re-enforcing [3.1.1](#3.1.1), never use spaces. Spaces can cause various engineering tools and batch processes to fail. Ideally, your project's root also contains no spaces and is located somewhere such as `D:\Project` instead of `C:\Users\My Name\My Documents\Unreal Projects`.
 
-<a name="2.1.3"></a>
-#### 2.1.3 Never Use Unicode Characters And Other Symbols
+<a name="3.1.3"></a>
+#### 3.1.3 Never Use Unicode Characters And Other Symbols
 
-If one of your game characters is named 'Zoë', its folder name should be `Zoe`. Unicode characters can be worse than [Spaces](#2.1.2) for engineering tool and some parts of UE4 don't support Unicode characters in paths either.
+If one of your game characters is named 'Zoë', its folder name should be `Zoe`. Unicode characters can be worse than [Spaces](#3.1.2) for engineering tool and some parts of UE4 don't support Unicode characters in paths either.
 
 Related to this, if your project has [unexplained issues](https://answers.unrealengine.com/questions/101207/undefined.html) and your computer's user name has a Unicode character (i.e. your name is `Zoë`), any project located in your `My Documents` folder will suffer from this issue. Often simply moving your project to something like `D:\Project` will fix these mysterious issues.
 
 Using other characters outside `a-z`, `A-Z`, and `0-9` such as `@`, `-`, `_`, `,`, `*`, and `#` can also lead to unexpected and hard to track issues on other platforms, source control, and weaker engineering tools.
 
-<a name="2.2"></a>
+<a name="3.2"></a>
 <a name="structure-top-level"><a>
-### 2.2 Use A Top Level Folder For Project Specific Assets
+### 3.2 Use A Top Level Folder For Project Specific Assets
 
 All of a project's assets should exist in a folder named after the project. For example, if your project is named 'Haeretica', _all_ of it's content should exist in `Content/Haeretica`.
 
-> The `Developers` folder is not for assets that your project relies on and therefore is not project specific. See [Developer Folders](#2.3) for details about this.
+> The `Developers` folder is not for assets that your project relies on and therefore is not project specific. See [Developer Folders](#3.3) for details about this.
 
 There are multiple reasons for this approach.
 
-<a name="2.2.1"></a>
-#### 2.2.1 No Global Assets
+<a name="3.2.1"></a>
+#### 3.2.1 No Global Assets
 
 Often in code style guides it is written that you should not pollute the global namespace and this follows the same principle. When assets are allowed to exist outside of a project folder, it often becomes much harder to enforce a strict structure layout as assets not in a folder encourages the bad behavior of not having to organize assets.
 
-Every asset should have a purpose, otherwise it does not belong in a project. If an asset is an experimental test and shouldn't be used by the project it should be put in a [`Developer`](#2.3) folder, which is personal and hidden by default; shared work-in-progress belongs in [`Prototype`](#2.4.5) instead.
+Every asset should have a purpose, otherwise it does not belong in a project. If an asset is an experimental test and shouldn't be used by the project it should be put in a [`Developer`](#3.3) folder, which is personal and hidden by default; shared work-in-progress belongs in [`Prototype`](#3.4.5) instead.
 
-<a name="2.2.2"></a>
-#### 2.2.2 Reduce Migration Conflicts
+<a name="3.2.2"></a>
+#### 3.2.2 Reduce Migration Conflicts
 
 When working on multiple projects it is common for a team to copy assets from one project to another if they have made something useful for both. When this occurs, the easiest way to perform the copy is to use the Content Browser's Migrate functionality as it will copy over not just the selected asset but all of its dependencies.
 
@@ -462,8 +460,8 @@ This is also the primary reason why Epic's Marketplace staff enforces the same p
 
 After a migration, safe merging of assets can be done using the 'Replace References' tool in the content browser with the added clarity of assets not belonging to a project's top level folder are clearly pending a merge. Once assets are merged and fully migrated, there shouldn't be another top level folder in your Content tree. This method is _100%_ guaranteed to make any migrations that occur completely safe.
 
-<a name="2.2.2e1"></a>
-##### 2.2.2e1 Master Material Example
+<a name="3.2.2e1"></a>
+##### 3.2.2e1 Master Material Example
 
 For example, say you created a master material in one project that you would like to use in another project so you migrated that asset over. If this asset is not in a top level folder, it may have a name like `Content/M_Master`. If the target project doesn't have a master material already, this should work without issue.
 
@@ -475,23 +473,23 @@ This issue can be hard to predict and hard to account for. The person migrating 
 
 It is at this point where if the master materials for both projects are incompatible in _any way_, you risk breaking possibly the entire material library for a project as well as any other dependencies that may have already been migrated, simply because assets were not stored in a top level folder. The simple migration of static meshes now becomes a very ugly task.
 
-<a name="2.2.3"></a>
-#### 2.2.3 Samples, Templates, and Marketplace Content Are Risk-Free
+<a name="3.2.3"></a>
+#### 3.2.3 Samples, Templates, and Marketplace Content Are Risk-Free
 
-An extension to [2.2.2](#2.2.2), if a team member decides to add sample content, template files, or assets they bought from the marketplace, it is guaranteed, as long your project's top-level folder is uniquely named,that these new assets will not interfere with your project.
+An extension to [3.2.2](#3.2.2), if a team member decides to add sample content, template files, or assets they bought from the marketplace, it is guaranteed, as long your project's top-level folder is uniquely named,that these new assets will not interfere with your project.
 
-You can not trust marketplace content to fully conform to the [top level folder rule](#2.2). There exists many assets that have the majority of their content in a top level folder but also have possibly modified Epic sample content as well as level files polluting the global `Content` folder.
+You can not trust marketplace content to fully conform to the [top level folder rule](#3.2). There exists many assets that have the majority of their content in a top level folder but also have possibly modified Epic sample content as well as level files polluting the global `Content` folder.
 
-When adhering to [2.2](#2.2), the worst marketplace conflict you can have is if two marketplace assets both have the same Epic sample content. If all your assets are in a project specific folder, including sample content you may have moved into your folder, your project will never break.
+When adhering to [3.2](#3.2), the worst marketplace conflict you can have is if two marketplace assets both have the same Epic sample content. If all your assets are in a project specific folder, including sample content you may have moved into your folder, your project will never break.
 
-<a name="2.2.4"></a>
-#### 2.2.4 DLC, Sub-Projects, and Patches Are Easily Maintained
+<a name="3.2.4"></a>
+#### 3.2.4 DLC, Sub-Projects, and Patches Are Easily Maintained
 
 If your project plans to release DLC or has multiple sub-projects associated with it that may either be migrated out or simply not cooked in a build, assets relating to these projects should have their own separate top level content folder. This make cooking DLC separate from main project content far easier. Sub-projects can also be migrated in and out with minimal effort. If you need to change a material of an asset or add some very specific asset override behavior in a patch, you can easily put these changes in a patch folder and work safely without the chance of breaking the core project.
 
-<a name="2.3"></a>
+<a name="3.3"></a>
 <a name="structure-developers"></a>
-### 2.3 Use Developers Folder For Local Testing
+### 3.3 Use Developers Folder For Local Testing
 
 During a project's development, it is very common for team members to have a sort of 'sandbox' where they can experiment freely without risking the core project. Because this work may be ongoing, these team members may wish to put their assets on a project's source control server. Not all teams require use of Developer folders, but ones that do use them often run into a common problem with assets submitted to source control.
 
@@ -501,57 +499,57 @@ If these modular assets were placed in a Developer folder, the world builder sho
 
 Once the assets are ready for use, an artist simply has to move the assets into the project specific folder and fix up redirectors. This is essentially 'promoting' the assets from experimental to production.
 
-<a name="2.4"></a>
+<a name="3.4"></a>
 <a name="structure-categories"></a>
-### 2.4 Top Level Folders
+### 3.4 Top Level Folders
 
-Beneath the [project folder](#2.2), content is split into a fixed set of top-level folders. Each folder is a single, obvious home for one class of asset:
+Beneath the [project folder](#3.2), content is split into a fixed set of top-level folders. Each folder is a single, obvious home for one class of asset:
 
-* `Art` - All visual assets, organized by kind. See [2.4.1](#2.4.1).
-* `Blueprint` - The Blueprints that make up the project's logic. See [2.4.2](#2.4.2).
-* `FX` - Niagara systems and the other assets that make up visual effects. See [2.4.3](#2.4.3).
-* `Maps` - All [map](#terms-level-map) files. See [2.4.4](#2.4.4).
-* `Prototype` - Throwaway or work-in-progress content that is not ready for the project proper. See [2.4.5](#2.4.5).
-* `SFX` - Generic audio shared across the project: sound classes, attenuation presets, shared music. Audio tied to one asset lives with that asset. See [2.4.6](#2.4.6).
-* `UI` - User interface assets: widget Blueprints, UI textures, and fonts. See [2.4.7](#2.4.7).
+* `Art` - All visual assets, organized by kind. See [3.4.1](#3.4.1).
+* `Blueprint` - The Blueprints that make up the project's logic. See [3.4.2](#3.4.2).
+* `FX` - Niagara systems and the other assets that make up visual effects. See [3.4.3](#3.4.3).
+* `Maps` - All [map](#terms-level-map) files. See [3.4.4](#3.4.4).
+* `Prototype` - Throwaway or work-in-progress content that is not ready for the project proper. See [3.4.5](#3.4.5).
+* `SFX` - Generic audio shared across the project: sound classes, attenuation presets, shared music. Audio tied to one asset lives with that asset. See [3.4.6](#3.4.6).
+* `UI` - User interface assets: widget Blueprints, UI textures, and fonts. See [3.4.7](#3.4.7).
 
 Not every project needs every folder. What matters is that when a folder exists, it is named and used exactly as described below, so its location is always predictable.
 
-<a name="2.4.1"></a>
-#### 2.4.1 Art
+<a name="3.4.1"></a>
+#### 3.4.1 Art
 
 `Art` is the single home for the project's visual assets, grouped by kind:
 
 * `Art/Characters` - Character art, with a sub-folder per character (`Art/Characters/Priestess`).
 * `Art/Decals` - All decal materials, decal material instances, and their textures, such as bullet holes and blood decals.
-* `Art/Environment` - A special folder, the one place a level designer looks for scenery: the environment meshes, kept flat at the root so no one has to dig for a prop, plus two sub-folders for order, `Art/Environment/Materials` (materials and their instances) and `Art/Environment/Textures` (the textures they use). Its `Materials` and `Textures` sub-folders are the same two folders any large flat set may add for order; see [2](#2). A placeable actor that is not scenery belongs to its own system instead: its Blueprint in `Blueprint/<System>`, its art in `Art/<System>`; see [2.4.2](#2.4.2).
+* `Art/Environment` - A special folder, the one place a level designer looks for scenery: the environment meshes, kept flat at the root so no one has to dig for a prop, plus two sub-folders for order, `Art/Environment/Materials` (materials and their instances) and `Art/Environment/Textures` (the textures they use). Its `Materials` and `Textures` sub-folders are the same two folders any large flat set may add for order; see [3](#3). A placeable actor that is not scenery belongs to its own system instead: its Blueprint in `Blueprint/<System>`, its art in `Art/<System>`; see [3.4.2](#3.4.2).
 * `Art/LUT` - Color lookup tables (LUTs) used for color grading.
-* `Art/Materials` - Global master materials, at the root of the folder. A master that serves one asset set lives with that set instead. See [2.8](#2.8).
+* `Art/Materials` - Global master materials, at the root of the folder. A master that serves one asset set lives with that set instead. See [3.8](#3.8).
   * `Art/Materials/MaterialInstances` - Generic material instances used by several assets.
   * `Art/Materials/MaterialFunctions` - Reusable material functions.
-* `Art/PhysicalMaterials` - [Physical materials](#1.2.9) used for surface responses such as footstep and impact effects.
-* `Art/PostProcess` - Post-process materials and the textures they use, such as dither, outline, and blink effects. The `PP` name modifier marks post-processing ([`M_PP_`](#1.2.5), `MI_PP_`, `T_PP_`): any asset whose name carries `PP` belongs here and nowhere else.
+* `Art/PhysicalMaterials` - [Physical materials](#2.2.9) used for surface responses such as footstep and impact effects.
+* `Art/PostProcess` - Post-process materials and the textures they use, such as dither, outline, and blink effects. The `PP` name modifier marks post-processing ([`M_PP_`](#2.2.5), `MI_PP_`, `T_PP_`): any asset whose name carries `PP` belongs here and nowhere else.
 * `Art/Textures` - Generic textures that are not tied to a specific asset: seamless textures, bricks, wood, and similar reusable material inputs. A texture that belongs to one specific asset, or is consumed by only one material instance, lives next to that asset in `Art`, not here.
 
-A gameplay system whose art does not fit one of the folders above gets a matching folder here (for example `Art/Weapons`, `Art/Interactables`, `Art/Components`, or `Art/Tools`), mirroring that system's folder in `Blueprint`. A system is split the same way everywhere: its art and animation, everything about it that is not logic, lives here in `Art/<System>`, and its logic, the Blueprints and the data assets that support them, lives in `Blueprint/<System>`. An Animation Blueprint is animation, not logic, so it lives here too; see [2.4.2](#2.4.2).
+A gameplay system whose art does not fit one of the folders above gets a matching folder here (for example `Art/Weapons`, `Art/Interactables`, `Art/Components`, or `Art/Tools`), mirroring that system's folder in `Blueprint`. A system is split the same way everywhere: its art and animation, everything about it that is not logic, lives here in `Art/<System>`, and its logic, the Blueprints and the data assets that support them, lives in `Blueprint/<System>`. An Animation Blueprint is animation, not logic, so it lives here too; see [3.4.2](#3.4.2).
 
-<a name="2.4.2"></a>
-#### 2.4.2 Blueprint
+<a name="3.4.2"></a>
+#### 3.4.2 Blueprint
 
-`Blueprint` holds the logic that makes up the project: the Blueprints and the data assets that support them, such as enumerations, structs, data tables, input actions, behavior trees, blackboards, and environment queries. It is not a home for a system's art or animation. Textures, materials, meshes, material instances, sounds, and Animation Blueprints (`ABP_`) live in [`Art`](#2.4.1) instead (or in the dedicated [`FX`](#2.4.3), [`SFX`](#2.4.6), and [`UI`](#2.4.7) folders), next to the asset they serve: an Animation Blueprint is animation, so it lives with the skeleton and meshes it drives, not here. Interactables follow the same split: `Blueprint/Interactables` holds every interactable Blueprint, and a level designer fetches the interactable Blueprint from there, while `Art/Interactables` holds the interactables' meshes, materials, and textures.
+`Blueprint` holds the logic that makes up the project: the Blueprints and the data assets that support them, such as enumerations, structs, data tables, input actions, behavior trees, blackboards, and environment queries. It is not a home for a system's art or animation. Textures, materials, meshes, material instances, sounds, and Animation Blueprints (`ABP_`) live in [`Art`](#3.4.1) instead (or in the dedicated [`FX`](#3.4.3), [`SFX`](#3.4.6), and [`UI`](#3.4.7) folders), next to the asset they serve: an Animation Blueprint is animation, so it lives with the skeleton and meshes it drives, not here. Interactables follow the same split: `Blueprint/Interactables` holds every interactable Blueprint, and a level designer fetches the interactable Blueprint from there, while `Art/Interactables` holds the interactables' meshes, materials, and textures.
 
 * `Blueprint/LevelActors` - Rarely needed: a Blueprint a designer drops into a level normally belongs to a system and lives in that system's folder (`Blueprint/<System>`); only a lone actor with no system of its own lands here.
 * `Blueprint/Components` - Reusable actor components.
-* `Blueprint/Enemies`, `Blueprint/Player`, `Blueprint/Weapons`, `Blueprint/Interactables`, `Blueprint/GameModes`, and `Blueprint/Tools` - One folder per gameplay system, holding all of the system's Blueprints. See [2.6](#2.6). The system's art and animation live in `Art/<System>`, so `Blueprint/Interactables` holds every interactable Blueprint while `Art/Interactables` keeps the meshes, materials, and textures they use.
-* `Blueprint/UI` - UI logic: the non-widget UI Blueprints, such as HUD classes, plus UI data such as enumerations. Every UI Blueprint that is not a widget lives here; the widgets themselves are the UI and stay in [`UI`](#2.4.7).
+* `Blueprint/Enemies`, `Blueprint/Player`, `Blueprint/Weapons`, `Blueprint/Interactables`, `Blueprint/GameModes`, and `Blueprint/Tools` - One folder per gameplay system, holding all of the system's Blueprints. See [3.6](#3.6). The system's art and animation live in `Art/<System>`, so `Blueprint/Interactables` holds every interactable Blueprint while `Art/Interactables` keeps the meshes, materials, and textures they use.
+* `Blueprint/UI` - UI logic: the non-widget UI Blueprints, such as HUD classes, plus UI data such as enumerations. Every UI Blueprint that is not a widget lives here; the widgets themselves are the UI and stay in [`UI`](#3.4.7).
 
-<a name="2.4.3"></a>
-#### 2.4.3 FX
+<a name="3.4.3"></a>
+#### 3.4.3 FX
 
 `FX` holds visual effects: Niagara systems and emitters, the meshes and materials they rely on, and any other asset that only exists to serve a visual effect.
 
-<a name="2.4.4"></a>
-#### 2.4.4 Maps
+<a name="3.4.4"></a>
+#### 3.4.4 Maps
 
 Map files are incredibly special and it is common for every project to have its own map naming system, especially if they work with sub-levels or streaming levels. No matter what system of map organization is in place for the specific project, all levels should belong in `/Content/Haeretica/Maps`.
 
@@ -561,41 +559,41 @@ This also simplifies the job of cooking for engineers. Wrangling levels for a bu
 
 A level folder may also contain a `_GENERATED` folder, either at the root of `Maps` or inside a level folder: this is the editor's own transient output. `_GENERATED` is off-limits: it is machine-generated, fair to delete and regenerate at any time, and none of the naming or structure rules in this guide apply to what is inside it, so do not rename, move, or otherwise tidy its contents.
 
-<a name="2.4.5"></a>
-#### 2.4.5 Prototype
+<a name="3.4.5"></a>
+#### 3.4.5 Prototype
 
-`Prototype` is the shared counterpart to a personal [`Developer`](#2.3) folder: content that is experimental or being built out before it earns a permanent home lives here, such as greybox levels, test Blueprints, and rough assets. Work that is only your own scratch stays in a [`Developer`](#2.3) folder instead. Anything here is fair game to be deleted or heavily changed, and nothing in the shipped project should depend on it.
+`Prototype` is the shared counterpart to a personal [`Developer`](#3.3) folder: content that is experimental or being built out before it earns a permanent home lives here, such as greybox levels, test Blueprints, and rough assets. Work that is only your own scratch stays in a [`Developer`](#3.3) folder instead. Anything here is fair game to be deleted or heavily changed, and nothing in the shipped project should depend on it.
 
-`Prototype` is the one and only exception to the [structure rules](#2): it is the single project folder allowed to hold temporary content, either because that content will be removed later or because it will be moved to the main project. Everywhere else, structure is law and an asset lives in its one permanent home.
+`Prototype` is the one and only exception to the [structure rules](#3): it is the single project folder allowed to hold temporary content, either because that content will be removed later or because it will be moved to the main project. Everywhere else, structure is law and an asset lives in its one permanent home.
 
 Keeping prototype content in one place makes it obvious what is disposable and makes it trivial to strip before cooking a build. Once a prototype is ready for production, move it into its proper home and fix up redirectors.
 
-<a name="2.4.6"></a>
-#### 2.4.6 SFX
+<a name="3.4.6"></a>
+#### 3.4.6 SFX
 
-`SFX` holds only generic audio, shared across the project: shared sound classes, attenuation and concurrency presets, shared music, and any cue or wave used by more than one asset. It is not a home for every sound. Audio that belongs to a single asset lives with that asset, so the sound migrates as a unit with the thing it serves: a weapon's sounds live under [`Art/Weapons/<Weapon>`](#2.4.1), a character's under `Art/Characters/<Character>`, an interactive element's under `Art/Interactables/<System>`, and an effect's alongside that effect in [`FX`](#2.4.3). Cues and the waves, attenuations, and sound classes they use move together, so a set migrates as one. A class that serves a single asset lives with it, such as the player's `SC_Player` in `Art/Characters/Player`; only the shared classes stay here (`SC_Master`, `SC_Weapon`, `SC_Enemy`). The rest of `SFX` is grouped by kind, such as `Music`, `Attenuation`, or a shared `Enemies` set holding the hits and explosions that every enemy uses.
+`SFX` holds only generic audio, shared across the project: shared sound classes, attenuation and concurrency presets, shared music, and any cue or wave used by more than one asset. It is not a home for every sound. Audio that belongs to a single asset lives with that asset, so the sound migrates as a unit with the thing it serves: a weapon's sounds live under [`Art/Weapons/<Weapon>`](#3.4.1), a character's under `Art/Characters/<Character>`, an interactive element's under `Art/Interactables/<System>`, and an effect's alongside that effect in [`FX`](#3.4.3). Cues and the waves, attenuations, and sound classes they use move together, so a set migrates as one. A class that serves a single asset lives with it, such as the player's `SC_Player` in `Art/Characters/Player`; only the shared classes stay here (`SC_Master`, `SC_Weapon`, `SC_Enemy`). The rest of `SFX` is grouped by kind, such as `Music`, `Attenuation`, or a shared `Enemies` set holding the hits and explosions that every enemy uses.
 
-<a name="2.4.7"></a>
-#### 2.4.7 UI
+<a name="3.4.7"></a>
+#### 3.4.7 UI
 
-`UI` holds user interface assets: widget Blueprints, UI textures, UI materials (both masters and instances), and fonts. Group them by screen or element, such as `UI/HUD`, `UI/MainMenu`, or `UI/Options`, so a screen's widgets, textures, and materials migrate together: a crosshair material lives in `UI/HUD`, a button material in `UI/BaseElements`. UI assets carry the `UI` name modifier: `M_UI_` for materials, `MI_UI_` for instances, and `T_UI_` for textures. A weapon's HUD icon instance and its texture stay with the weapon in `Art/Weapons`, not here, even though the icon texture carries the `T_UI_` modifier. A generic weapon icon that names no single weapon, a placeholder or fallback, is a base element and lives in `UI/BaseElements`. Fonts are a UI-only concept with no home anywhere else, so `UI/Fonts` is the one type-named folder allowed inside `UI`. A non-widget UI Blueprint, such as a HUD class, is UI logic rather than UI itself and lives in [`Blueprint/UI`](#2.4.2) instead; only the widgets, their textures and materials, and the fonts stay in `UI`.
+`UI` holds user interface assets: widget Blueprints, UI textures, UI materials (both masters and instances), and fonts. Group them by screen or element, such as `UI/HUD`, `UI/MainMenu`, or `UI/Options`, so a screen's widgets, textures, and materials migrate together: a crosshair material lives in `UI/HUD`, a button material in `UI/BaseElements`. UI assets carry the `UI` name modifier: `M_UI_` for materials, `MI_UI_` for instances, and `T_UI_` for textures. A weapon's HUD icon instance and its texture stay with the weapon in `Art/Weapons`, not here, even though the icon texture carries the `T_UI_` modifier. A generic weapon icon that names no single weapon, a placeholder or fallback, is a base element and lives in `UI/BaseElements`. Fonts are a UI-only concept with no home anywhere else, so `UI/Fonts` is the one type-named folder allowed inside `UI`. A non-widget UI Blueprint, such as a HUD class, is UI logic rather than UI itself and lives in [`Blueprint/UI`](#3.4.2) instead; only the widgets, their textures and materials, and the fonts stay in `UI`.
 
 
-<a name="2.5"></a>
+<a name="3.5"></a>
 <a name="structure-base-classes"></a>
-### 2.5 Keep Base Classes With Their System
+### 3.5 Keep Base Classes With Their System
 
-There is no separate `Core` folder. A base class lives in its system's folder, next to the concrete Blueprints that inherit from it: a base `BP_WeaponBase` sits in `Blueprint/Weapons` beside `BP_Rifle`, a base pickup class sits in `Blueprint/Interactables` beside the specific health and ammo pickups, and base `GameMode`, `Character`, and `PlayerController` classes live in `Blueprint/GameModes` and `Blueprint/Player`. See [2.6](#2.6).
+There is no separate `Core` folder. A base class lives in its system's folder, next to the concrete Blueprints that inherit from it: a base `BP_WeaponBase` sits in `Blueprint/Weapons` beside `BP_Rifle`, a base pickup class sits in `Blueprint/Interactables` beside the specific health and ammo pickups, and base `GameMode`, `Character`, and `PlayerController` classes live in `Blueprint/GameModes` and `Blueprint/Player`. See [3.6](#3.6).
 
 Base classes deserve a "don't touch these" reputation wherever they sit. Designers should make their gameplay tweaks in child classes that expose functionality, and world builders should use prefab Blueprints in designated folders, rather than editing a base class: a change there affects every child and can break the system project-wide.
 
 When you add specific pickups, give each its own folder, such as `Blueprint/Interactables/Ammo/`, and leave the base class alone.
 
-<a name="2.6"></a>
+<a name="3.6"></a>
 <a name="structure-systems"></a>
-### 2.6 Give Every Blueprint System Its Own Folder
+### 3.6 Give Every Blueprint System Its Own Folder
 
-Within `Blueprint`, each gameplay system gets its own folder named after the system, holding all of the system's logic: every Blueprint, base classes, placeable actors, and interfaces alike, plus the data assets that support them. A system's art and animation live with the system in [`Art`](#2.4.1) instead, in the matching `Art/<System>` folder, so `Blueprint/Interactables` holds every interactable Blueprint and `Art/Interactables` holds its art and animation. Only logic belongs here: a system's meshes, textures, materials, sounds, and Animation Blueprints live in `Art`.
+Within `Blueprint`, each gameplay system gets its own folder named after the system, holding all of the system's logic: every Blueprint, base classes, placeable actors, and interfaces alike, plus the data assets that support them. A system's art and animation live with the system in [`Art`](#3.4.1) instead, in the matching `Art/<System>` folder, so `Blueprint/Interactables` holds every interactable Blueprint and `Art/Interactables` holds its art and animation. Only logic belongs here: a system's meshes, textures, materials, sounds, and Animation Blueprints live in `Art`.
 
 For example, a weapons system might look like this:
 
@@ -608,23 +606,23 @@ For example, a weapons system might look like this:
         |-- BP_Rifle
 </pre>
 
-> Do not create a folder that is only named after an asset type (such as a `Meshes` or `SkeletalMeshes` folder) just to separate assets inside a system. The exceptions are the two folders [2](#2) allows: a `Materials` folder holding master materials, material functions, and generic instances, and a `Textures` folder holding the set's textures, as in `Art/Environment/Materials` and `Art/Environment/Textures`. Asset names already carry their type via their [prefix](#1.2) and the Content Browser can filter by type, so such folders only add redundant path segments. Want to see every static mesh under `Art/Environment/`? Turn on the Static Mesh filter. If assets are named correctly they sort alphabetically regardless of prefix.
+> Do not create a folder that is only named after an asset type (such as a `Meshes` or `SkeletalMeshes` folder) just to separate assets inside a system. The exceptions are the two folders [3](#3) allows: a `Materials` folder holding master materials, material functions, and generic instances, and a `Textures` folder holding the set's textures, as in `Art/Environment/Materials` and `Art/Environment/Textures`. Asset names already carry their type via their [prefix](#2.2) and the Content Browser can filter by type, so such folders only add redundant path segments. Want to see every static mesh under `Art/Environment/`? Turn on the Static Mesh filter. If assets are named correctly they sort alphabetically regardless of prefix.
 
-<a name="2.7"></a>
+<a name="3.7"></a>
 <a name="structure-large-sets"></a>
-### 2.7 Very Large Asset Sets Get Their Own Folder Layout
+### 3.7 Very Large Asset Sets Get Their Own Folder Layout
 
-This can be seen as a pseudo-exception to [2.4](#2.4), where folders are normally named after the subject they contain.
+This can be seen as a pseudo-exception to [3.4](#3.4), where folders are normally named after the subject they contain.
 
 There are certain asset types that have a huge volume of related files where each asset has a unique purpose. The two most common are Animation and Audio assets. If you find yourself having 15+ of these assets that belong together, they should be together.
 
 For example, animations that are shared across multiple characters should live together in a shared `Animations` folder, with sub-folders such as `Locomotion` or `Cinematic`, rather than being duplicated per character.
 
-> This does not apply to assets like textures and materials. It is common for a `Rocks` folder to have a large amount of textures if there are a large amount of rocks, however these textures are generally only related to a few specific rocks and should be named appropriately. Even if these textures are part of a [shared material](#2.8).
+> This does not apply to assets like textures and materials. It is common for a `Rocks` folder to have a large amount of textures if there are a large amount of rocks, however these textures are generally only related to a few specific rocks and should be named appropriately. Even if these textures are part of a [shared material](#3.8).
 
-<a name="2.8"></a>
+<a name="3.8"></a>
 <a name="structure-materials"></a>
-### 2.8 `Art/Materials`
+### 3.8 `Art/Materials`
 
 If your project makes use of master materials, layered materials, or any form of reusable material or texture that does not belong to any subset of assets, these assets should be located in `Content/Haeretica/Art/Materials`.
 
@@ -632,15 +630,15 @@ This way all 'global' materials have a place to live and are easily located.
 
 > This also makes it incredibly easy to enforce a 'use material instances only' policy within a project. If all artists and assets should be using material instances, then the only regular material assets that exist are the global masters here and the one-asset-set masters that live with their art. You can easily verify this by searching for base materials in any folder other than `Art/Materials` and the `Art` and `FX` set folders.
 
-`Art/Materials` holds master materials at its root, a `MaterialInstances` sub-folder for generic instances used by several assets, and a `MaterialFunctions` sub-folder for reusable functions. Only global materials live here: a master shared by several asset sets, a master that feeds a generic instance, or one with no single art folder of its own. A master material that serves one asset set lives with that set instead: in [`Art/Environment`](#2.4.1), `Art/Weapons/<Weapon>`, `Art/Characters/<Character>`, `Art/Interactables/<System>`, or alongside the effect in `FX`. An instance that belongs to one asset set is likewise not stored here: it lives with that set, next to the mesh it is applied to, while one shared by several assets is generic and stays in `MaterialInstances`. Shared textures have their own folder: see [`Art/Textures`](#2.4.1). Post-process materials have their own folder: see [`Art/PostProcess`](#2.4.1). This folder is for generic, non-UI materials only: a UI material never lives here, it lives with its screen, see [2.4.7](#2.4.7).
+`Art/Materials` holds master materials at its root, a `MaterialInstances` sub-folder for generic instances used by several assets, and a `MaterialFunctions` sub-folder for reusable functions. Only global materials live here: a master shared by several asset sets, a master that feeds a generic instance, or one with no single art folder of its own. A master material that serves one asset set lives with that set instead: in [`Art/Environment`](#3.4.1), `Art/Weapons/<Weapon>`, `Art/Characters/<Character>`, `Art/Interactables/<System>`, or alongside the effect in `FX`. An instance that belongs to one asset set is likewise not stored here: it lives with that set, next to the mesh it is applied to, while one shared by several assets is generic and stays in `MaterialInstances`. Shared textures have their own folder: see [`Art/Textures`](#3.4.1). Post-process materials have their own folder: see [`Art/PostProcess`](#3.4.1). This folder is for generic, non-UI materials only: a UI material never lives here, it lives with its screen, see [3.4.7](#3.4.7).
 
 There is no separate debug folder: a testing or debug material simply lives in `Art/Materials` like any other generic master, because that folder already holds exactly this kind of reusable, non-production-specific material. A `Debug` sub-folder would just duplicate a place the folder already provides.
 
-<a name="2.9"></a>
+<a name="3.9"></a>
 <a name="structure-no-empty-folders"></a>
-### 2.9 No Stray Empty Folders
+### 3.9 No Stray Empty Folders
 
-There shouldn't be stray empty folders; they clutter the content browser. The structural folders named in [2.4](#2.4) are the exception, though: it's fine to create one ahead of content, such as `Art/LUT` or `Art/PhysicalMaterials` before the project has any LUT or physical material assets.
+There shouldn't be stray empty folders; they clutter the content browser. The structural folders named in [3.4](#3.4) are the exception, though: it's fine to create one ahead of content, such as `Art/LUT` or `Art/PhysicalMaterials` before the project has any LUT or physical material assets.
 
 If you find that the content browser has an empty folder you can't delete, you should perform the following:
 1. Be sure you're using source control.
@@ -653,17 +651,17 @@ If you find that the content browser has an empty folder you can't delete, you s
 1. Submit changes to source control.
 
 
-<a name="3"></a>
+<a name="4"></a>
 <a name="bp"></a>
-## 3. Blueprints
+## 4. Blueprints
 
 This section will focus on Blueprint classes and their internals. When possible, style rules conform to [Epic's Coding Standard](https://docs.unrealengine.com/latest/INT/Programming/Development/CodingStandard).
 
 Remember: Blueprinting badly bears blunders, beware! (Phrase by [KorkuVeren](http://github.com/KorkuVeren))
 
-<a name="3.1"></a>
+<a name="4.1"></a>
 <a name="bp-compiling"></a>
-### 3.1 Compiling
+### 4.1 Compiling
 
 All blueprints should compile with zero warnings and zero errors. You should fix blueprint warnings and errors immediately as they can quickly cascade into very scary unexpected behavior.
 
@@ -671,30 +669,30 @@ Do *not* submit broken blueprints to source control. If you must store them on s
 
 Broken blueprints can cause problems that manifest in other ways, such as broken references, unexpected behavior, cooking failures, and frequent unneeded recompilation. A broken blueprint has the power to break your entire game.
 
-<a name="3.2"></a>
+<a name="4.2"></a>
 <a name="bp-vars"></a>
-### 3.2 Variables
+### 4.2 Variables
 
 The words `variable` and `property` may be used interchangeably.
 
-<a name="3.2.1"></a>
+<a name="4.2.1"></a>
 <a name="bp-var-naming"></a>
-#### 3.2.1 Naming
+#### 4.2.1 Naming
 
-<a name="3.2.1.1"></a>
+<a name="4.2.1.1"></a>
 <a name="bp-var-naming-nouns"></a>
-##### 3.2.1.1 Nouns
+##### 4.2.1.1 Nouns
 
 All non-boolean variable names must be clear, unambiguous, and descriptive nouns.
 
-<a name="3.2.1.2"></a>
+<a name="4.2.1.2"></a>
 <a name="bp-var-naming-case"></a>
-##### 3.2.1.2 PascalCase
+##### 4.2.1.2 PascalCase
 
 All non-boolean variables should be in the form of [PascalCase](#terms-cases).
 
-<a name="3.2.1.2e"></a>
-###### 3.2.1.2e Examples
+<a name="4.2.1.2e"></a>
+###### 4.2.1.2e Examples
 
 * `Score`
 * `Kills`
@@ -703,9 +701,9 @@ All non-boolean variables should be in the form of [PascalCase](#terms-cases).
 * `CrosshairColor`
 * `AbilityID`
 
-<a name="3.2.1.3"></a>
+<a name="4.2.1.3"></a>
 <a name="bp-var-bool-prefix"></a>
-##### 3.2.1.3 Boolean `b` Prefix
+##### 4.2.1.3 Boolean `b` Prefix
 
 All booleans should be named in PascalCase but prefixed with a lowercase `b`.
 
@@ -713,12 +711,12 @@ Example: Use `bDead` and `bEvil`, **not** `Dead` and `Evil`.
 
 UE4 Blueprint editors know not to include the `b` in user-friendly displays of the variable.
 
-<a name="3.2.1.4"></a>
+<a name="4.2.1.4"></a>
 <a name="bp-var-bool-names"></a>
-##### 3.2.1.4 Boolean Names
+##### 4.2.1.4 Boolean Names
 
-<a name="3.2.1.4.1"></a>
-###### 3.2.1.4.1 General And Independent State Information
+<a name="4.2.1.4.1"></a>
+###### 4.2.1.4.1 General And Independent State Information
 
 All booleans should be named as descriptive adjectives when possible if representing general information. Do not include words that phrase the variable as a question, such as `Is`. This is reserved for functions.
 
@@ -726,8 +724,8 @@ Example: Use `bDead` and `bHostile` **not** `bIsDead` and `bIsHostile`.
 
 Try to not use verbs such as `bRunning`. Verbs tend to lead to complex states.
 
-<a name="3.2.1.4.2"></a>
-###### 3.2.1.4.2 Complex States
+<a name="4.2.1.4.2"></a>
+###### 4.2.1.4.2 Complex States
 
 Do not to use booleans to represent complex and/or dependent states. This makes state adding and removing complex and no longer easily readable. Use an enumeration instead.
 
@@ -735,14 +733,14 @@ Example: When defining a weapon, do **not** use `bReloading` and `bEquipping` if
 
 Example: Do **not** use `bRunning` if you also need `bWalking` or `bSprinting`. This should be defined as an enumeration with clearly defined state names.
 
-<a name="3.2.1.5"></a>
+<a name="4.2.1.5"></a>
 <a name="bp-vars-naming-context"></a>
-##### 3.2.1.5 Considered Context
+##### 4.2.1.5 Considered Context
 
 All variable names must not be redundant with their context as all variable references in Blueprint will always have context.
 
-<a name="3.2.1.5e"></a>
-###### 3.2.1.5e Examples
+<a name="4.2.1.5e"></a>
+###### 4.2.1.5e Examples
 
 Consider a Blueprint called `BP_PlayerCharacter`.
 
@@ -766,9 +764,9 @@ All of these variables are named redundantly. It is implied that the variable is
 * `Skills`
 * `Skin`
 
-<a name="3.2.1.6"></a>
+<a name="4.2.1.6"></a>
 <a name="bp-vars-naming-atomic"></a>
-##### 3.2.1.6 Do _Not_ Include Atomic Type Names
+##### 4.2.1.6 Do _Not_ Include Atomic Type Names
 
 Atomic or primitive variables are variables that represent data in their simplest form, such as booleans, integers, floats, and enumerations.
 
@@ -786,9 +784,9 @@ The only exception to this rule is when a variable represents 'a number of' some
 
 Example: A fence generator needs to generate X number of posts. Store X in `NumPosts` or `PostsCount` instead of `Posts` as `Posts` may potentially read as an Array of a variable type named `Post`.
 
-<a name="3.2.1.7"></a>
+<a name="4.2.1.7"></a>
 <a name="bp-vars-naming-complex"></a>
-##### 3.2.1.7 Do Include Non-Atomic Type Names
+##### 4.2.1.7 Do Include Non-Atomic Type Names
 
 Non-atomic or complex variables are variables that represent data as a collection of atomic variables. Structs, Classes, Interfaces, and primitives with hidden behavior such as `Text` and `Name` all qualify under this rule.
 
@@ -805,18 +803,18 @@ If a class does not own the value a complex variable represents, you should use 
 Example: If a `BP_Turret` has the ability to target a `BP_PlayerCharacter`, it should store its target as `TargetPlayer` as when in the context of `BP_Turret` it should be clear that it is a reference to another complex variable type that it does not own.
 
 
-<a name="3.2.1.8"></a>
+<a name="4.2.1.8"></a>
 <a name="bp-vars-naming-arrays"></a>
-##### 3.2.1.8 Arrays
+##### 4.2.1.8 Arrays
 
 Arrays follow the same naming rules as above, but should be named as a plural noun.
 
 Example: Use `Targets`, `Hats`, and `EnemyPlayers`, **not** `TargetList`, `HatArray`, `EnemyPlayerArray`.
 
 
-<a name="3.2.2"></a>
+<a name="4.2.2"></a>
 <a name="bp-vars-editable"></a>
-#### 3.2.2 Editable Variables
+#### 4.2.2 Editable Variables
 
 All variables that are safe to change the value of in order to configure behavior of a blueprint should be marked as `Editable`.
 
@@ -824,15 +822,15 @@ Conversely, all variables that are not safe to change or should not be exposed t
 
 Do not arbitrarily mark variables as `Editable`.
 
-<a name="3.2.2.1"></a>
+<a name="4.2.2.1"></a>
 <a name="bp-vars-editable-tooltips"></a>
-##### 3.2.2.1 Tooltips
+##### 4.2.2.1 Tooltips
 
 All `Editable` variables, including those marked editable just so they can be marked as `Expose On Spawn`, should have a description in their `Tooltip` fields that explains how changing this value affects the behavior of the blueprint.
 
-<a name="3.2.2.2"></a>
+<a name="4.2.2.2"></a>
 <a name="bp-vars-editable-ranges"></a>
-##### 3.2.2.2 Slider And Value Ranges
+##### 4.2.2.2 Slider And Value Ranges
 
 All `Editable` variables should make use of slider and value ranges if there is ever a value that a variable should _not_ be set to.
 
@@ -842,9 +840,9 @@ If an editable variable is used in a Construction Script, it should have a reaso
 
 A Value Range only needs to be defined if the bounds of a value are known. While a Slider Range prevents accidental large number inputs, an undefined Value Range allows a user to specify a value outside the Slider Range that may be considered 'dangerous' but still valid.
 
-<a name="3.2.3"></a>
+<a name="4.2.3"></a>
 <a name="bp-vars-categories"></a>
-#### 3.2.3 Categories
+#### 4.2.3 Categories
 
 If a class has only a small number of variables, categories are not required.
 
@@ -866,9 +864,9 @@ Example: A weapon class set of variables might be organized as:
     |-- State
     |-- Visuals
 
-<a name="3.2.4"></a>
+<a name="4.2.4"></a>
 <a name="bp-vars-access"></a>
-#### 3.2.4 Variable Access Level
+#### 4.2.4 Variable Access Level
 
 In C++, variables have a concept of access level. Public means any code outside the class can access the variable. Protected means only the class and any child classes can access this variable internally. Private means only this class and no child classes can access this variable.
 
@@ -876,43 +874,43 @@ Blueprints do not have a defined concept of protected access currently.
 
 Treat `Editable` variables as public variables. Treat non-editable variables as protected variables.
 
-<a name="3.2.4.1"></a>
+<a name="4.2.4.1"></a>
 <a name="bp-vars-access-private"></a>
-##### 3.2.4.1 Private Variables
+##### 4.2.4.1 Private Variables
 
 Unless it is known that a variable should only be accessed within the class it is defined and never a child class, do not mark variables as private. Until variables are able to be marked `protected`, reserve private for when you absolutely know you want to restrict child class usage.
 
-<a name="3.2.5"></a>
+<a name="4.2.5"></a>
 <a name="bp-vars-advanced"></a>
-#### 3.2.5 Advanced Display
+#### 4.2.5 Advanced Display
 
 If a variable should be editable but often untouched, mark it as `Advanced Display`. This makes the variable hidden unless the advanced display arrow is clicked.
 
 To find the `Advanced Display` option, it is listed as an advanced displayed variable in the variable details list.
 
-<a name="3.2.6"></a>
+<a name="4.2.6"></a>
 <a name="bp-vars-transient"></a>
-#### 3.2.6 Transient Variables
+#### 4.2.6 Transient Variables
 
 Transient variables are variables that do not need to have their value saved and loaded and have an initial value of zero or null. This is useful for references to other objects and actors who's value isn't known until run-time. This prevents the editor from ever saving a reference to it, and speeds up saving and loading of the blueprint class.
 
 Because of this, all transient variables should always be initialized as zero or null. To do otherwise would result in hard to debug errors.
 
-<a name="3.2.7"></a>
+<a name="4.2.7"></a>
 <a name="bp-vars-config"></a>
-#### 3.2.8 Config Variables
+#### 4.2.8 Config Variables
 
 Do not use the `Config Variable` flag. This makes it harder for designers to control blueprint behavior. Config variables should only be used in C++ for rarely changed variables. Think of them as `Advanced Advanced Display` variables.
 
-<a name="3.3"></a>
+<a name="4.3"></a>
 <a name="bp-functions"></a>
-### 3.3 Functions, Events, and Event Dispatchers
+### 4.3 Functions, Events, and Event Dispatchers
 
 This section describes how you should author functions, events, and event dispatchers. Everything that applies to functions also applies to events, unless otherwise noted.
 
-<a name="3.3.1"></a>
+<a name="4.3.1"></a>
 <a name="bp-funcs-naming"></a>
-#### 3.3.1 Function Naming
+#### 4.3.1 Function Naming
 
 The naming of functions, events, and event dispatchers is critically important. Based on the name alone, certain assumptions can be made about functions. For example:
 
@@ -924,9 +922,9 @@ The naming of functions, events, and event dispatchers is critically important. 
 
 These questions and more can all be answered when functions are named appropriately.
 
-<a name="3.3.1.1"></a>
+<a name="4.3.1.1"></a>
 <a name="bp-funcs-naming-verbs"></a>
-#### 3.3.1.1 All Functions Should Be Verbs
+#### 4.3.1.1 All Functions Should Be Verbs
 
 All functions and events perform some form of action, whether its getting info, calculating data, or causing something to explode. Therefore, all functions should all start with verbs. They should be worded in the present tense whenever possible. They should also have some context as to what they are doing.
 
@@ -953,15 +951,15 @@ Bad examples:
 * `PlayerState` - Nouns are ambiguous.
 * `Color` - Verb with no context, or ambiguous noun.
 
-<a name="3.3.1.2"></a>
+<a name="4.3.1.2"></a>
 <a name="bp-funcs-naming-onrep"></a>
-#### 3.3.1.2 Property RepNotify Functions Always `OnRep_Variable`
+#### 4.3.1.2 Property RepNotify Functions Always `OnRep_Variable`
 
 All functions for replicated with notification variables should have the form `OnRep_Variable`. This is forced by the Blueprint editor. If you are writing a C++ `OnRep` function however, it should also follow this convention when exposing it to Blueprints.
 
-<a name="3.3.1.3"></a>
+<a name="4.3.1.3"></a>
 <a name="bp-funcs-naming-bool"></a>
-#### 3.3.1.3 Info Functions Returning Bool Should Ask Questions
+#### 4.3.1.3 Info Functions Returning Bool Should Ask Questions
 
 When writing a function that does not change the state of or modify any object and is purely for getting information, state, or computing a yes/no value, it should ask a question. This should also follow [the verb rule](#bp-funcs-naming-verbs).
 
@@ -986,9 +984,9 @@ Bad examples:
 * `Dead` - Is dead? Will deaden?
 * `Visibility` - Is visible? Set visibility? A description of flying conditions?
 
-<a name="3.3.1.4"></a>
+<a name="4.3.1.4"></a>
 <a name="bp-funcs-naming-eventhandlers"></a>
-#### 3.3.1.4 Event Handlers and Dispatchers Should Start With `On`
+#### 4.3.1.4 Event Handlers and Dispatchers Should Start With `On`
 
 Any function that handles an event or dispatches an event should start with `On` and continue to follow [the verb rule](#bp-funcs-naming-verbs). The verb may move to the end however if past-tense reads better.
 
@@ -1013,9 +1011,9 @@ Bad examples:
 * `HandleMessage`
 * `HandleDeath`
 
-<a name="3.3.1.5"></a>
+<a name="4.3.1.5"></a>
 <a name="bp-funcs-naming-rpcs"></a>
-#### 3.3.1.5 Remote Procedure Calls Should Be Prefixed With Target
+#### 4.3.1.5 Remote Procedure Calls Should Be Prefixed With Target
 
 Any time an RPC is created, it should be prefixed with either `Server`, `Client`, or `Multicast`. No exceptions.
 
@@ -1035,9 +1033,9 @@ Bad examples:
 * `ClientWeapon` - No verb, ambiguous.
 
 
-<a name="3.3.2"></a>
+<a name="4.3.2"></a>
 <a name="bp-funcs-return"></a>
-#### 3.3.2 All Functions Must Have Return Nodes
+#### 4.3.2 All Functions Must Have Return Nodes
 
 All functions must have return nodes, no exceptions.
 
@@ -1047,9 +1045,9 @@ The Blueprint compiler is able to follow the flow of execution and will warn you
 
 In situations like where a programmer may add a pin to a Sequence node or add logic after a for loop completes but the loop iteration might return early, this can often result in an accidental error in code flow. The warnings the Blueprint compiler will alert everyone of these issues immediately.
 
-<a name="3.3.3"></a>
+<a name="4.3.3"></a>
 <a name="bp-graphs-funcs-node-limit"></a>
-#### 3.3.3 No Function Should Have More Than 50 Nodes
+#### 4.3.3 No Function Should Have More Than 50 Nodes
 
 Simply, no function should have more than 50 nodes. Any function this big should be broken down into smaller functions for readability and ease of maintenance.
 
@@ -1063,37 +1061,37 @@ The following nodes are not counted as they are deemed to not increase function 
 * Function Entry
 * Self
 
-<a name="3.3.4"></a>
+<a name="4.3.4"></a>
 <a name="bp-graphs-funcs-description"></a>
-#### 3.3.4 All Public Functions Should Have A Description
+#### 4.3.4 All Public Functions Should Have A Description
 
 This rule applies more to public facing or marketplace blueprints, so that others can more easily navigate and consume your blueprint API.
 
 Simply, any function that has an access specificer of Public should have its description filled out.
 
-<a name="3.3.5"></a>
+<a name="4.3.5"></a>
 <a name="bp-graphs-funcs-plugin-category"></a>
-#### 3.3.5 All Custom Static Plugin `BlueprintCallable` Functions Must Be Categorized By Plugin Name
+#### 4.3.5 All Custom Static Plugin `BlueprintCallable` Functions Must Be Categorized By Plugin Name
 
 If your project includes a plugin that defines `static` `BlueprintCallable` functions, they should have their category set to the plugin's name or a subset category of the plugin's name.
 
 For example, `Zed Camera Interface` or `Zed Camera Interface | Image Capturing`.
 
-<a name="3.4"></a>
+<a name="4.4"></a>
 <a name="bp-graphs"></a>
-### 3.4 Blueprint Graphs
+### 4.4 Blueprint Graphs
 
 This section covers things that apply to all Blueprint graphs.
 
-<a name="3.4.1"></a>
+<a name="4.4.1"></a>
 <a name="bp-graphs-spaghetti"></a>
-#### 3.4.1 No Spaghetti
+#### 4.4.1 No Spaghetti
 
 Wires should have clear beginnings and ends. You should never have to mentally untangle wires to make sense of a graph. Many of the following sections are dedicated to reducing spaghetti.
 
-<a name="3.4.2"></a>
+<a name="4.4.2"></a>
 <a name="bp-graphs-align-wires"></a>
-#### 3.4.2 Align Wires Not Nodes
+#### 4.4.2 Align Wires Not Nodes
 
 Always align wires, not nodes. You can't always control the size and pin location on a node, but you can always control the location of a node and thus control the wires. Straight wires provide clear linear flow. Wiggly wires wear wits wickedly. You can straighten wires by using the Straighten Connections command with BP nodes selected. Hotkey: Q
 
@@ -1106,113 +1104,113 @@ Bad Example: The tops of the nodes are aligned creating a wiggly white exec line
 Acceptable Example: Certain nodes might not cooperate no matter how you use the alignment tools. In this situation, try to minimize the wiggle by bringing the node in closer.
 ![Acceptable](https://github.com/Allar/ue5-style-guide/blob/main/images/bp-graphs-align-wires-acceptable.png?raw=true "Acceptable")
 
-<a name="3.4.3"></a>
+<a name="4.4.3"></a>
 <a name="bp-graphs-exec-first-class"></a>
-#### 3.4.3 White Exec Lines Are Top Priority
+#### 4.4.3 White Exec Lines Are Top Priority
 
 If you ever have to decide between straightening a linear white exec line or straightening data lines of some kind, always straighten the white exec line.
 
-<a name="3.4.4"></a>
+<a name="4.4.4"></a>
 <a name="bp-graphs-block-comments"></a>
-#### 3.4.4 Graphs Should Be Reasonably Commented
+#### 4.4.4 Graphs Should Be Reasonably Commented
 
 Blocks of nodes should be wrapped in comments that describe their higher-level behavior. While every function should be well named so that each individual node is easily readable and understandable, groups of nodes contributing to a purpose should have their purpose described in a comment block. If a function does not have many blocks of nodes and its clear that the nodes are serving a direct purpose in the function's goal, then they do not need to be commented as the function name and  description should suffice.
 
-<a name="3.4.5"></a>
+<a name="4.4.5"></a>
 <a name="bp-graphs-cast-error-handling"></a>
-#### 3.4.5 Graphs Should Handle Casting Errors Where Appropriate
+#### 4.4.5 Graphs Should Handle Casting Errors Where Appropriate
 
 If a function or event assumes that a cast always succeeds, it should appropriately report a failure in logic if the cast fails. This lets others know why something that is 'supposed to work' doesn't. A function should also attempt a graceful recover after a failed cast if it's known that the reference being casted could ever fail to be casted.
 
 This does not mean every cast node should have its failure handled. In many cases, especially events regarding things like collisions, it is expected that execution flow terminates on a failed cast quietly.
 
-<a name="3.4.6"></a>
+<a name="4.4.6"></a>
 <a name="bp-graphs-dangling-nodes"></a>
-#### 3.4.6 Graphs Should Not Have Any Dangling / Loose / Dead Nodes
+#### 4.4.6 Graphs Should Not Have Any Dangling / Loose / Dead Nodes
 
 All nodes in all blueprint graphs must have a purpose. You should not leave dangling blueprint nodes around that have no purpose or are not executed.
 
 
-<a name="4"></a>
+<a name="5"></a>
 <a name="Static Meshes"></a>
 <a name="s"></a>
-## 4. Static Meshes
+## 5. Static Meshes
 
 This section will focus on Static Mesh assets and their internals.
 
-<a name="4.1"></a>
+<a name="5.1"></a>
 <a name="s-uvs"></a>
-### 4.1 Static Mesh UVs
+### 5.1 Static Mesh UVs
 
 If Linter is reporting bad UVs and you can't seem to track it down, open the resulting `.log` file in your project's `Saved/Logs` folder for exact details as to why it's failing. I am hoping to include these messages in the Lint report in the future.
 
-<a name="4.1.1"></a>
+<a name="5.1.1"></a>
 <a name="s-uvs-no-missing"></a>
-#### 4.1.1 All Meshes Must Have UVs
+#### 5.1.1 All Meshes Must Have UVs
 
 Pretty simple. All meshes, regardless how they are to be used, should not be missing UVs.
 
-<a name="4.1.2"></a>
+<a name="5.1.2"></a>
 <a name="s-uvs-no-overlapping"></a>
-#### 4.1.2 All Meshes Must Not Have Overlapping UVs for Lightmaps
+#### 5.1.2 All Meshes Must Not Have Overlapping UVs for Lightmaps
 
 Pretty simple. All meshes, regardless how they are to be used, should have valid non-overlapping UVs.
 
-<a name="4.2"></a>
+<a name="5.2"></a>
 <a name="s-lods"></a>
-### 4.2 LODs Should Be Set Up Correctly
+### 5.2 LODs Should Be Set Up Correctly
 
 This is a subjective check on a per-project basis, but as a general rule any mesh that can be seen at varying distances should have proper LODs.
 
-<a name="4.3"></a>
+<a name="5.3"></a>
 <a name="s-modular-snapping"></a>
-### 4.3 Modular Socketless Assets Should Snap To The Grid Cleanly
+### 5.3 Modular Socketless Assets Should Snap To The Grid Cleanly
 
 This is a subjective check on a per-asset basis, however any modular socketless assets should snap together cleanly based on the project's grid settings.
 
 It is up to the project whether to snap based on a power of 2 grid or on a base 10 grid. However if you are authoring modular socketless assets for the marketplace, Epic's requirement is that they snap cleanly when the grid is set to 10 units or bigger.
 
-<a name="4.4"></a>
+<a name="5.4"></a>
 <a name="s-collision"></a>
-### 4.4 All Meshes Must Have Collision
+### 5.4 All Meshes Must Have Collision
 
 Regardless of whether an asset is going to be used for collision in a level, all meshes should have proper collision defined. This helps the engine with things such as bounds calculations, occlusion, and lighting. Collision should also be well-formed to the asset.
 
-<a name="4.5"></a>
+<a name="5.5"></a>
 <a name="s-scaled"></a>
-### 4.5 All Meshes Should Be Scaled Correctly
+### 5.5 All Meshes Should Be Scaled Correctly
 
 This is a subjective check on a per-project basis, however all assets should be scaled correctly to their project. Level designers or blueprint authors should not have to tweak the scale of meshes to get them to confirm in the editor. Scaling meshes in the engine should be treated as a scale override, not a scale correction.
 
 
-<a name="5"></a>
+<a name="6"></a>
 <a name="Niagara"></a>
 <a name="ng"></a>
-## 5. Niagara
+## 6. Niagara
 
 This section will focus on Niagara assets and their internals.
 
-<a name="5.1"></a>
+<a name="6.1"></a>
 <a name="ng-rules"></a>
-### 5.1 No Spaces, Ever
+### 6.1 No Spaces, Ever
 
-As mentioned in [00.1 Forbidden Identifiers](#00), spaces and all white space characters are forbidden in identifiers. This is especially true for Niagara systems as it makes working with things significantly harder if not impossible when working with HLSL or other means of scripting within Niagara and trying to reference an identifier.
+As mentioned in [1.1 Forbidden Identifiers](#1), spaces and all white space characters are forbidden in identifiers. This is especially true for Niagara systems as it makes working with things significantly harder if not impossible when working with HLSL or other means of scripting within Niagara and trying to reference an identifier.
 
 (Original Contribution by [@dunenkoff](https://github.com/Allar/ue5-style-guide/issues/58))
 
 
-<a name="6"></a>
+<a name="7"></a>
 <a name="Levels"></a>
 <a name="levels"></a>
-## 6. Levels / Maps
+## 7. Levels / Maps
 
 [See Terminology Note](#terms-level-map) regarding "levels" vs "maps".
 
 This section will focus on Level assets and their internals.
 
-<a name="6.1"></a>
+<a name="7.1"></a>
 <a name="levels-no-errors-or-warnings"></a>
-### 6.1 No Errors Or Warnings
+### 7.1 No Errors Or Warnings
 
 All levels should load with zero errors or warnings. If a level loads with any errors or warnings, they should be fixed immediately to prevent cascading issues.
 
@@ -1220,27 +1218,27 @@ You can run a map check on an open level in the editor by using the console comm
 
 Please note: Linter is even more strict on this than the editor is currently, and will catch load errors that the editor will resolve on its own.
 
-<a name="6.2"></a>
+<a name="7.2"></a>
 <a name="levels-lighting-should-be-built"></a>
-### 6.2 Lighting Should Be Built
+### 7.2 Lighting Should Be Built
 
 It is normal during development for levels to occasionally not have lighting built. When doing a test/internal/shipping build or any build that is to be distributed however, lighting should always be built.
 
-<a name="6.3"></a>
+<a name="7.3"></a>
 <a name="levels-no-visible-z-fighting"></a>
-### 6.3 No Player Visible Z Fighting
+### 7.3 No Player Visible Z Fighting
 
 Levels should not have any [z-fighting](https://en.wikipedia.org/wiki/Z-fighting) in all areas visible to the player.
 
-<a name="6.4"></a>
+<a name="7.4"></a>
 <a name="levels-mp-rules"></a>
-### 6.4 Marketplace Specific Rules
+### 7.4 Marketplace Specific Rules
 
 If a project is to be sold on the UE4 Marketplace, it must follow these rules.
 
-<a name="6.4.1"></a>
+<a name="7.4.1"></a>
 <a name="levels-mp-rules-overview"></a>
-#### 6.4.1 Overview Level
+#### 7.4.1 Overview Level
 
 If your project contains assets that should be visualized or demoed, you must have a map within your project that contains the name "Overview".
 
@@ -1248,9 +1246,9 @@ This overview map, if it is visualizing assets, should be set up according to [E
 
 For example, `InteractionComponent_Overview`.
 
-<a name="6.4.2"></a>
+<a name="7.4.2"></a>
 <a name="levels-mp-rules-demo"></a>
-#### 6.4.2 Demo Level
+#### 7.4.2 Demo Level
 
 If your project contains assets that should be demoed or come with some sort of tutorial, you must have a map within your project that contains the name "Demo". This level should also contain documentation within it in some form that illustrates how to use your project. See Epic's Content Examples project for good examples on how to do this.
 
@@ -1259,37 +1257,37 @@ If your project is a gameplay mechanic or other form of system as opposed to an 
 For example, `InteractionComponent_Overview_Demo`, `ExplosionKit_Demo`.
 
 
-<a name="7"></a>
+<a name="8"></a>
 <a name="textures"></a>
-## 7. Textures
+## 8. Textures
 
 This section will focus on Texture assets and their internals.
 
-<a name="7.1"></a>
+<a name="8.1"></a>
 <a name="textures-dimensions"></a>
-### 7.1 Dimensions Are Powers of 2
+### 8.1 Dimensions Are Powers of 2
 
 All textures, except for UI textures, must have its dimensions in multiples of powers of 2. Textures do not have to be square.
 
 For example, `128x512`, `1024x1024`, `2048x1024`, `1024x2048`, `1x512`.
 
-<a name="7.2"></a>
+<a name="8.2"></a>
 <a name="textures-density"></a>
-### 7.2 Texture Density Should Be Uniform
+### 8.2 Texture Density Should Be Uniform
 
 All textures should be of a size appropriate for their standard use case. Appropriate texture density varies from project to project, but all textures within that project should have a consistent density.
 
 For example, if a project's texture density is 8 pixel per 1 unit, a texture that is meant to be applied to a 100x100 unit cube should be 1024x1024, as that is the closest power of 2 that matches the project's texture density.
 
-<a name="7.3"></a>
+<a name="8.3"></a>
 <a name="textures-max-size"></a>
-### 7.3 Textures Should Be No Bigger than 8192
+### 8.3 Textures Should Be No Bigger than 8192
 
 No texture should have a dimension that exceeds 8192 in size, unless you have a very explicit reason to do so. Often, using a texture this big is simply just a waste of resources.
 
-<a name="7.4"></a>
+<a name="8.4"></a>
 <a name="textures-group"></a>
-### 7.4 Textures Should Be Grouped Correctly
+### 8.4 Textures Should Be Grouped Correctly
 
 Every texture has a Texture Group property used for LODing, and this should be set correctly based on its use. For example, all UI textures should belong in the UI texture group.
 
