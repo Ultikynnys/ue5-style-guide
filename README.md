@@ -143,6 +143,7 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 | Skeletal Mesh           | SKM_       |            |                                  |
 | Texture                 | T_         | _?         | See [Textures](#anc-textures)    |
 | Particle System         | PS_        |            |                                  |
+| Niagara System          | NS_        |            |                                  |
 | Widget Blueprint        | WBP_       |            |                                  |
 
 <a name="anc-animations"></a>
@@ -163,6 +164,8 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 | Morph Target            | MT_        |            |                                  |
 | Paper Flipbook          | PFB_       |            |                                  |
 | Rig                     | Rig_       |            |                                  |
+| Control Rig             | CR_        |            |                                  |
+| IK Rig                  | IK_        |            |                                  |
 | Skeletal Mesh           | SKM_       |            |                                  |
 | Skeleton                | SK_        |            |                                  |
 
@@ -198,6 +201,8 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 | Camera Shake            | CS_        |            |                                  |
 | Anim Notify             | AN_        |            |                                  |
 | Widget Blueprint        | WBP_       |            |                                  |
+| Editor Utility Blueprint | EUB_      |            |                                  |
+| Editor Utility Widget    | EUW_      |            |                                  |
 
 <a name="anc-materials"></a>
 <a name="2.2.5"></a>
@@ -259,6 +264,7 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 | Color Curve                | C_         | _Color     |                                  |
 | Curve Table                | C_         | _Table     |                                  |
 | Data Asset                 | DA_        |            |                                  |
+| Primary Data Asset         | PDA_       |            |                                  |
 | Data Table                 | DT_        |            |                                  |
 | Input Action               | IA_        |            |                                  |
 | Input Mapping Context      | IMC_       |            |                                  |
@@ -271,6 +277,7 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 | Media Player               | MP_        |            |                                  |
 | File Media Source          | FMS_       |            |                                  |
 | Object Library             | OL_        |            |                                  |
+| PCG Graph                  | PCG_       |            | Procedural content generation.   |
 | Redirector                 |            |            | These should be fixed up ASAP.   |
 | Sprite Sheet               | SS_        |            |                                  |
 | Static Vector Field        | VF_        |            |                                  |
@@ -299,6 +306,7 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 | ----------------------- | ---------- | ---------- | -------------------------------- |
 | Physical Material       | PM_        |            |                                  |
 | Physics Asset           | PA_        |            |                                  |
+| Geometry Collection     | GC_        |            | Chaos destruction.               |
 | Destructible Mesh       | DM_        |            |                                  |
 
 <a name="anc-sounds"></a>
@@ -316,6 +324,8 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 | Sound Concurrency       |            | _SC        | Should be named after a SoundClass |
 | Sound Cue               | Cue_       |            |                                  |
 | Sound Mix               | Mix_       |            |                                  |
+| MetaSound Source        | MSS_       |            |                                  |
+| MetaSound Patch         | MSP_       |            |                                  |
 | Sound Wave              |            |            |                                  |
 
 <a name="anc-ui"></a>
@@ -337,7 +347,21 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 | Asset Type              | Prefix     | Suffix     | Notes                            |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
 | Particle System         | PS_        |            |                                  |
+| Niagara System          | NS_        |            |                                  |
+| Niagara Emitter         | NE_        |            |                                  |
+| Niagara Module Script   | NMS_       |            |                                  |
+| Niagara Parameter Collection | NPC_  |            |                                  |
 | Material (Post Process) | M_, MI_    |            | `PP` is the post-processing modifier, placed right after the material's type (`M_PP_`, `MI_PP_`). Any material whose name carries `PP` that way lives in [`Art/PostProcess`](#3.4.1) and nowhere else. |
+
+<a name="anc-gas"></a>
+<a name="2.2.13"></a>
+### 2.2.13 Gameplay Ability System
+
+| Asset Type              | Prefix     | Suffix     | Notes                            |
+| ----------------------- | ---------- | ---------- | -------------------------------- |
+| Gameplay Ability        | GA_        |            |                                  |
+| Gameplay Effect         | GE_        |            |                                  |
+| Gameplay Cue Notify     | GCN_       |            |                                  |
 
 <a name="3"></a>
 <a name="structure"></a>
