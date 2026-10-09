@@ -437,7 +437,7 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 | Texture (Ambient Occlusion) | T_     | _O         |                                  |
 | Texture (Bump)          | T_         | _B         |                                  |
 | Texture (Emissive)      | T_         | _E         |                                  |
-| Texture (Mask)          | T_         | _M         |                                  |
+| Texture (Mask)          | T_         | _MSK       |                                  |
 | Texture (Specular)      | T_         | _S         |                                  |
 | Texture (Metallic)      | T_         | _M         |                                  |
 | Texture (Packed)        | T_         | _*         | See notes below about [packing](#anc-textures-packing). |
@@ -657,7 +657,7 @@ There are multiple reasons for this approach.
 
 Often in code style guides it is written that you should not pollute the global namespace and this follows the same principle. When assets are allowed to exist outside of a project folder, it often becomes much harder to enforce a strict structure layout as assets not in a folder encourages the bad behavior of not having to organize assets.
 
-Every asset should have a purpose, otherwise it does not belong in a project. If an asset is an experimental test and shouldn't be used by the project it should be put in a [`Developer`](#2.3) folder.
+Every asset should have a purpose, otherwise it does not belong in a project. If an asset is an experimental test and shouldn't be used by the project it should be put in a [`Developer`](#2.3) folder, which is personal and hidden by default; shared work-in-progress belongs in [`Prototype`](#2.4.5) instead.
 
 <a name="2.2.2"></a>
 #### 2.2.2 Reduce Migration Conflicts
@@ -732,7 +732,7 @@ Not every project needs every folder. What matters is that when a folder exists,
 
 * `Art/Characters` - Character art, with a sub-folder per character (`Art/Characters/Priestess`).
 * `Art/Decals` - All decal materials, decal material instances, and their textures, such as bullet holes and blood decals.
-* `Art/Environment` - A special folder, the one place a level designer looks for scenery: the environment meshes, kept flat at the root so no one has to dig for a prop, plus two sub-folders for order, `Art/Environment/Materials` (materials and their instances) and `Art/Environment/Textures` (the textures they use). It is the one set allowed to split by type. A placeable actor that is not scenery lives with its own system's art instead; see [2.4.2](#2.4.2).
+* `Art/Environment` - A special folder, the one place a level designer looks for scenery: the environment meshes, kept flat at the root so no one has to dig for a prop, plus two sub-folders for order, `Art/Environment/Materials` (materials and their instances) and `Art/Environment/Textures` (the textures they use). Its `Materials` and `Textures` sub-folders are the same two folders any large flat set may add for order; see [2](#2). A placeable actor that is not scenery lives with its own system's art instead; see [2.4.2](#2.4.2).
 * `Art/LUT` - Color lookup tables (LUTs) used for color grading.
 * `Art/Materials` - Global master materials, at the root of the folder. A master that serves one asset set lives with that set instead. See [2.8](#2.8).
   * `Art/Materials/MaterialInstances` - Generic material instances used by several assets.
@@ -746,7 +746,7 @@ A gameplay system whose art does not fit one of the folders above gets a matchin
 <a name="2.4.2"></a>
 #### 2.4.2 Blueprint
 
-`Blueprint` holds the Blueprints that make up the project's logic. It is special: **it contains Blueprint assets only.** It must not contain textures, materials, meshes, material instances, sounds, animations, animation Blueprints, or any other non-Blueprint asset; all of those live in [`Art`](#2.4.1), next to the asset they belong to. Interactables are the exception to that rule: an interactable keeps all of its Blueprints here, both the base classes and the placeable actors a designer drops into a level, so `Blueprint/Interactables` holds the base class and the torch Blueprint side by side, and a level designer fetches the interactable Blueprint from here rather than from `Art`. Everything about the interactable that is not a Blueprint, such as the torch meshes, materials, and textures, lives in `Art/Interactables`.
+`Blueprint` holds the Blueprints that make up the project's logic. It is special: **it contains Blueprint assets only.** Since an Animation Blueprint (`ABP_`) is itself a Blueprint, it belongs here too, not in `Art` with the meshes and animations. It must not contain textures, materials, meshes, material instances, sounds, animations, or any other non-Blueprint asset; all of those live in [`Art`](#2.4.1), next to the asset they belong to. Interactables are the exception to that rule: an interactable keeps all of its Blueprints here, both the base classes and the placeable actors a designer drops into a level, so `Blueprint/Interactables` holds the base class and the torch Blueprint side by side, and a level designer fetches the interactable Blueprint from here rather than from `Art`. Everything about the interactable that is not a Blueprint, such as the torch meshes, materials, and textures, lives in `Art/Interactables`.
 
 * `Blueprint/Core` - The base classes that are fundamental to the project. See [2.5](#2.5).
 * `Blueprint/LevelActors` - Rarely needed: a Blueprint that a designer drops into a level normally lives with its system's art in [`Art`](#2.4.1); interactables are the exception and keep their placeable Blueprints in `Blueprint/Interactables`. Only a lone actor with no system of its own lands here.
@@ -770,7 +770,7 @@ This also simplifies the job of cooking for engineers. Wrangling levels for a bu
 <a name="2.4.5"></a>
 #### 2.4.5 Prototype
 
-`Prototype` is for content that is experimental or being built out before it earns a permanent home: greybox levels, test Blueprints, and rough assets. Anything here is fair game to be deleted or heavily changed, and nothing in the shipped project should depend on it.
+`Prototype` is the shared counterpart to a personal [`Developer`](#2.3) folder: content that is experimental or being built out before it earns a permanent home lives here, such as greybox levels, test Blueprints, and rough assets. Work that is only your own scratch stays in a [`Developer`](#2.3) folder instead. Anything here is fair game to be deleted or heavily changed, and nothing in the shipped project should depend on it.
 
 Keeping prototype content in one place makes it obvious what is disposable and makes it trivial to strip before cooking a build. Once a prototype is ready for production, move it into its proper home and fix up redirectors.
 
@@ -813,7 +813,7 @@ For example, a weapons system might look like this:
         |-- BP_Rifle
 </pre>
 
-> Do not create a folder that is only named after an asset type (such as a `Meshes` or `SkeletalMeshes` folder) just to separate assets inside a system. The exception is a `Materials` folder holding master materials, material functions, and generic instances, as in [`Art/Materials`](#2.8). Asset names already carry their type via their [prefix](#1.2) and the Content Browser can filter by type, so such folders only add redundant path segments. Want to see every static mesh under `Art/Environment/`? Turn on the Static Mesh filter. If assets are named correctly they sort alphabetically regardless of prefix.
+> Do not create a folder that is only named after an asset type (such as a `Meshes` or `SkeletalMeshes` folder) just to separate assets inside a system. The exceptions are the two folders [2](#2) allows: a `Materials` folder holding master materials, material functions, and generic instances, and a `Textures` folder holding the set's textures, as in `Art/Environment/Materials` and `Art/Environment/Textures`. Asset names already carry their type via their [prefix](#1.2) and the Content Browser can filter by type, so such folders only add redundant path segments. Want to see every static mesh under `Art/Environment/`? Turn on the Static Mesh filter. If assets are named correctly they sort alphabetically regardless of prefix.
 
 <a name="2.7"></a>
 <a name="structure-large-sets"></a>
