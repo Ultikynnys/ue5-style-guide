@@ -45,6 +45,15 @@ This is not legal advice, but please don't introduce illegal actions and behavio
 * Don't steal content
 * Follow licensing restrictions on content, e.g. attribute when attributions are needed
 
+<a name="0.6"></a>
+### 0.6 Avoid Folder Sprawl
+
+More folders do not automatically make content easier to find. Over-organizing assets into deep or per-asset folder trees slows down discovery and makes duplicate assets more likely. Prefer a small number of broad, clearly named folders that group related content where people expect to find it.
+
+For example, `Art/Environment` keeps static environment meshes together so level designers can quickly see which scenery assets are available. Keep supporting materials and textures organized in the `Materials` and `Textures` sub-folders, but avoid creating a separate folder for every prop and then splitting each prop into `Meshes`, `Materials`, and `Textures`. Use folders to make a collection easier to browse, not to add structure for its own sake.
+
+![Example of environment assets organized together in a browseable folder](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/folder-organization-example.png)
+
 <a name="1"></a>
 ## 1. Globally Enforced Opinions
 
@@ -1304,33 +1313,6 @@ Name the main component with the `_P` suffix. Split independently owned work int
 This composition model reduces multi-person edit conflicts: each contributor can work in a specific component while the Persistent Level remains the stable assembly point. The Level panel example below shows a Persistent Level with separate gameplay, geometry, lighting, audio, and segment components.
 
 ![Example of a composed level with a Persistent Level and separate level components](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/level-composition-example.png)
-
-<a name="7.5"></a>
-<a name="levels-mp-rules"></a>
-### 7.5 Marketplace Specific Rules
-
-If a project is to be sold on the Unreal Engine Marketplace, it must follow these rules.
-
-<a name="7.5.1"></a>
-<a name="levels-mp-rules-overview"></a>
-#### 7.5.1 Overview Level
-
-If your project contains assets that should be visualized or demoed, you must have a map within your project that contains the name "Overview".
-
-This overview map, if it is visualizing assets, should be set up according to [Epic's guidelines](https://www.unrealengine.com/en-US/marketplace-guidelines).
-
-For example, `InteractionComponent_Overview`.
-
-<a name="7.5.2"></a>
-<a name="levels-mp-rules-demo"></a>
-#### 7.5.2 Demo Level
-
-If your project contains assets that should be demoed or come with some sort of tutorial, you must have a map within your project that contains the name "Demo". This level should also contain documentation within it in some form that illustrates how to use your project. See Epic's Content Examples project for good examples on how to do this.
-
-If your project is a gameplay mechanic or other form of system as opposed to an art pack, this can be the same as your "Overview" map.
-
-For example, `InteractionComponent_Overview_Demo`, `ExplosionKit_Demo`.
-
 
 <a name="8"></a>
 <a name="textures"></a>
