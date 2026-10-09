@@ -557,7 +557,7 @@ Equally important as asset names, the directory structure style of a project sho
 
 All of a project's content lives under a folder named after the project (`Content/Haeretica`). Beneath that, the content is split into a fixed set of top-level folders, each a single, obvious home for one class of asset: `Art`, `Blueprint`, `FX`, `Maps`, `Prototype`, `SFX`, and `UI`. Because every asset already carries its type in its [prefix](#1.2), these folders group assets by _purpose_ rather than by raw asset type, and the Content Browser's filters and search are used to narrow down by type within a folder. Anyone on the team can then always find an asset's home without having to ask.
 
-> Do not create a folder called `Assets`, and do not split a folder into sibling folders that are only distinguished by asset type (for example a `Meshes` folder next to a `Textures` folder). Name folders after the thing they contain, not the type of asset that happens to live there. The deliberate exceptions are [`Art/Materials`](#2.8) and [`Art/Textures`](#2.4.1): a `Materials` folder holding master materials, material functions, and generic material instances, and a `Textures` folder holding generic textures, are allowed.
+> Do not create a folder called `Assets`, and do not split a folder into sibling folders that are only distinguished by asset type (for example a `Meshes` folder next to a `Textures` folder). Name folders after the thing they contain, not the type of asset that happens to live there. The deliberate exceptions are [`Art/Materials`](#2.8) and [`Art/Textures`](#2.4.1): a `Materials` folder holding master materials, material functions, and generic material instances, and a `Textures` folder holding generic textures, are allowed. A set that would otherwise be one large flat pile may add the same two folders for order, such as `Art/Environment/Materials` and `Art/Environment/Textures`, without splitting the set apart.
 
 <a name="2e1"><a>
 ### 2e1 Example Project Content Structure
@@ -575,6 +575,8 @@ All of a project's content lives under a folder named after the project (`Conten
         |   |-- Components
         |   |-- Decals
         |   |-- Environment
+        |   |   |-- Materials
+        |   |   |-- Textures
         |   |-- InteractiveElements
         |   |-- <a href="#2.8">Materials</a>
         |   |   |-- MaterialInstances
@@ -607,7 +609,6 @@ All of a project's content lives under a folder named after the project (`Conten
             |-- BaseElements
             |-- HUD
             |-- MainMenu
-            |-- NewUIWeaponIcons
             |-- Options
             |-- Transition
 </pre>
@@ -731,7 +732,7 @@ Not every project needs every folder. What matters is that when a folder exists,
 
 * `Art/Characters` - Character art, with a sub-folder per character (`Art/Characters/Priestess`).
 * `Art/Decals` - All decal materials, decal material instances, and their textures, such as bullet holes and blood decals.
-* `Art/Environment` - Environment art: the meshes, materials, and material instances used to build levels. Material instances live here alongside the environment sets they belong to so the whole set can be migrated together.
+* `Art/Environment` - The assets a level designer places in a level: environment meshes plus the materials and textures they use. It stays mostly flat on purpose, one folder for the whole set so it migrates as a unit. Two sub-folders add order without splitting the set: `Art/Environment/Materials` (materials and their instances) and `Art/Environment/Textures` (the textures they use).
 * `Art/LUT` - Color lookup tables (LUTs) used for color grading.
 * `Art/Materials` - Global master materials, at the root of the folder. A master that serves one asset set lives with that set instead. See [2.8](#2.8).
   * `Art/Materials/MaterialInstances` - Generic material instances used by several assets.
