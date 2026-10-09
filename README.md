@@ -733,7 +733,7 @@ Not every project needs every folder. What matters is that when a folder exists,
 <a name="2.4.2"></a>
 #### 2.4.2 Blueprint
 
-`Blueprint` holds the Blueprints that make up the project's logic:
+`Blueprint` holds the Blueprints that make up the project's logic. It is special: **it contains Blueprint assets only.** It must not contain textures, materials, meshes, material instances, sounds, animations, animation Blueprints, or any other non-Blueprint asset; all of those live in [`Art`](#2.4.1), next to the asset they belong to.
 
 * `Blueprint/Core` - The base classes that are fundamental to the project. See [2.5](#2.5).
 * `Blueprint/LevelActors` - Placeable actor Blueprints that designers drop into levels.
@@ -786,7 +786,7 @@ For example, if your project requires pickups that can be placed in a level, the
 <a name="structure-systems"></a>
 ### 2.6 Give Every Blueprint System Its Own Folder
 
-Within `Blueprint`, each gameplay system gets its own folder named after the system, holding the Blueprints that make up that system. Keep shared base classes separate from the concrete implementations that designers use.
+Within `Blueprint`, each gameplay system gets its own folder named after the system, holding the Blueprints that make up that system. Keep shared base classes separate from the concrete implementations that designers use. Only Blueprints belong here: a system's meshes, textures, materials, and animations live in [`Art`](#2.4.1), next to the art they belong to, not in the system's Blueprint folder.
 
 For example, a weapons system might look like this:
 
