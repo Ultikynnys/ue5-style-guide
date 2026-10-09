@@ -347,10 +347,10 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 | Asset Type              | Prefix     | Suffix     | Notes                            |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
 | Particle System         | PS_        |            |                                  |
-| Niagara System          | NS_        |            |                                  |
+| Niagara System          | NS_        |            | The placeable VFX asset.         |
 | Niagara Emitter         | NE_        |            |                                  |
-| Niagara Module Script   | NMS_       |            |                                  |
-| Niagara Parameter Collection | NPC_  |            |                                  |
+| Niagara Module Script   | NM_        |            |                                  |
+| Niagara Parameter Collection | NP_   |            | Instances suffix `_I`.           |
 | Material (Post Process) | M_, MI_    |            | `PP` is the post-processing modifier, placed right after the material's type (`M_PP_`, `MI_PP_`). Any material whose name carries `PP` that way lives in [`Art/PostProcess`](#3.4.1) and nowhere else. |
 
 <a name="anc-gas"></a>
@@ -1212,7 +1212,7 @@ This is a subjective check on a per-project basis, however all assets should be 
 <a name="ng"></a>
 ## 6. Niagara
 
-This section will focus on Niagara assets and their internals.
+This section covers Niagara VFX assets: how they are named, how a System relates to its Emitters, and how to keep an effect scalable and cullable.
 
 <a name="6.1"></a>
 <a name="ng-rules"></a>
@@ -1221,6 +1221,44 @@ This section will focus on Niagara assets and their internals.
 As mentioned in [1.1 Forbidden Identifiers](#1), spaces and all white space characters are forbidden in identifiers. This is especially true for Niagara systems as it makes working with things significantly harder if not impossible when working with HLSL or other means of scripting within Niagara and trying to reference an identifier.
 
 (Original Contribution by [@dunenkoff](https://github.com/Allar/ue5-style-guide/issues/58))
+
+<a name="6.2"></a>
+<a name="ng-system"></a>
+### 6.2 A System Is The Placeable Asset
+
+A Niagara System is the asset a level or a Blueprint places and references; a Niagara Emitter is a sub-asset the System consumes. Effects are spawned as Systems, never as bare Emitters.
+
+Emitters, modules, and scripts are added from menus inside the Niagara editor rather than dragged from the Content Browser, so they do not need to be told apart by eye. Their prefixes in the [Effects table](#anc-effects) exist for search and for the Content Browser, not for authoring.
+
+<a name="6.3"></a>
+<a name="ng-naming"></a>
+### 6.3 Naming
+
+Niagara assets use the [Effects table](#anc-effects): `NS_` for a System, `NE_` for an Emitter, `NM_` for a Module Script, and `NP_` for a Parameter Collection (an instance suffixes `_I`). The `NS_` prefix matches Epic's own Niagara convention; there is no need for `FXS_` or `VFX_` variants.
+
+<a name="6.4"></a>
+<a name="ng-scalability"></a>
+### 6.4 Scalability Belongs To The Effect Type
+
+A System's quality, significance, and culling are driven by its [Effect Type](https://dev.epicgames.com/documentation/en-us/unreal-engine/scalability-and-best-practices-for-niagara), not by per-instance switches or Blueprint-side toggles. Define scalability once in the Effect Type so the effect behaves the same wherever it is spawned and can be scaled down for weaker targets without editing the System.
+
+<a name="6.5"></a>
+<a name="ng-bounds"></a>
+### 6.5 Set Fixed Bounds
+
+Every System must set fixed bounds covering the volume the effect can actually occupy. A System left on dynamic bounds, or with bounds that do not contain the effect, culls incorrectly: it pops out of view early, or never culls and keeps costing performance off screen.
+
+<a name="6.6"></a>
+<a name="ng-emitters"></a>
+### 6.6 Pick The Right Emitter Sim Target
+
+Use GPU emitters for high particle counts and anything purely visual. Use CPU emitters when the simulation has to read or write gameplay state, collide against the world, or when the count is small enough that a GPU emitter's overhead is not worth it. A CPU emitter chosen only "because it was easier" is a performance bug waiting to happen.
+
+<a name="6.7"></a>
+<a name="ng-reuse"></a>
+### 6.7 Reuse Emitters And Modules
+
+Prefer a shared emitter or module over a copied-and-tweaked one. A duplicated graph drifts: a fix applied to one copy is missed by the others, and a new near-identical asset appears in the Content Browser every time. Put the variation in an exposed parameter, not in a new copy.
 
 
 <a name="7"></a>
