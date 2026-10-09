@@ -557,7 +557,7 @@ Equally important as asset names, the directory structure style of a project sho
 
 All of a project's content lives under a folder named after the project (`Content/Haeretica`). Beneath that, the content is split into a fixed set of top-level folders, each a single, obvious home for one class of asset: `Art`, `Blueprint`, `FX`, `Maps`, `Prototype`, `SFX`, and `UI`. Because every asset already carries its type in its [prefix](#1.2), these folders group assets by _purpose_ rather than by raw asset type, and the Content Browser's filters and search are used to narrow down by type within a folder. Anyone on the team can then always find an asset's home without having to ask.
 
-> Do not create a folder called `Assets`, and do not split a folder into sibling folders that are only distinguished by asset type (for example a `Meshes` folder next to a `Textures` folder). Name folders after the thing they contain, not the type of asset that happens to live there. The one deliberate exception is [`Art/Materials`](#2.8): a `Materials` folder holding master materials and material functions is allowed.
+> Do not create a folder called `Assets`, and do not split a folder into sibling folders that are only distinguished by asset type (for example a `Meshes` folder next to a `Textures` folder). Name folders after the thing they contain, not the type of asset that happens to live there. The deliberate exceptions are [`Art/Materials`](#2.8) and [`Art/Textures`](#2.4.1): a `Materials` folder holding master materials and material functions, and a `Textures` folder holding generic textures, are allowed.
 
 <a name="2e1"><a>
 ### 2e1 Example Project Content Structure
@@ -776,7 +776,7 @@ Keeping prototype content in one place makes it obvious what is disposable and m
 <a name="2.4.7"></a>
 #### 2.4.7 UI
 
-`UI` holds user interface assets: widget Blueprints, UI materials, UI textures, and fonts. Group them by screen or element, such as `UI/HUD`, `UI/MainMenu`, `UI/Options`, or `UI/Textures`.
+`UI` holds user interface assets: widget Blueprints, UI materials, UI textures, and fonts. Group them by screen or element, such as `UI/HUD`, `UI/MainMenu`, or `UI/Options`.
 
 
 <a name="2.5"></a>
