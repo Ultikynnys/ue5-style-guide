@@ -783,7 +783,7 @@ Keeping prototype content in one place makes it obvious what is disposable and m
 <a name="2.4.7"></a>
 #### 2.4.7 UI
 
-`UI` holds user interface assets: widget Blueprints, UI textures, UI materials (both masters and instances), and fonts. Group them by screen or element, such as `UI/HUD`, `UI/MainMenu`, or `UI/Options`, so a screen's widgets, textures, and materials migrate together: a crosshair material lives in `UI/HUD`, a button material in `UI/BaseElements`.
+`UI` holds user interface assets: widget Blueprints, UI textures, UI materials (both masters and instances), and fonts. Group them by screen or element, such as `UI/HUD`, `UI/MainMenu`, or `UI/Options`, so a screen's widgets, textures, and materials migrate together: a crosshair material lives in `UI/HUD`, a button material in `UI/BaseElements`. UI assets carry the `UI` name modifier: `M_UI_` for materials, `MI_UI_` for instances, and `T_UI_` for textures.
 
 
 <a name="2.5"></a>
