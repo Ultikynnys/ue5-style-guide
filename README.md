@@ -1303,7 +1303,7 @@ Name the main component with the `_P` suffix. Split independently owned work int
 
 This composition model reduces multi-person edit conflicts: each contributor can work in a specific component while the Persistent Level remains the stable assembly point. The Level panel example below shows a Persistent Level with separate gameplay, geometry, lighting, audio, and segment components.
 
-![Example of a composed level with a Persistent Level and separate level components](images/level-composition-example.png)
+![Example of a composed level with a Persistent Level and separate level components](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/level-composition-example.png)
 
 <a name="7.5"></a>
 <a name="levels-mp-rules"></a>
