@@ -415,7 +415,7 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 | Asset Type                    | Prefix     | Suffix     | Notes                            |
 | ----------------------------- | ---------- | ---------- | -------------------------------- |
 | Material                      | M_         |            |                                  |
-| Material (Post Process)       | PP_        |            |                                  |
+| Material (Post Process)       | PP_        |            | `PP` marks post-processing (as in `M_PP_` or `MI_PP_`); any name with `PP` must live in [`Art/PostProcess`](#2.4.1). |
 | Material Function             | MF_        |            |                                  |
 | Material Instance             | MI_        |            |                                  |
 | Material Parameter Collection | MPC_       |            |                                  |
@@ -545,7 +545,7 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 | Asset Type              | Prefix     | Suffix     | Notes                            |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
 | Particle System         | PS_        |            |                                  |
-| Material (Post Process) | PP_        |            |                                  |
+| Material (Post Process) | PP_        |            | `PP` marks post-processing (as in `M_PP_` or `MI_PP_`); any name with `PP` must live in [`Art/PostProcess`](#2.4.1). |
 
 **[⬆ Back to Top](#table-of-contents)**
 
@@ -738,7 +738,7 @@ Not every project needs every folder. What matters is that when a folder exists,
   * `Art/Materials/MaterialInstances` - Generic material instances used by several assets.
   * `Art/Materials/MaterialFunctions` - Reusable material functions.
 * `Art/PhysicalMaterials` - [Physical materials](#1.2.9) used for surface responses such as footstep and impact effects.
-* `Art/PostProcess` - Post-process materials and the textures they use, such as dither, outline, and blink effects.
+* `Art/PostProcess` - Post-process materials and the textures they use, such as dither, outline, and blink effects. The `PP` name modifier marks post-processing ([`M_PP_`](#1.2.5), `MI_PP_`): any asset whose name carries `PP` belongs here and nowhere else.
 * `Art/Textures` - Generic textures that are not tied to a specific asset: seamless textures, bricks, wood, and similar reusable material inputs. A texture that belongs to one specific asset, or is consumed by only one material instance, lives next to that asset in `Art`, not here.
 
 A gameplay system whose art does not fit one of the folders above gets a matching folder here (for example `Art/Weapons`, `Art/Interactables`, `Art/Components`, or `Art/Tools`), mirroring that system's folder in `Blueprint`. A system is split the same way everywhere: its art and animation, everything about it that is not logic, lives here in `Art/<System>`, and its logic, the Blueprints and the data assets that support them, lives in `Blueprint/<System>`. An Animation Blueprint is animation, not logic, so it lives here too; see [2.4.2](#2.4.2).
