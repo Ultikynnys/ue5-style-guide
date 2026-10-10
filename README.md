@@ -56,16 +56,21 @@ For example, `Art/Environment` keeps static environment meshes together so level
 
 **Figure 1.** Static environment assets grouped together in the Content Browser.
 
+<a name="0.7"></a>
+### 0.7 Keep Heading Hierarchies Shallow
+
+Avoid a subheading when it would be the only child under its parent; make it a bold lead-in in the parent section instead. Heading numbers must contain only digits and dots, with no letter suffixes, and may use no more than three numeric components, such as `4.2.1`.
+
 <a name="1"></a>
 ## 1. Globally Enforced Opinions
 
 <a name="1.1"></a>
-### 1.1 Forbidden Characters
+
+**Forbidden Characters**
 
 <a name="identifiers-1"></a>
-#### Identifiers
 
-In any `Identifier` of any kind, **never** use the following unless absolutely forced to:
+**Identifiers:** In any `Identifier` of any kind, **never** use the following unless absolutely forced to:
 
 * White space of any kind
 * Backward slashes `\`
@@ -108,9 +113,10 @@ For unique but generic variations of assets, `Variant` is a two digit number sta
 Depending on how your asset variants are made, you can chain together variant names. For example, if you are creating flooring assets for an Arch Viz project you should use the base name `Flooring` with chained variants such as `Flooring_Marble_01`, `Flooring_Maple_01`, `Flooring_Tile_Squares_01`.
 
 <a name="2.1-examples"></a>
-#### 2.1 Examples
 
-##### 2.1e1 Bob
+**Examples:**
+
+**Bob Example**
 
 | Asset Type              | Asset Name                                                 |
 | ----------------------- | ---------------------------------------------------------- |
@@ -120,7 +126,7 @@ Depending on how your asset variants are made, you can chain together variant na
 | Texture (Normal)        | T_Bob_N                                                    |
 | Texture (Evil Diffuse)  | T_Bob_Evil_D                                               |
 
-##### 2.1e2 Rocks
+**Rocks Example**
 
 | Asset Type              | Asset Name                                                 |
 | ----------------------- | ---------------------------------------------------------- |
@@ -258,8 +264,8 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 
 <a name="anc-textures-packing"></a>
 <a name="2.2.6.1"></a>
-#### 2.2.6.1 Texture Packing
-It is common practice to pack multiple layers of texture data into one texture. An example of this is packing Emissive, Roughness, Ambient Occlusion together as the Red, Green, and Blue channels of a texture respectively. To determine the suffix, simply stack the given suffix letters from above together, e.g. `_ERO`.
+
+**Texture Packing:** It is common practice to pack multiple layers of texture data into one texture. An example of this is packing Emissive, Roughness, Ambient Occlusion together as the Red, Green, and Blue channels of a texture respectively. To determine the suffix, simply stack the given suffix letters from above together, e.g. `_ERO`.
 
 > It is generally acceptable to include an Alpha/Opacity layer in your Diffuse/Albedo's alpha channel and as this is common practice, adding `A` to the `_D` or `_BC` suffix is optional.
 
@@ -386,7 +392,7 @@ All of a project's content lives under a folder named after the project (`Conten
 > Do not create a folder called `Assets`, and do not split a folder into sibling folders that are only distinguished by asset type (for example a `Meshes` folder next to a `Textures` folder). Name folders after the thing they contain, not the type of asset that happens to live there. The deliberate exceptions are [`Art/Materials`](#3.8) and [`Art/Textures`](#3.4.1): a `Materials` folder holding master materials, material functions, and generic material instances, and a `Textures` folder holding generic textures, are allowed. `UI/Fonts` is the third: fonts are a user-interface-only concept with no other home, so a `Fonts` folder is allowed in `UI` and nowhere else. A set that would otherwise be one large flat pile may add the same two folders for order, such as `Art/Environment/Materials` and `Art/Environment/Textures`, without splitting the set apart.
 
 <a name="3e1"><a>
-### 3e1 Example Project Content Structure
+**Example Project Content Structure**
 <pre>
 |-- Content
     |-- <a href="#3.2">Haeretica</a>
@@ -497,7 +503,8 @@ This is also the primary reason why Epic's Marketplace staff enforces the same p
 After a migration, safe merging of assets can be done using the 'Replace References' tool in the content browser with the added clarity of assets not belonging to a project's top level folder are clearly pending a merge. Once assets are merged and fully migrated, there shouldn't be another top level folder in your Content tree. This method is _100%_ guaranteed to make any migrations that occur completely safe.
 
 <a name="3.2.2e1"></a>
-##### 3.2.2e1 Master Material Example
+
+**Master Material Example:**
 
 For example, say you created a master material in one project that you would like to use in another project so you migrated that asset over. If this asset is not in a top level folder, it may have a name like `Content/M_Master`. If the target project doesn't have a master material already, this should work without issue.
 
@@ -717,18 +724,17 @@ The words `variable` and `property` may be used interchangeably.
 
 <a name="4.2.1.1"></a>
 <a name="bp-var-naming-nouns"></a>
-##### 4.2.1.1 Nouns
 
-All non-boolean variable names must be clear, unambiguous, and descriptive nouns.
+**Nouns:** All non-boolean variable names must be clear, unambiguous, and descriptive nouns.
 
 <a name="4.2.1.2"></a>
 <a name="bp-var-naming-case"></a>
-##### 4.2.1.2 PascalCase
 
-All non-boolean variables should be in the form of [PascalCase](#terms-cases).
+**PascalCase:** All non-boolean variables should be in the form of [PascalCase](#terms-cases).
 
 <a name="4.2.1.2e"></a>
-###### 4.2.1.2e Examples
+
+**Examples:**
 
 * `Score`
 * `Kills`
@@ -739,7 +745,8 @@ All non-boolean variables should be in the form of [PascalCase](#terms-cases).
 
 <a name="4.2.1.3"></a>
 <a name="bp-var-bool-prefix"></a>
-##### 4.2.1.3 Boolean `b` Prefix
+
+**Boolean `b` Prefix:**
 
 All booleans should be named in PascalCase but prefixed with a lowercase `b`.
 
@@ -749,21 +756,20 @@ UE5 Blueprint editors know not to include the `b` in user-friendly displays of t
 
 <a name="4.2.1.4"></a>
 <a name="bp-var-bool-names"></a>
-##### 4.2.1.4 Boolean Names
+
+**Boolean Names:**
 
 <a name="4.2.1.4.1"></a>
-###### 4.2.1.4.1 General And Independent State Information
 
-All booleans should be named as descriptive adjectives when possible if representing general information. Do not include words that phrase the variable as a question, such as `Is`. This is reserved for functions.
+**General And Independent State Information:** All booleans should be named as descriptive adjectives when possible if representing general information. Do not include words that phrase the variable as a question, such as `Is`. This is reserved for functions.
 
 Example: Use `bDead` and `bHostile` **not** `bIsDead` and `bIsHostile`.
 
 Try to not use verbs such as `bRunning`. Verbs tend to lead to complex states.
 
 <a name="4.2.1.4.2"></a>
-###### 4.2.1.4.2 Complex States
 
-Do not to use booleans to represent complex and/or dependent states. This makes state adding and removing complex and no longer easily readable. Use an enumeration instead.
+**Complex States:** Do not use booleans to represent complex and/or dependent states. This makes state adding and removing complex and no longer easily readable. Use an enumeration instead.
 
 Example: When defining a weapon, do **not** use `bReloading` and `bEquipping` if a weapon can't be both reloading and equipping. Define an enumeration named `EWeaponState` and use a variable with this type named `WeaponState` instead. This makes it far easier to add new states to weapons.
 
@@ -771,12 +777,12 @@ Example: Do **not** use `bRunning` if you also need `bWalking` or `bSprinting`. 
 
 <a name="4.2.1.5"></a>
 <a name="bp-vars-naming-context"></a>
-##### 4.2.1.5 Considered Context
 
-All variable names must not be redundant with their context as all variable references in Blueprint will always have context.
+**Considered Context:** All variable names must not be redundant with their context as all variable references in Blueprint will always have context.
 
 <a name="4.2.1.5e"></a>
-###### 4.2.1.5e Examples
+
+**Examples:**
 
 Consider a Blueprint called `BP_PlayerCharacter`.
 
@@ -802,7 +808,8 @@ All of these variables are named redundantly. It is implied that the variable is
 
 <a name="4.2.1.6"></a>
 <a name="bp-vars-naming-atomic"></a>
-##### 4.2.1.6 Do _Not_ Include Atomic Type Names
+
+**Do _Not_ Include Atomic Type Names**
 
 Atomic or primitive variables are variables that represent data in their simplest form, such as booleans, integers, floats, and enumerations.
 
@@ -822,7 +829,8 @@ Example: A fence generator needs to generate X number of posts. Store X in `NumP
 
 <a name="4.2.1.7"></a>
 <a name="bp-vars-naming-complex"></a>
-##### 4.2.1.7 Do Include Non-Atomic Type Names
+
+**Do Include Non-Atomic Type Names**
 
 Non-atomic or complex variables are variables that represent data as a collection of atomic variables. Structs, Classes, Interfaces, and primitives with hidden behavior such as `Text` and `Name` all qualify under this rule.
 
@@ -841,7 +849,8 @@ Example: If a `BP_Turret` has the ability to target a `BP_PlayerCharacter`, it s
 
 <a name="4.2.1.8"></a>
 <a name="bp-vars-naming-arrays"></a>
-##### 4.2.1.8 Arrays
+
+**Arrays:**
 
 Arrays follow the same naming rules as above, but should be named as a plural noun.
 
@@ -860,13 +869,15 @@ Do not arbitrarily mark variables as `Editable`.
 
 <a name="4.2.2.1"></a>
 <a name="bp-vars-editable-tooltips"></a>
-##### 4.2.2.1 Tooltips
+
+**Tooltips:**
 
 All `Editable` variables, including those marked editable just so they can be marked as `Expose On Spawn`, should have a description in their `Tooltip` fields that explains how changing this value affects the behavior of the blueprint.
 
 <a name="4.2.2.2"></a>
 <a name="bp-vars-editable-ranges"></a>
-##### 4.2.2.2 Slider And Value Ranges
+
+**Slider And Value Ranges:**
 
 All `Editable` variables should make use of slider and value ranges if there is ever a value that a variable should _not_ be set to.
 
@@ -912,9 +923,8 @@ Treat `Editable` variables as public variables. Treat non-editable variables as 
 
 <a name="4.2.4.1"></a>
 <a name="bp-vars-access-private"></a>
-##### 4.2.4.1 Private Variables
 
-Unless it is known that a variable should only be accessed within the class it is defined and never a child class, do not mark variables as private. Until variables are able to be marked `protected`, reserve private for when you absolutely know you want to restrict child class usage.
+**Private Variables:** Unless it is known that a variable should only be accessed within the class it is defined and never a child class, do not mark variables as private. Until variables are able to be marked `protected`, reserve private for when you absolutely know you want to restrict child class usage.
 
 <a name="4.2.5"></a>
 <a name="bp-vars-advanced"></a>
@@ -960,7 +970,8 @@ These questions and more can all be answered when functions are named appropriat
 
 <a name="4.3.1.1"></a>
 <a name="bp-funcs-naming-verbs"></a>
-#### 4.3.1.1 All Functions Should Be Verbs
+
+**All Functions Should Be Verbs**
 
 All functions and events perform some form of action, whether its getting info, calculating data, or causing something to explode. Therefore, all functions should all start with verbs. They should be worded in the present tense whenever possible. They should also have some context as to what they are doing.
 
@@ -989,13 +1000,15 @@ Bad examples:
 
 <a name="4.3.1.2"></a>
 <a name="bp-funcs-naming-onrep"></a>
-#### 4.3.1.2 Property RepNotify Functions Always `OnRep_Variable`
+
+**Property RepNotify Functions Always `OnRep_Variable`**
 
 All functions for replicated with notification variables should have the form `OnRep_Variable`. This is forced by the Blueprint editor. If you are writing a C++ `OnRep` function however, it should also follow this convention when exposing it to Blueprints.
 
 <a name="4.3.1.3"></a>
 <a name="bp-funcs-naming-bool"></a>
-#### 4.3.1.3 Info Functions Returning Bool Should Ask Questions
+
+**Info Functions Returning Bool Should Ask Questions**
 
 When writing a function that does not change the state of or modify any object and is purely for getting information, state, or computing a yes/no value, it should ask a question. This should also follow [the verb rule](#bp-funcs-naming-verbs).
 
@@ -1022,7 +1035,8 @@ Bad examples:
 
 <a name="4.3.1.4"></a>
 <a name="bp-funcs-naming-eventhandlers"></a>
-#### 4.3.1.4 Event Handlers and Dispatchers Should Start With `On`
+
+**Event Handlers and Dispatchers Should Start With `On`**
 
 Any function that handles an event or dispatches an event should start with `On` and continue to follow [the verb rule](#bp-funcs-naming-verbs). The verb may move to the end however if past-tense reads better.
 
@@ -1049,7 +1063,8 @@ Bad examples:
 
 <a name="4.3.1.5"></a>
 <a name="bp-funcs-naming-rpcs"></a>
-#### 4.3.1.5 Remote Procedure Calls Should Be Prefixed With Target
+
+**Remote Procedure Calls Should Be Prefixed With Target**
 
 Any time an RPC is created, it should be prefixed with either `Server`, `Client`, or `Multicast`. No exceptions.
 
