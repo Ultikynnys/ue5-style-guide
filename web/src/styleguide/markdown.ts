@@ -2,12 +2,27 @@ import { marked } from "marked";
 
 marked.setOptions({ gfm: true, breaks: false });
 
+// A paragraph whose last element is an image, followed by a bold-led paragraph, is a
+// figure and its caption. The image is often preceded by prose in the same
+// paragraph (no blank line before it in the markdown), so that prose is split
+// back out: only the image belongs in the figure, otherwise its own text would
+// widen the figure and the caption would stop matching the image.
+const FIGURE_PATTERN =
+  /<p>\s*((?:(?!<img\b)[\s\S])*?)\s*(<img\b[^>]*>)\s*<\/p>\s*<p>\s*(<strong>[\s\S]*?<\/strong>[\s\S]*?)\s*<\/p>/g;
+
 /** Render a markdown chunk to HTML. Runs in the browser; synchronous only. */
 export function renderMarkdown(md: string): string {
   const source = md.trim();
   if (!source) return "";
   // async: false guarantees a string (no async extensions are registered).
-  return marked.parse(source, { async: false }) as string;
+  const html = marked.parse(source, { async: false }) as string;
+  return html.replace(
+    FIGURE_PATTERN,
+    (_match, lead: string, img: string, caption: string) => {
+      const prose = lead.trim();
+      return `${prose ? `<p>${prose}</p>` : ""}<figure>${img}<figcaption>${caption}</figcaption></figure>`;
+    },
+  );
 }
 
 /** Strip tags and decode the handful of entities marked emits, for search text. */

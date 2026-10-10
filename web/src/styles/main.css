@@ -9,43 +9,43 @@
    ------------------------------------------------------------------ */
 
 :root {
-  --bg: #f3efe6;
-  --bg-2: #e9e3d5;
-  --surface: #fffdf9;
-  --surface-2: #f6f1e6;
-  --text: #211d15;
-  --muted: #6c6353;
-  --border: #d9d0bc;
-  --border-strong: #b6ab91;
-  --accent: #b45309;
+  --bg: #f2f2f2;
+  --bg-2: #e7e7e7;
+  --surface: #ffffff;
+  --surface-2: #f6f6f6;
+  --text: #1b1b1b;
+  --muted: #6a6a6a;
+  --border: #dcdcdc;
+  --border-strong: #b5b5b5;
+  --accent: #262626;
   --accent-text: #ffffff;
-  --accent-soft: #f5e3cc;
-  --code-bg: #ece4d3;
-  --overlay-shadow: 0 12px 30px rgba(30, 22, 8, 0.22);
-  --text-shadow: 0 1px 2px rgba(28, 20, 6, 0.28);
-  --scrollbar-track: #e6dfd0;
-  --scrollbar-thumb: #b6ab91;
-  --scrollbar-thumb-hover: #b45309;
+  --accent-soft: #e6e6e6;
+  --code-bg: #ebebeb;
+  --overlay-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
+  --text-shadow: 0 1px 2px rgba(0, 0, 0, 0.28);
+  --scrollbar-track: #e4e4e4;
+  --scrollbar-thumb: #b5b5b5;
+  --scrollbar-thumb-hover: #262626;
 }
 
 [data-theme="dark"] {
-  --bg: #14120d;
-  --bg-2: #1a1711;
-  --surface: #201c14;
-  --surface-2: #262117;
-  --text: #f3ead6;
-  --muted: #a99c82;
-  --border: #383228;
-  --border-strong: #4c4436;
-  --accent: #f2a33c;
-  --accent-text: #241a08;
-  --accent-soft: #3a2c15;
-  --code-bg: #2b251a;
+  --bg: #141414;
+  --bg-2: #191919;
+  --surface: #1f1f1f;
+  --surface-2: #262626;
+  --text: #ededed;
+  --muted: #9e9e9e;
+  --border: #333333;
+  --border-strong: #4a4a4a;
+  --accent: #ededed;
+  --accent-text: #161616;
+  --accent-soft: #2e2e2e;
+  --code-bg: #262626;
   --overlay-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
   --text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
-  --scrollbar-track: #221e15;
-  --scrollbar-thumb: #57503f;
-  --scrollbar-thumb-hover: #f2a33c;
+  --scrollbar-track: #1c1c1c;
+  --scrollbar-thumb: #565656;
+  --scrollbar-thumb-hover: #ededed;
 }
 
 *,
@@ -411,7 +411,6 @@ img.brand-mark {
 .toc-sub {
   padding-left: 12px;
   margin-left: 5px;
-  border-left: 1px solid var(--border);
 }
 
 .toc-row {
@@ -459,7 +458,6 @@ img.brand-mark {
   color: var(--text);
   text-decoration: none;
   font-size: 0.85rem;
-  border-left: 2px solid transparent;
 }
 
 .toc-link:hover {
@@ -468,7 +466,6 @@ img.brand-mark {
 
 .toc-link.is-active {
   background: var(--accent-soft);
-  border-left-color: var(--accent);
 }
 
 .toc-num {
@@ -509,7 +506,6 @@ img.brand-mark {
 .intro {
   background: var(--surface-2);
   border: 1px solid var(--border);
-  border-left: 4px solid var(--accent);
   padding: 16px 20px;
   margin-bottom: 26px;
 }
@@ -580,7 +576,6 @@ img.brand-mark {
 }
 
 .rule-children {
-  border-left: 2px solid var(--border);
   margin-left: 6px;
   padding-left: 18px;
 }
@@ -640,7 +635,6 @@ img.brand-mark {
 
 .prose pre {
   background: var(--code-bg);
-  border-left: 3px solid var(--accent);
   padding: 12px 14px;
   overflow: auto;
   margin: 0.8em 0;
@@ -674,7 +668,6 @@ img.brand-mark {
 .prose blockquote {
   margin: 0.8em 0;
   padding: 8px 14px;
-  border-left: 4px solid var(--accent);
   background: var(--surface-2);
   color: var(--muted);
 }
@@ -694,17 +687,28 @@ img.brand-mark {
 .prose p:has(> img) {
   width: fit-content;
   max-width: 100%;
-  margin: 0 auto;
+  margin: 0;
 }
 
-.prose p:has(> img) + p:has(> strong:first-child) {
-  width: 100%;
+.prose figure {
+  width: fit-content;
   max-width: 100%;
+  margin: 0 0 1.5em;
+}
+
+.prose figure img {
+  display: block;
+}
+
+/* width: 0 with min-width: 100% keeps the caption out of the figure's
+   shrink-to-fit calculation, so the image alone decides the figure width. */
+.prose figcaption {
+  width: 0;
+  min-width: 100%;
   box-sizing: border-box;
-  margin: 0 auto 1.5em;
+  margin-top: 0.45em;
   padding: 0.7em 1em;
   border: 1px solid var(--border-strong);
-  border-left: 4px solid var(--accent);
   background: var(--surface-2);
   color: var(--text);
   font-size: 1em;
