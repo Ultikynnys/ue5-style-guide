@@ -4,3 +4,7 @@ docs/build
 web/node_modules
 web/dist
 web/.vite
+
+# Agent tooling output
+.reasonix
+.playwright-mcp
