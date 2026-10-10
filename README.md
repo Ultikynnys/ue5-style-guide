@@ -389,7 +389,7 @@ Equally important as asset names, the directory structure style of a project sho
 
 All of a project's content lives under a folder named after the project (`Content/Haeretica`). Beneath that, the content is split into a fixed set of top-level folders, each a single, obvious home for one class of asset: `Art`, `Blueprint`, `FX`, `Maps`, `Prototype`, `SFX`, and `UI`. Because every asset already carries its type in its [prefix](#2.2), these folders group assets by _purpose_ rather than by raw asset type, and the Content Browser's filters and search are used to narrow down by type within a folder. Anyone on the team can then always find an asset's home without having to ask.
 
-> Do not create a folder called `Assets`, and do not split a folder into sibling folders that are only distinguished by asset type (for example a `Meshes` folder next to a `Textures` folder). Name folders after the thing they contain, not the type of asset that happens to live there. The deliberate exceptions are [`Art/Materials`](#3.8) and [`Art/Textures`](#3.4.1): a `Materials` folder holding master materials, material functions, and generic material instances, and a `Textures` folder holding generic textures, are allowed. `UI/Fonts` is the third: fonts are a user-interface-only concept with no other home, so a `Fonts` folder is allowed in `UI` and nowhere else. A set that would otherwise be one large flat pile may add the same two folders for order, such as `Art/Environment/Materials` and `Art/Environment/Textures`, without splitting the set apart.
+> Do not create a folder called `Assets`, and do not split a folder into sibling folders that are only distinguished by asset type (for example a `Meshes` folder next to a `Textures` folder). Name folders after the thing they contain, not the type of asset that happens to live there. The deliberate exception is [`Art/Materials`](#3.8): a `Materials` folder holding master materials, material functions, generic material instances, and the `Textures` sub-folder of generic textures those materials sample, is allowed. `UI/Fonts` is the second: fonts are a user-interface-only concept with no other home, so a `Fonts` folder is allowed in `UI` and nowhere else. A set that would otherwise be one large flat pile may add the same two folders for order, such as `Art/Environment/Materials` and `Art/Environment/Textures`, without splitting the set apart.
 
 <a name="3e1"><a>
 **Example Project Content Structure**
@@ -413,8 +413,8 @@ All of a project's content lives under a folder named after the project (`Conten
         |   |-- <a href="#3.8">Materials</a>
         |   |   |-- MaterialInstances
         |   |   |-- MaterialFunctions
+        |   |   |-- Textures
         |   |-- PostProcess
-        |   |-- Textures
         |   |-- Tools
         |   |-- Weapons
         |-- <a href="#3.4.2">Blueprint</a>
@@ -570,9 +570,9 @@ Not every project needs every folder. What matters is that when a folder exists,
 * `Art/Materials` - Global master materials, at the root of the folder. A master that serves one asset set lives with that set instead. See [3.8](#3.8).
   * `Art/Materials/MaterialInstances` - Generic material instances used by several assets.
   * `Art/Materials/MaterialFunctions` - Reusable material functions.
+  * `Art/Materials/Textures` - Generic textures that are not tied to a specific asset: seamless textures, bricks, wood, and similar reusable material inputs. They live here, inside `Materials`, because they do not exist in a vacuum: they are there to be sampled by the generic materials and instances in this folder. A texture that belongs to one specific asset, or is consumed by only one material instance, lives next to that asset in `Art`, not here.
 * `Art/PhysicalMaterials` - [Physical materials](#2.2.9) used for surface responses such as footstep and impact effects.
 * `Art/PostProcess` - Post-process materials and the textures they use, such as dither, outline, and blink effects. The `PP` name modifier marks post-processing ([`M_PP_`](#2.2.5), `MI_PP_`, `T_PP_`): any asset whose name carries `PP` belongs here and nowhere else.
-* `Art/Textures` - Generic textures that are not tied to a specific asset: seamless textures, bricks, wood, and similar reusable material inputs. A texture that belongs to one specific asset, or is consumed by only one material instance, lives next to that asset in `Art`, not here.
 
 A gameplay system whose art does not fit one of the folders above gets a matching folder here (for example `Art/Weapons`, `Art/Interactables`, `Art/Components`, or `Art/Tools`), mirroring that system's folder in `Blueprint`. A system is split the same way everywhere: its art and animation, everything about it that is not logic, lives here in `Art/<System>`, and its logic, the Blueprints and the data assets that support them, lives in `Blueprint/<System>`. An Animation Blueprint is animation, not logic, so it lives here too; see [3.4.2](#3.4.2).
 
@@ -661,7 +661,7 @@ There are certain asset types that have a huge volume of related files where eac
 
 For example, animations that are shared across multiple characters should live together in a shared `Animations` folder, with sub-folders such as `Locomotion` or `Cinematic`, rather than being duplicated per character.
 
-> This does not apply to assets like textures and materials. It is common for a `Rocks` folder to have a large amount of textures if there are a large amount of rocks, however these textures are generally only related to a few specific rocks and should be named appropriately. Even if these textures are part of a [shared material](#3.8).
+> This does not apply to assets like textures and materials. It is common for a `Rocks` folder to have a large amount of textures if there are a large amount of rocks, however these textures are generally only related to a few specific rocks and should be named appropriately. Even if these textures are sampled by a shared material in [`Art/Materials/Textures`](#3.8).
 
 <a name="3.8"></a>
 <a name="structure-materials"></a>
@@ -673,7 +673,7 @@ This way all 'global' materials have a place to live and are easily located.
 
 > This also makes it incredibly easy to enforce a 'use material instances only' policy within a project. If all artists and assets should be using material instances, then the only regular material assets that exist are the global masters here and the one-asset-set masters that live with their art. You can easily verify this by searching for base materials in any folder other than `Art/Materials` and the `Art` and `FX` set folders.
 
-`Art/Materials` holds master materials at its root, a `MaterialInstances` sub-folder for generic instances used by several assets, and a `MaterialFunctions` sub-folder for reusable functions. Only global materials live here: a master shared by several asset sets, a master that feeds a generic instance, or one with no single art folder of its own. A master material that serves one asset set lives with that set instead: in [`Art/Environment`](#3.4.1), `Art/Weapons/<Weapon>`, `Art/Characters/<Character>`, `Art/Interactables/<System>`, or alongside the effect in `FX`. An instance that belongs to one asset set is likewise not stored here: it lives with that set, next to the mesh it is applied to, while one shared by several assets is generic and stays in `MaterialInstances`. Shared textures have their own folder: see [`Art/Textures`](#3.4.1). Post-process materials have their own folder: see [`Art/PostProcess`](#3.4.1). This folder is for generic, non-UI materials only: a UI material never lives here, it lives with its screen, see [3.4.7](#3.4.7).
+`Art/Materials` holds master materials at its root, a `MaterialInstances` sub-folder for generic instances used by several assets, a `MaterialFunctions` sub-folder for reusable functions, and a `Textures` sub-folder for the generic textures those materials sample. Only global materials live here: a master shared by several asset sets, a master that feeds a generic instance, or one with no single art folder of its own. A master material that serves one asset set lives with that set instead: in [`Art/Environment`](#3.4.1), `Art/Weapons/<Weapon>`, `Art/Characters/<Character>`, `Art/Interactables/<System>`, or alongside the effect in `FX`. An instance that belongs to one asset set is likewise not stored here: it lives with that set, next to the mesh it is applied to, while one shared by several assets is generic and stays in `MaterialInstances`. Shared textures live in `Art/Materials/Textures`, inside this folder rather than beside it: a generic texture such as a seamless brick or wood map is only in the project because some generic material or instance samples it, so it is filed with the materials that reference it instead of in a top-level folder of its own. See [3.4.1](#3.4.1). Post-process materials have their own folder: see [`Art/PostProcess`](#3.4.1). This folder is for generic, non-UI materials only: a UI material never lives here, it lives with its screen, see [3.4.7](#3.4.7).
 
 There is no separate debug folder: a testing or debug material simply lives in `Art/Materials` like any other generic master, because that folder already holds exactly this kind of reusable, non-production-specific material. A `Debug` sub-folder would just duplicate a place the folder already provides.
 
