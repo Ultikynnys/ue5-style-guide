@@ -56,11 +56,6 @@ For example, `Art/Environment` keeps static environment meshes together so level
 
 **Figure 1.** Static environment assets grouped together in the Content Browser.
 
-<a name="0.7"></a>
-### 0.7 Keep Heading Hierarchies Shallow
-
-Avoid a subheading when it would be the only child under its parent; make it a bold lead-in in the parent section instead. Heading numbers must contain only digits and dots, with no letter suffixes, and may use no more than three numeric components, such as `4.2.1`.
-
 <a name="1"></a>
 ## 1. Globally Enforced Opinions
 
