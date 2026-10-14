@@ -390,11 +390,11 @@ The reasons for this structure are listed in the following sub-sections.
 
 ### Folder Names
 
-PascalCase is the only naming standard in the project: every folder name and every asset base name uses it, and the rules below follow from that.
+PascalCase is the project's preferred naming standard for folder names and asset base names, and the rules below follow from it. It is a preference, not a law to enforce: name everything the project authors itself in PascalCase, but leave bulk-imported content that arrives with its own lower-case or snake_case names alone (a Megascan texture such as `T_wood_planks`, say), since renaming hundreds of library assets buys nothing and severs the link back to the source.
 
-#### Always Use PascalCase
+#### Prefer PascalCase
 
-PascalCase starts with a capital and capitalizes every following word instead of using spaces: `DesertEagle`, `RocketPistol`, `ASeriesOfWords`.
+PascalCase starts with a capital and capitalizes every following word instead of using spaces: `DesertEagle`, `RocketPistol`, `ASeriesOfWords`. Use it for everything you name; imported names are the tolerated exception, and every other rule below still applies to them unchanged.
 
 #### Never Use Spaces
 
