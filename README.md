@@ -331,7 +331,7 @@ Three cases sort by type in `Art` instead:
 
 Flatness follows count, not prediction. A type earns its own folder once that folder actually holds fifteen or more assets of the type, and not before: a set of one to a dozen stays flat, because a folder holding a handful of files is harder to navigate than no folder at all. Organize the assets the project has, not the ones a future might bring.
 
-The folder's own base type is the exception. `UI` exists to hold widget Blueprints, so the `WBP_` assets sit at its root and never in a `UI/WBP` folder; the same goes for the `NS_` systems at the root of `FX` and the meshes at the root of `Art/Environment`. A folder that contains only folders and no assets of its own wastes space and adds nesting for nothing, so the root always holds the folder's namesake.
+The folder's own base type is the exception. `UI` exists to hold widget Blueprints, so the `WBP_` assets sit at its root and never in a `UI/WBP` folder; the same goes for the `NS_` systems at the root of `FX` and the meshes at the root of `Art/Environment`. The root is where a folder's namesake belongs.
 
 This threshold is prospective, not a retrofit. It decides where a _new_ set earns a folder; it is never grounds for dissolving one that already exists. Flattening a sub-fifteen folder means moving its assets, fixing up redirectors, and rebuilding every reference, all for a difference nobody browsing the tree would notice. Leave the existing structure alone and apply the rule from here on.
 
@@ -591,7 +591,7 @@ For example, animations shared across characters live together in a shared `Anim
 
 > This keeps a 'use material instances only' policy easy to enforce: every generic mesh, UI, and FX material in the project sits in this one folder, so it is the complete set of those materials to instance. The decal and post-process sets are the exception, each complete in its own folder.
 
-When adding a new asset, look at the materials that already exist before creating one, and instance an existing material rather than adding a new one; the goal is to keep the number of unique materials as low as possible. A genuinely unique material that is never reused is still an `M_`, filed here, never with its consumer; its instance, if it has one, goes with the asset instead.
+When adding a new asset, look at the materials that already exist before creating one, and instance an existing material rather than adding a new one; the goal is to keep the number of unique materials as low as possible. Association decides placement even for a material used only once: the hammer owns a one-off `M_HammerLandSpot`, so that material lives with the hammer, not here. Association is not always that clear cut, since a material may be shared by several unrelated things; a material that cannot be pinned to a single concept is exactly what this folder is for, so when in doubt, file it in `Art/Materials` (or `Art/Textures`) and treat it as generic. A material's instance, if it has one, goes with the asset instead.
 
 `Art/Materials` holds its generic materials (`M_`) flat at its root, plus a `MaterialInstances` sub-folder for the generic instances that name no single asset and belong to no set with a folder of its own, and a `MaterialFunctions` sub-folder for reusable functions.
 
