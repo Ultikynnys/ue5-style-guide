@@ -42,7 +42,7 @@ Not legal advice: do not bring illegal content or behavior into a project. For e
 
 More folders do not mean easier discovery. Deep, per-asset folder trees slow people down and invite duplicate assets. Prefer a few broad, clearly named folders that group related content where people look for it.
 
-For example, `Art/Environment` keeps static environment meshes together so a level designer sees every scenery asset at a glance. A set may add a `Textures` sub-folder for its own textures, but do not give every prop its own folder split into `Meshes` and `Textures`. Folders should make a collection easier to browse, not add structure for its own sake.
+For example, `Art/Environment` keeps static environment meshes together so a level designer sees every scenery asset at a glance. Put the set's material instances and textures in its `Materials` and `Textures` sub-folders, but do not give every prop its own folder split into `Meshes`, `Materials`, and `Textures`. Folders should make a collection easier to browse, not add structure for its own sake.
 
 ![Example of environment assets organized together in a browsable folder](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/folder-organization-example.png)
 
@@ -149,7 +149,7 @@ Blueprint classes, plus the data types that support them, such as enumerations, 
 
 #### Materials
 
-Every material lives in [`Art/Materials`](#artmaterials), whatever its type and whichever asset set uses it: the label does the distinguishing, not the folder. A material is never filed in `UI`, `FX`, or a system folder; browse the one folder with the Content Browser's filters instead.
+Every material lives in [`Art/Materials`](#artmaterials), whatever its type and whichever asset set uses it: the label does the distinguishing, not the folder. A material is never filed in `UI`, `FX`, or a system folder; browse the one folder with the Content Browser's filters instead. A material _instance_ is the exception: it follows the asset it dresses, not the material.
 
 The only type labels are `PP`, `Decal`, `UI`, and `FX`; an `M_` material that carries none of them is a mesh material.
 
@@ -162,7 +162,7 @@ The label is preferred where possible: it stops a material or texture from being
 | Material (UI)                 | M_UI_, MI_UI_ | UI materials and instances, named with the `UI` label. |
 | Material (FX)                 | M_FX_, MI_FX_ | Materials used only for particles, named with the `FX` label. |
 | Material Function             | MF_        | Lives in `Art/Materials/MaterialFunctions`. |
-| Material Instance             | MI_        | Lives in `Art/Materials/MaterialInstances`. |
+| Material Instance             | MI_        | Lives with the asset it dresses (its folder, or a `Materials` sub-folder there); a generic instance that names no single asset lives in `Art/Materials/MaterialInstances`. |
 | Material Parameter Collection | MPC_       |                                  |
 | Subsurface Profile            | SP_        |                                  |
 | Physical Materials            | PM_        |                                  |
@@ -319,9 +319,9 @@ Directory structure is law too, on par with naming: the two go hand in hand, and
 
 All project content lives under a folder named after the project (`Content/Haeretica`), split into a fixed set of top-level folders, each the single home for one class of asset. DLC, patches, and sub-projects that ship separately are the exception: each gets its own top-level root. Because most assets carry their type in their prefix, these folders group by _purpose_ rather than by asset type; use the Content Browser's filters and search to narrow by type within a folder. An asset lives where it is owned, not where its type or usage might suggest, so it moves as a unit with the system it serves. Everyone can then find any asset's home without asking.
 
-Materials are the one exception: every material, material instance, and type-labeled texture lives in `Art/Materials`, grouped by type rather than by purpose, because a material is a shared input any system can reference. See [`Art/Materials`](#artmaterials).
+Materials are the one exception: every material and type-labeled texture lives in `Art/Materials`, grouped by type rather than by purpose, because a material is a shared input any system can reference. A material instance is not an exception: it lives with the asset it dresses, so the two are deleted together. See [`Art/Materials`](#artmaterials).
 
-> Do not create a folder called `Assets`, and do not split a folder into sibling folders that are only distinguished by asset type (for example a `Meshes` folder next to a `Textures` folder). Name folders after the thing they contain, not the type of asset that happens to live there. A few type-named folders are allowed because one asset kind has no purpose-named home: [`Art/Materials`](#artmaterials) (with its `MaterialInstances`, `MaterialFunctions`, and `Textures` sub-folders), `Art/PhysicalMaterials`, and `UI/Fonts`. A set that would otherwise be one large flat pile may also add a `Textures` folder for its own textures, such as `Art/Environment/Textures`, without splitting the set apart.
+> Do not create a folder called `Assets`, and do not split a folder into sibling folders that are only distinguished by asset type (for example a `Meshes` folder next to a `Textures` folder). Name folders after the thing they contain, not the type of asset that happens to live there. A few type-named folders are allowed because one asset kind has no purpose-named home: [`Art/Materials`](#artmaterials) (with its `MaterialInstances`, `MaterialFunctions`, and `Textures` sub-folders), `Art/PhysicalMaterials`, and `UI/Fonts`. A set that would otherwise be one large flat pile may also add a `Materials` folder for its own material instances and a `Textures` folder for its textures, such as `Art/Environment/Materials` and `Art/Environment/Textures`, without splitting the set apart.
 
 **Example Project Content Structure**
 <pre>
@@ -337,6 +337,7 @@ Materials are the one exception: every material, material instance, and type-lab
         |   |   |-- Tank
         |   |-- Components
         |   |-- Environment
+        |   |   |-- Materials
         |   |   |-- Textures
         |   |-- Interactables
         |   |-- <a href="#artmaterials">Materials</a>
@@ -456,7 +457,7 @@ Beneath the project folder, content is split into a fixed set of top-level folde
 * `Maps` - All map files. See [Maps](#maps).
 * `Prototype` - Throwaway or work-in-progress content that is not ready for the project proper. See [Prototype](#prototype).
 * `SFX` - Generic audio shared across the project: sound classes, attenuation presets, shared music. Audio tied to one asset lives with that asset. See [SFX](#sfx).
-* `UI` - User interface assets: widget Blueprints and fonts. See [UI](#ui).
+* `UI` - User interface assets: widget Blueprints, their material instances, and fonts. See [UI](#ui).
 
 Not every project needs every folder. What matters is that when a folder exists, it is named and used exactly as described below, so its location is always predictable.
 
@@ -465,11 +466,11 @@ Not every project needs every folder. What matters is that when a folder exists,
 `Art` is the single home for the project's visual assets, grouped by kind:
 
 * `Art/Characters` - Character art, with a sub-folder per character (`Art/Characters/Priestess`).
-* `Art/Components` - Art for the reusable actor components in `Blueprint/Components`: their meshes and textures.
-* `Art/Environment` - The one place a level designer looks for scenery: environment meshes, kept flat at the root so no one digs for a prop, plus a `Textures` sub-folder for the set's own textures. Any large flat set may add the same folder. A placeable actor that is not scenery belongs to its own system: art in `Art/<System>`, Blueprint in `Blueprint/<System>`; see [Blueprint](#blueprint).
+* `Art/Components` - Art for the reusable actor components in `Blueprint/Components`: their meshes, material instances, and textures.
+* `Art/Environment` - The one place a level designer looks for scenery: environment meshes, kept flat at the root so no one digs for a prop, plus a `Materials` sub-folder for the set's material instances and a `Textures` sub-folder for its textures. Any large flat set may add the same two folders. A placeable actor that is not scenery belongs to its own system: art in `Art/<System>`, Blueprint in `Blueprint/<System>`; see [Blueprint](#blueprint).
 * `Art/LUT` - Color lookup tables (LUTs) used for color grading.
 * `Art/Materials` - The single home for every material in the project, filed flat at the root of the folder whatever its type and whichever asset set uses them. The prefix carries the type (`M_PP_`, `M_UI_`, `M_FX_`, `M_Decal_`), so the materials need no type sub-folders. See [`Art/Materials`](#artmaterials).
-  * `Art/Materials/MaterialInstances` - Every material instance (`MI_`).
+  * `Art/Materials/MaterialInstances` - Generic material instances that name no single asset, such as a generic wall instance.
   * `Art/Materials/MaterialFunctions` - Reusable material functions.
   * `Art/Materials/Textures` - Textures, flat: the generic reusable ones and every type-labeled one (`T_PP_`, `T_UI_`, `T_FX_`, `T_Decal_`). A texture specific to a single mesh or set lives next to it in `Art` instead.
 * `Art/PhysicalMaterials` - Physical materials used for surface responses such as footstep and impact effects.
@@ -478,7 +479,7 @@ A gameplay system whose art fits none of the folders above gets a matching folde
 
 #### Blueprint
 
-`Blueprint` holds the project's logic: Blueprints and the data assets that support them, such as enumerations, structs, data tables, input actions, behavior trees, blackboards, and environment queries. It is not a home for art or animation. Textures, meshes, and Animation Blueprints (`ABP_`) live in `Art` next to the asset they serve; every material and material instance lives in `Art/Materials`; and sounds, effects, and UI assets live in the dedicated [`SFX`](#sfx), [`FX`](#fx), and [`UI`](#ui) folders. Interactables follow the same split: `Blueprint/Interactables` holds the interactable Blueprints, `Art/Interactables` their meshes.
+`Blueprint` holds the project's logic: Blueprints and the data assets that support them, such as enumerations, structs, data tables, input actions, behavior trees, blackboards, and environment queries. It is not a home for art or animation. Textures, meshes, material instances, and Animation Blueprints (`ABP_`) live in `Art` next to the asset they serve; every base material lives in `Art/Materials` (a generic instance lives in `Art/Materials/MaterialInstances`); and sounds, effects, and UI assets live in the dedicated [`SFX`](#sfx), [`FX`](#fx), and [`UI`](#ui) folders. Interactables follow the same split: `Blueprint/Interactables` holds the interactable Blueprints, `Art/Interactables` their meshes, material instances, and textures.
 
 * `Blueprint/LevelActors` - Rarely needed: a Blueprint a designer drops into a level normally belongs to a system and lives in that system's folder (`Blueprint/<System>`); only a lone actor with no system of its own lands here.
 * `Blueprint/Components` - Reusable actor components.
@@ -487,7 +488,7 @@ A gameplay system whose art fits none of the folders above gets a matching folde
 
 #### FX
 
-`FX` holds visual effects: Niagara systems and emitters, the meshes they rely on, and any other asset that only exists to serve an effect that is not a material. Effect materials, instances, and textures carry the `FX` label (`M_FX_`, `MI_FX_`, `T_FX_`) and live in [`Art/Materials`](#artmaterials) and its `Textures` sub-folder, flat with the other materials.
+`FX` holds visual effects: Niagara systems and emitters, the meshes and material instances they rely on, and any other asset that only exists to serve an effect. A base effect material (`M_FX_`) and a type-labeled effect texture (`T_FX_`) live in [`Art/Materials`](#artmaterials) and its `Textures` sub-folder, flat with the other materials; an effect's own instance (`MI_FX_`) lives here beside the effect it dresses.
 
 #### Maps
 
@@ -515,9 +516,9 @@ Audio belonging to a single asset lives with that asset, so it migrates as a uni
 
 #### UI
 
-`UI` holds the interface's widgets and fonts. Group them by screen or element, such as `UI/HUD`, `UI/MainMenu`, or `UI/Options`, so a screen's widgets migrate together.
+`UI` holds the interface's widgets and fonts, plus the material instances tied to them. Group them by screen or element, such as `UI/HUD`, `UI/MainMenu`, or `UI/Options`, so a screen's widgets and its instances migrate together: a crosshair instance in `UI/HUD`, a button instance in `UI/BaseElements`.
 
-UI materials, instances, and textures do not live here: they carry the `UI` label (`M_UI_`, `MI_UI_`, `T_UI_`) and live in [`Art/Materials`](#artmaterials) and its `Textures` sub-folder, flat with the other materials. A generic weapon icon that names no single weapon (a placeholder or fallback) is a base element, in `UI/BaseElements`. Fonts exist only for UI, so `UI/Fonts` is the one type-named folder allowed inside `UI`. A non-widget UI Blueprint, such as a HUD class, is UI logic and lives in `Blueprint/UI`; only widgets and fonts stay in `UI`.
+A base UI material (`M_UI_`) and a type-labeled UI texture (`T_UI_`) do not live here: they live in [`Art/Materials`](#artmaterials) and its `Textures` sub-folder, flat with the other materials. A generic UI instance that dresses no single screen lives in `Art/Materials/MaterialInstances`. A generic weapon icon that names no single weapon (a placeholder or fallback) is a base element, in `UI/BaseElements`. Fonts exist only for UI, so `UI/Fonts` is the one type-named folder allowed inside `UI`. A non-widget UI Blueprint, such as a HUD class, is UI logic and lives in `Blueprint/UI`; only widgets, their instances, and fonts stay in `UI`.
 
 
 ### Keep Base Classes With Their System
@@ -543,7 +544,7 @@ For example, a weapons system might look like this:
         |-- BP_Rifle
 </pre>
 
-> Do not create a folder named only after an asset type, such as `Meshes` or `SkeletalMeshes`, to separate assets inside a system. The only exception is a `Textures` folder for a set's own mesh textures, as in `Art/Environment`. Asset names already carry their type via their prefix, and the Content Browser can filter by type, so such folders only add redundant path segments: to see every static mesh under `Art/Environment/`, turn on the Static Mesh filter.
+> Do not create a folder named only after an asset type, such as `Meshes` or `SkeletalMeshes`, to separate assets inside a system. The only exceptions are a `Materials` folder for the set's material instances and a `Textures` folder for its textures, as in `Art/Environment`. Asset names already carry their type via their prefix, and the Content Browser can filter by type, so such folders only add redundant path segments: to see every static mesh under `Art/Environment/`, turn on the Static Mesh filter.
 
 ### Very Large Asset Sets Get Their Own Folder Layout
 
@@ -557,17 +558,17 @@ For example, animations shared across characters live together in a shared `Anim
 
 ### `Art/Materials`
 
-`Content/Haeretica/Art/Materials` is the single home for every material, material instance, and type-labeled texture in the project, whatever its type and whichever asset set uses them. The prefix carries the type, so nothing here needs a type sub-folder.
+`Content/Haeretica/Art/Materials` is the single home for every material and type-labeled texture in the project, whatever its type and whichever asset set uses them. The prefix carries the type, so the materials need no type sub-folder.
 
-> This makes a 'use material instances only' policy easy to enforce: every material and instance in the project sits in this one folder, so this folder is the complete material library.
+> This makes a 'use material instances only' policy easy to enforce: every base material in the project sits in this one folder, so this folder is the complete set of materials to instance.
 
-When adding a new asset, look at the materials that already exist before creating one, and instance an existing material rather than adding a new one; the goal is to keep the number of unique materials as low as possible. A genuinely unique material that is never reused is still an `M_`, filed here, never with its consumer.
+When adding a new asset, look at the materials that already exist before creating one, and instance an existing material rather than adding a new one; the goal is to keep the number of unique materials as low as possible. A genuinely unique material that is never reused is still an `M_`, filed here, never with its consumer; its instance, if it has one, goes with the asset instead.
 
-`Art/Materials` holds every material (`M_`) flat at its root, plus a `MaterialInstances` sub-folder for every material instance, a `MaterialFunctions` sub-folder for reusable functions, and a `Textures` sub-folder for textures.
+`Art/Materials` holds every material (`M_`) flat at its root, plus a `MaterialInstances` sub-folder for instances that name no single asset, a `MaterialFunctions` sub-folder for reusable functions, and a `Textures` sub-folder for type-labeled textures.
 
-Every material lives here, whatever its type: a mesh material (`M_`), a post-process material (`M_PP_`), a UI material (`M_UI_`), an effect material (`M_FX_`), a decal (`M_Decal_`), and their instances (`MI_PP_` and the rest). The label distinguishes them; browse the folder with the Content Browser's type filters instead of splitting it into `PP`, `UI`, `FX`, and `Decal` sub-folders.
+Every material lives here, whatever its type: a mesh material (`M_`) and a type-tied one (`M_PP_`, `M_UI_`, `M_FX_`, `M_Decal_`). The label distinguishes them; browse the folder with the Content Browser's type filters instead of splitting it into `PP`, `UI`, `FX`, and `Decal` sub-folders.
 
-Every material instance lives here too, in the `MaterialInstances` sub-folder, whether it serves one asset set or several: a weapon's instance is not filed in `Art/Weapons`, it sits here with the rest. One library keeps every material and instance visible in one place and the 'instances only' policy easy to audit.
+A material instance is placed by what it dresses, not by its material. An instance tied to an asset or asset set lives with it, in the asset's folder or a `Materials` sub-folder there, so deleting the folder deletes the instance too and no orphan is left behind: a weapon's instance sits in `Art/Weapons`, the environment set's in `Art/Environment/Materials`. Only a generic instance that names no single asset, such as a generic wall instance, lives in `Art/Materials/MaterialInstances`.
 
 `Art/Materials/Textures` holds the project's textures flat: the generic reusable ones and every type-labeled one (`T_PP_`, `T_UI_`, `T_FX_`, `T_Decal_`). A generic texture such as a seamless brick or wood map is here because some material samples it; a texture specific to a single mesh or set stays next to that mesh or set in `Art`.
 
