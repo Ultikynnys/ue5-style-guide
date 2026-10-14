@@ -302,6 +302,14 @@ A suffix differentiates an asset by its specific type. Assets come in all kinds 
 | Vector Curve            | _Vector    |                                  |
 | Sound Concurrency       | _SC        | Should be named after a SoundClass |
 
+#### Work In Progress
+
+`_WIP` is a status marker rather than a type suffix, and any asset can carry it. An experimental, unfinished, or prototype asset that is not meant to be used as it stands takes `_WIP` as its final suffix, after every other suffix: `BP_Shotgun_WIP`, `T_BrickWall_WIP`, `TestMap_WIP`.
+
+It is the one signal a reader gets that an asset is expected to change or be deleted, so apply it as soon as an asset stops being finished and remove it only once the asset is production ready. A name carrying `_WIP` is never shipped as is.
+
+`_WIP` marks shared content that is not ready. Work meant only for one person's scratch space belongs in a personal [`Developers/<UserName>`](#use-developer-folders-for-local-testing) folder instead, where it is hidden rather than merely labelled.
+
 #### Level Suffixes
 
 Level suffixes are a special case. `_P`, `_Audio`, `_Light`, `_Geo`, and `_Gameplay` are fixed, and each holds only its own kind of content. Any other level suffix conveys user-defined intent, so it can be anything that says what kind of level it is. A level with no suffix at all is monolithic: it contains everything, so it needs no suffix. Monolithic maps are not preferred, but they cannot be avoided in small levels or test levels; avoid them anywhere else, since a monolithic map is almost impossible to work on simultaneously with several people. A bare level is fine for testing and other one-off cases: it is usually used only where a single person will ever work on the level. A small level tends to be monolithic too: making several level components for a main menu, for example, would be overkill.
@@ -329,7 +337,7 @@ Three cases sort by type in `Art` instead:
 * A catalogue, such as `Art/Environment`, `FX`, or `UI`, is a huge collection of one kind of asset with as many supporting assets. Chasing a home for every dependency is unmanageable, so a catalogue sorts its supporting assets into its own type sub-folders, `Materials`, `Meshes`, and `Textures`.
 * A type-tied set that outgrows `Art/Materials` or `Art/Textures` leaves as a unit for a top-level folder of its own, label intact: the decal set lives in `Art/Decals`, the post-process set in `Art/PostProcess`. The threshold below decides when a set has grown enough to qualify.
 
-Flatness follows count, not prediction. A type earns its own folder once that folder actually holds fifteen or more assets of the type, and not before: a set of one to a dozen stays flat, because a folder holding a handful of files is harder to navigate than no folder at all. Organize the assets the project has, not the ones a future might bring.
+Flatness follows count, not prediction. A type earns its own folder once that folder actually holds fifteen or more assets of the type, and not before: a set of one to a dozen stays flat, because a folder holding a handful of files is harder to navigate than no folder at all.
 
 The folder's own base type is the exception. `UI` exists to hold widget Blueprints, so the `WBP_` assets sit at its root and never in a `UI/WBP` folder; the same goes for the `NS_` systems at the root of `FX` and the meshes at the root of `Art/Environment`. The root is where a folder's namesake belongs.
 
@@ -419,7 +427,7 @@ Characters outside `a-z`, `A-Z`, `0-9`, and `_`, such as `@`, `-`, `,`, `*`, and
 
 Every project asset lives in a folder named after the project: for 'Haeretica', _all_ content lives in `Content/Haeretica`.
 
-> The `Developer` folder is not project specific: your project does not rely on it. See [Developer Folders](#use-developer-folders-for-local-testing).
+> The `Developers/<UserName>` folder is not project specific: your project does not rely on it. See [Developer Folders](#use-developer-folders-for-local-testing).
 
 The reasons follow.
 
@@ -427,7 +435,7 @@ The reasons follow.
 
 Same principle as not polluting the global namespace in code. Assets outside a project folder make a strict layout hard to enforce, and invite the habit of not organizing assets.
 
-Every asset needs a purpose to belong in the project. An experimental test goes in a personal, hidden-by-default [`Developer`](#use-developer-folders-for-local-testing) folder; shared work-in-progress goes in [`Prototype`](#prototype).
+Every asset needs a purpose to belong in the project. An experimental test goes in a personal, hidden-by-default [`Developers/<UserName>`](#use-developer-folders-for-local-testing) folder.
 
 #### Reduce Migration Conflicts
 
@@ -458,7 +466,7 @@ DLC and sub-projects that are either migrated out or simply not cooked in a buil
 
 ### Use Developer Folders For Local Testing
 
-Team members need a sandbox to experiment in without risking the core project, and the work may need to be in source control. Not every team uses Developer folders, but those that do hit a common problem: unready assets leaking into the project.
+Team members need a sandbox to experiment in without risking the core project, and the work may need to be in source control. UE5 keeps those sandboxes at `Content/Developers/<UserName>/`, one per person, hidden from the Content Browser by default. Not every team uses Developer folders, but those that do hit a common problem: unready assets leaking into the project.
 
 An artist iterating on a modular mesh set, still adjusting sizing and grid snapping, leaves those assets in the main project folder. A world builder uses them across a level, and the assets later change or disappear, costing the team a huge amount of rework.
 
@@ -474,7 +482,6 @@ Beneath the project folder, content is split into a fixed set of top-level folde
 * `Blueprint` - The Blueprints that make up the project's logic. See [Blueprint](#blueprint).
 * `FX` - Niagara systems and the other assets that make up visual effects. See [FX](#fx).
 * `Maps` - All map files. See [Maps](#maps).
-* `Prototype` - Throwaway or work-in-progress content that is not ready for the project proper. Levels are the exception: even a throwaway test level lives under `Maps`. See [Prototype](#prototype).
 * `SFX` - Generic audio shared across the project: sound classes, attenuation presets, shared music, kept flat at the root. Audio tied to one asset lives with that asset. See [SFX](#sfx).
 * `UI` - User interface assets: widget Blueprints and their material instances, kept flat as a catalogue. See [UI](#ui).
 
@@ -513,7 +520,7 @@ A gameplay system whose art fits none of the folders above gets a matching folde
 
 `FX` is a catalogue, like `Art/Environment` and `UI`: a huge collection of one kind of asset, the Niagara System. Its systems sit at the root, and the assets an effect relies on sort into type sub-folders, `FX/Materials`, `FX/Meshes`, and `FX/Textures`. A static mesh used only by particle effects lives in `FX/Meshes` and carries the `SM_FX_` prefix.
 
-Tight association still wins: an effect with a clear, single-use association to one asset may live with that consumer instead of here - a weapon's `NS_` systems under `Art/Weapons/<Weapon>`, a character's under `Art/Characters/<Character>`, an interactable's under `Art/Interactables/<System>`. Only effects that are shared across several assets, or tied to no single asset, sort into `FX`.
+Tight association still wins: an effect with a clear, single-use association to one asset may live with that consumer instead of here - a weapon's `NS_` systems under `Art/Weapons/<Weapon>`, a character's under `Art/Characters/<Character>`, an interactable's under `Art/Interactables/<System>`.
 
 #### Maps
 
@@ -521,19 +528,11 @@ Every project tends to have its own map naming system, especially with sub-level
 
 Being able to name a map without explaining where it is saves time. Sub-folders like `Maps/Level1/` or `Maps/ArenaLevel1/` are fine, as long as everything sits under `/Content/Haeretica/Maps`.
 
-Every level lives here, test levels included. A throwaway greybox, a balancing map, or a scratch level is still a level, so it goes under `Maps` like any other, grouped into a folder such as `Maps/TestLevels/`; it does not go under `Prototype`. Filing a level outside `Maps` to mark it disposable hides it from the one folder anyone checks for a map, and from the folder a build enumerates.
+Every level lives here, test levels included. A throwaway greybox, a balancing map, or a scratch level is still a level, so it goes under `Maps` like any other, grouped into a folder such as `Maps/TestLevels/`. Filing a level outside `Maps` to mark it disposable hides it from the one folder anyone checks for a map, and from the folder a build enumerates.
 
 One map folder also makes cooking and lighting builds easier for engineers, and removes the risk of a map being left out of a build by accident. It simplifies QA too.
 
 A level folder may contain a `_GENERATED` folder, at the root of `Maps` or inside a level folder: the editor's own transient output. `_GENERATED` is off-limits: it is machine-generated, fair to delete and regenerate at any time, and none of this guide's naming or structure rules apply inside it, so do not rename, move, or tidy its contents.
-
-#### Prototype
-
-`Prototype` is the shared counterpart to a personal `Developer` folder: experimental or in-progress content that has no permanent home yet, such as test Blueprints and rough assets. Levels are the exception and never land here: a map is a map, disposable or not, and every one of them lives under `Maps`. Your own scratch work stays in a `Developer` folder. Anything here may be deleted or heavily changed, and nothing shipped may depend on it.
-
-`Prototype` is the only exception to the structure rules: the single project folder allowed to hold temporary content, whether it will be removed or moved into the project. Everywhere else, an asset lives in its one permanent home.
-
-Keeping prototype content together makes it obvious what is disposable and trivial to strip before a build. When a prototype is ready for production, move it into its proper home and fix up redirectors.
 
 #### SFX
 
@@ -619,7 +618,7 @@ There is no separate debug folder: a testing or debug material lives in `Art/Mat
 
 ### No Stray Empty Folders
 
-Avoid stray empty folders; they clutter the Content Browser. The structural folders are the exception: creating one ahead of content is fine, such as `Art/LUT` or `Art/PhysicalMaterials` before the project has any LUT or physical material.
+Avoid stray empty folders; they clutter the Content Browser. The structural folders are the exception: creating one ahead of content is fine, such as `Art/LUT` or `Art/PhysicalMaterials` before the project has any LUT or physical material. Generated folders are not covered at all: `_GENERATED` and the Content Browser's own `Collections` folders are machine-managed, so leave them as the tools that made them left them.
 
 If the Content Browser has an empty folder you cannot delete:
 1. Be sure you are using source control.
