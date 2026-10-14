@@ -264,7 +264,7 @@ Asset types that fit no other category, such as data assets, curves, data tables
 | MetaSound Source        | MSS_       |                                  |
 | MetaSound Patch         | MSP_       |                                  |
 | Sound Wave              | S_         |                                  |
-| Font                    | F_         |                                  |
+| Font                    | F_         | Lives in `Art/Fonts`. |
 | Font Face               | FF_        |                                  |
 | Slate Brush             | Brush_     |                                  |
 | Slate Widget Style      | Style_     |                                  |
@@ -327,7 +327,7 @@ Two cases sort by type in `Art` instead:
 
 Blueprint assets never follow a concept: code must never live with art. Every Blueprint and every code-only asset, such as an enumeration or a struct, stays in [`Blueprint`](#blueprint).
 
-> Do not create a folder called `Assets`, and do not split a folder into sibling folders that are only distinguished by asset type (for example a `Meshes` folder next to a `Textures` folder). Name folders after the thing they contain, not the type of asset that happens to live there. The type-named folders are only the ones the rules above call for: the generic homes [`Art/Materials`](#artmaterials) (with its `MaterialInstances` and `MaterialFunctions` sub-folders) and [`Art/Textures`](#arttextures), plus `Art/PhysicalMaterials` and `UI/Fonts`. A vast catalogue adds its own `Materials` and `Textures` for the shared assets it cannot place by association, such as `Art/Environment/Materials` and `Art/Environment/Textures`.
+> Do not create a folder called `Assets`, and do not split a folder into sibling folders that are only distinguished by asset type (for example a `Meshes` folder next to a `Textures` folder). Name folders after the thing they contain, not the type of asset that happens to live there. The type-named folders are only the ones the rules above call for: the generic homes [`Art/Materials`](#artmaterials) (with its `MaterialInstances` and `MaterialFunctions` sub-folders) and [`Art/Textures`](#arttextures), plus `Art/PhysicalMaterials` and `Art/Fonts`. A vast catalogue adds its own `Materials` and `Textures` for the shared assets it cannot place by association, such as `Art/Environment/Materials` and `Art/Environment/Textures`.
 
 **Example Project Content Structure**
 <pre>
@@ -345,6 +345,7 @@ Blueprint assets never follow a concept: code must never live with art. Every Bl
         |   |-- Environment
         |   |   |-- Materials
         |   |   |-- Textures
+        |   |-- Fonts
         |   |-- Interactables
         |   |-- <a href="#artmaterials">Materials</a>
         |   |   |-- MaterialInstances
@@ -463,7 +464,7 @@ Beneath the project folder, content is split into a fixed set of top-level folde
 * `Maps` - All map files. See [Maps](#maps).
 * `Prototype` - Throwaway or work-in-progress content that is not ready for the project proper. See [Prototype](#prototype).
 * `SFX` - Generic audio shared across the project: sound classes, attenuation presets, shared music. Audio tied to one asset lives with that asset. See [SFX](#sfx).
-* `UI` - User interface assets: widget Blueprints, their material instances, and fonts. See [UI](#ui).
+* `UI` - User interface assets: widget Blueprints and their material instances. See [UI](#ui).
 
 Not every project needs every folder. What matters is that when a folder exists, it is named and used exactly as described below, so its location is always predictable.
 
@@ -474,6 +475,7 @@ Not every project needs every folder. What matters is that when a folder exists,
 * `Art/Characters` - Character art, with a sub-folder per character (`Art/Characters/Priestess`).
 * `Art/Components` - Art for the reusable actor components in `Blueprint/Components`: their meshes, material instances, and textures.
 * `Art/Environment` - The one place a level designer looks for scenery: environment meshes, kept flat at the root so no one digs for a prop, plus a `Materials` sub-folder and a `Textures` sub-folder for the shared materials and textures the catalogue cannot place by association, since it is vast enough that tracking each dependency's home would be unmanageable. Any large flat set may add the same two folders. A placeable actor that is not scenery belongs to its own system: art in `Art/<System>`, Blueprint in `Blueprint/<System>`; see [Blueprint](#blueprint).
+* `Art/Fonts` - Fonts for the interface. See [UI](#ui).
 * `Art/LUT` - Color lookup tables (LUTs) used for color grading.
 * `Art/Materials` - The home for the project's generic materials, filed flat at the root, the prefix carrying the type (`M_PP_`, `M_UI_`, `M_FX_`, `M_Decal_`). A material tied to a single concept lives with that concept instead. See [`Art/Materials`](#artmaterials).
   * `Art/Materials/MaterialInstances` - Generic material instances that name no single asset, such as a generic wall instance.
@@ -522,9 +524,9 @@ Audio belonging to a single asset lives with that asset, so it migrates as a uni
 
 #### UI
 
-`UI` is a concept: the interface lives here, its widgets, UI materials and instances, UI textures, and fonts, grouped by screen or element such as `UI/HUD`, `UI/MainMenu`, or `UI/Options`, so a screen's widgets, textures, and materials migrate together: a crosshair material in `UI/HUD`, a button material in `UI/BaseElements`.
+`UI` is a concept: the interface lives here, its widgets, UI materials and instances, and UI textures, grouped by screen or element such as `UI/HUD`, `UI/MainMenu`, or `UI/Options`, so a screen's widgets, textures, and materials migrate together: a crosshair material in `UI/HUD`, a button material in `UI/BaseElements`.
 
-A UI asset that serves no single screen is generic and sorts by type into [`Art/Materials`](#artmaterials) or `Art/Textures`; a generic weapon icon that names no single weapon (a placeholder or fallback) is a base element, in `UI/BaseElements`. A non-widget UI Blueprint, such as a HUD class, is code and lives in `Blueprint/UI`; only widgets, their assets, and fonts stay in `UI`.
+A UI asset that serves no single screen is generic and sorts by type into [`Art/Materials`](#artmaterials) or `Art/Textures`; a generic weapon icon that names no single weapon (a placeholder or fallback) is a base element, in `UI/BaseElements`. A non-widget UI Blueprint, such as a HUD class, is code and lives in `Blueprint/UI`; only widgets and their assets stay in `UI`. Fonts are art and live in `Art/Fonts`, not here.
 
 
 ### Keep Base Classes With Their System
