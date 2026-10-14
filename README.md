@@ -116,60 +116,18 @@ Variants chain. Arch Viz flooring uses the base name `Flooring` with variants li
 
 Use these tables to pick an asset's prefix; suffixes are in [Suffixes](#suffixes). If a prefix and a suffix would be the same, use only the prefix.
 
-#### Most Common
+#### Meshes
 
-The prefixes used most often across a project; the per-category tables below cover the rest.
+All mesh types: static, skeletal, destructible, and Chaos geometry collections.
 
 | Asset Type              | Prefix     | Notes                            |
 | ----------------------- | ---------- | -------------------------------- |
-| Level / Map             |            | [Should be in a folder called Maps.](#maps) Level naming is in [Suffixes](#suffixes). |
-| Blueprint               | BP_        |                                  |
-| Material                | M_         |                                  |
 | Static Mesh             | SM_        |                                  |
 | Skeletal Mesh           | SKM_       |                                  |
-| Texture                 | T_         | See [Textures](#textures)    |
-| Particle System         | PS_        |                                  |
-| Niagara System          | NS_        |                                  |
-| Widget Blueprint        | WBP_       |                                  |
+| Destructible Mesh       | DM_        |                                  |
+| Geometry Collection     | GC_        | Chaos destruction.               |
 
-#### Animations
-
-Animation assets, from sequences and montages to blend spaces and level sequences, plus the rigs and Animation Blueprints that drive a character.
-
-| Asset Type              | Prefix     | Notes                            |
-| ----------------------- | ---------- | -------------------------------- |
-| Aim Offset              | AO_        |                                  |
-| Aim Offset 1D           | AO_        |                                  |
-| Animation Blueprint     | ABP_       |                                  |
-| Animation Composite     | AC_        |                                  |
-| Animation Montage       | AM_        |                                  |
-| Animation Sequence      | A_         |                                  |
-| Blend Space             | BS_        |                                  |
-| Blend Space 1D          | BS_        |                                  |
-| Level Sequence          | LS_        |                                  |
-| Morph Target            | MT_        |                                  |
-| Paper Flipbook          | PFB_       |                                  |
-| Rig                     | Rig_       |                                  |
-| Control Rig             | CR_        |                                  |
-| IK Rig                  | IK_        |                                  |
-| Skeletal Mesh           | SKM_       |                                  |
-| Skeleton                | SK_        |                                  |
-
-#### Artificial Intelligence
-
-The assets that drive AI: controllers, behavior trees with their decorators, services, and tasks, blackboards, and environment queries.
-
-| Asset Type              | Prefix     | Notes                            |
-| ----------------------- | ---------- | -------------------------------- |
-| AI Controller           | AIC_       |                                  |
-| Behavior Tree           | BT_        |                                  |
-| Blackboard              | BB_        |                                  |
-| Decorator               | BTD_       |                                  |
-| Service                 | BTS_       |                                  |
-| Task                    | BTT_       |                                  |
-| Environment Query       | EQS_       |                                  |
-
-#### Blueprints
+#### Blueprint Types
 
 Blueprint classes, plus the data types that support them, such as enumerations, structs, and interfaces, and editor-only utility variants.
 
@@ -241,6 +199,28 @@ Asset types that fit no other category, such as data assets, curves, data tables
 
 | Asset Type                 | Prefix     | Notes                            |
 | -------------------------- | ---------- | -------------------------------- |
+| Aim Offset              | AO_        |                                  |
+| Aim Offset 1D           | AO_        |                                  |
+| Animation Blueprint     | ABP_       |                                  |
+| Animation Composite     | AC_        |                                  |
+| Animation Montage       | AM_        |                                  |
+| Animation Sequence      | A_         |                                  |
+| Blend Space             | BS_        |                                  |
+| Blend Space 1D          | BS_        |                                  |
+| Level Sequence          | LS_        |                                  |
+| Morph Target            | MT_        |                                  |
+| Rig                     | Rig_       |                                  |
+| Control Rig             | CR_        |                                  |
+| IK Rig                  | IK_        |                                  |
+| Skeleton                | SK_        |                                  |
+| AI Controller           | AIC_       |                                  |
+| Behavior Tree           | BT_        |                                  |
+| Blackboard              | BB_        |                                  |
+| Decorator               | BTD_       |                                  |
+| Service                 | BTS_       |                                  |
+| Task                    | BTT_       |                                  |
+| Environment Query       | EQS_       |                                  |
+| Level / Map                |            | [Should be in a folder called Maps.](#maps) Level naming is in [Suffixes](#suffixes). |
 | Animated Vector Field      | VFA_       |                                  |
 | Camera Anim                | CA_        |                                  |
 | Curve                     | C_         | Color, Table, Float, and Vector curves; suffixes in [Suffixes](#suffixes). |
@@ -258,42 +238,17 @@ Asset types that fit no other category, such as data assets, curves, data tables
 | File Media Source          | FMS_       |                                  |
 | Object Library             | OL_        |                                  |
 | PCG Graph                  | PCG_       | Procedural content generation.   |
-| Redirector                 |            | These should be fixed up ASAP.   |
 | Sprite Sheet               | SS_        |                                  |
 | Static Vector Field        | VF_        |                                  |
 | Substance Graph Instance   | SGI_       |                                  |
 | Substance Instance Factory | SIF_       |                                  |
 | Touch Interface Setup      | TI_        |                                  |
-
-#### Paper 2D
-
-2D assets: flipbooks, sprites, and the tile maps and tile sets built from them.
-
-| Asset Type              | Prefix     | Notes                            |
-| ----------------------- | ---------- | -------------------------------- |
 | Paper Flipbook          | PFB_       |                                  |
 | Sprite                  | SPR_       |                                  |
 | Sprite Atlas Group      | SPRG_      |                                  |
 | Tile Map                | TM_        |                                  |
 | Tile Set                | TS_        |                                  |
-
-#### Physics
-
-Physics assets, from physical materials to Chaos geometry collections and destructible meshes.
-
-| Asset Type              | Prefix     | Notes                            |
-| ----------------------- | ---------- | -------------------------------- |
-| Physical Material       | PM_        |                                  |
 | Physics Asset           | PA_        |                                  |
-| Geometry Collection     | GC_        | Chaos destruction.               |
-| Destructible Mesh       | DM_        |                                  |
-
-#### Sounds
-
-Sound waves, cues, and mixes, with the classes, attenuation, and concurrency that shape how they play; shared audio lives in [`SFX`](#sfx).
-
-| Asset Type              | Prefix     | Notes                            |
-| ----------------------- | ---------- | -------------------------------- |
 | Dialogue Voice          | DV_        |                                  |
 | Dialogue Wave           | DW_        |                                  |
 | Media Sound Wave        | MSW_       |                                  |
@@ -304,39 +259,17 @@ Sound waves, cues, and mixes, with the classes, attenuation, and concurrency tha
 | Sound Mix               | Mix_       |                                  |
 | MetaSound Source        | MSS_       |                                  |
 | MetaSound Patch         | MSP_       |                                  |
-| Sound Wave              |            |                                  |
-
-#### User Interface
-
-User interface assets; placement and folder rules are in [UI](#ui).
-
-| Asset Type              | Prefix     | Notes                            |
-| ----------------------- | ---------- | -------------------------------- |
+| Sound Wave              | S_         |                                  |
 | Font                    | F_         |                                  |
 | Font Face               | FF_        |                                  |
 | Slate Brush             | Brush_     |                                  |
 | Slate Widget Style      | Style_     |                                  |
-| Widget Blueprint        | WBP_       |                                  |
-
-#### Effects
-
-Visual effect assets: Niagara systems, emitters, and their modules and parameter collections; see [Niagara](#niagara).
-
-| Asset Type              | Prefix     | Notes                            |
-| ----------------------- | ---------- | -------------------------------- |
 | Particle System         | PS_        |                                  |
 | Niagara System          | NS_        | The placeable VFX asset.         |
 | Niagara Emitter         | NE_        |                                  |
 | Niagara Module Script   | NM_        |                                  |
 | Niagara Parameter Collection | NP_   |                                  |
 | Niagara Parameter Collection (Instance) | NPI_ |                                  |
-
-#### Gameplay Ability System
-
-Assets for the Gameplay Ability System: abilities, gameplay effects, and gameplay cue notifications.
-
-| Asset Type              | Prefix     | Notes                            |
-| ----------------------- | ---------- | -------------------------------- |
 | Gameplay Ability        | GA_        |                                  |
 | Gameplay Effect         | GE_        |                                  |
 | Gameplay Cue Notify     | GCN_       |                                  |
@@ -347,7 +280,6 @@ A suffix differentiates an asset by its specific type. Assets come in all kinds 
 
 | Asset Type              | Suffix     | Notes                            |
 | ----------------------- | ---------- | -------------------------------- |
-| EnvQueryContext         | _Context   |                                  |
 | Texture (Diffuse/Albedo/Base Color) | _D / _BC | `_D` and `_BC` are interchangeable. |
 | Texture (Normal)        | _N         |                                  |
 | Texture (Roughness)     | _R         |                                  |
@@ -381,9 +313,9 @@ Level suffixes are a special case. `_P`, `_Audio`, `_Light`, `_Geo`, and `_Gamep
 
 Directory structure is law too, on par with naming: the two go hand in hand, and breaking either causes chaos.
 
-All content lives under a folder named after the project (`Content/Haeretica`), split into a fixed set of top-level folders, each the single home for one class of asset. Because every asset carries its type in its prefix, these folders group by _purpose_ rather than by asset type; use the Content Browser's filters and search to narrow by type within a folder. Everyone can then find any asset's home without asking.
+All project content lives under a folder named after the project (`Content/Haeretica`), split into a fixed set of top-level folders, each the single home for one class of asset. DLC, patches, and sub-projects that ship separately are the exception: each gets its own top-level root. Because most assets carry their type in their prefix, these folders group by _purpose_ rather than by asset type; use the Content Browser's filters and search to narrow by type within a folder. An asset lives where it is owned, not where its type or usage might suggest, so it moves as a unit with the system it serves. Everyone can then find any asset's home without asking.
 
-> Do not create a folder called `Assets`, and do not split a folder into sibling folders that are only distinguished by asset type (for example a `Meshes` folder next to a `Textures` folder). Name folders after the thing they contain, not the type of asset that happens to live there. The deliberate exception is [`Art/Materials`](#artmaterials): a `Materials` folder holding materials, material functions, generic material instances, and the `Textures` sub-folder of generic textures those materials sample, is allowed. `UI/Fonts` is the second: fonts are a user-interface-only concept with no other home, so a `Fonts` folder is allowed in `UI` and nowhere else. A set that would otherwise be one large flat pile may add the same two folders for order, a `Materials` folder for the set's material instances and a `Textures` folder for its textures, such as `Art/Environment/Materials` and `Art/Environment/Textures`, without splitting the set apart.
+> Do not create a folder called `Assets`, and do not split a folder into sibling folders that are only distinguished by asset type (for example a `Meshes` folder next to a `Textures` folder). Name folders after the thing they contain, not the type of asset that happens to live there. A few type-named folders are allowed because one asset kind has no purpose-named home: [`Art/Materials`](#artmaterials) (with its `MaterialInstances`, `MaterialFunctions`, and `Textures` sub-folders), `Art/PhysicalMaterials`, `Art/Decals`, and `UI/Fonts`. A set that would otherwise be one large flat pile may also add a `Materials` folder for its material instances and a `Textures` folder for its textures, such as `Art/Environment/Materials` and `Art/Environment/Textures`, without splitting the set apart.
 
 **Example Project Content Structure**
 <pre>
@@ -661,7 +593,7 @@ If the Content Browser has an empty folder you cannot delete:
 1. Submit to source control.
 
 
-## Blueprints
+## Blueprint Guidelines
 
 This section will focus on Blueprint classes and their internals. When possible, style rules conform to [Epic's Coding Standard](https://dev.epicgames.com/documentation/en-us/unreal-engine/epic-cplusplus-coding-standard-for-unreal-engine).
 
@@ -719,7 +651,7 @@ Avoid verbs such as `bRunning`; they tend to lead to complex states.
 
 **Complex States:** Do not use booleans for complex or dependent states; adding and removing states becomes hard and unreadable. Use an enumeration instead.
 
-Example: A weapon that cannot be both reloading and equipping should **not** use `bReloading` and `bEquipping`. Define an enumeration `EWeaponState` and a variable `WeaponState` of that type, so new weapon states are easy to add.
+Example: A weapon that cannot be both reloading and equipping should **not** use `bReloading` and `bEquipping`. Define an enumeration `E_WeaponState` and a variable `WeaponState` of that type, so new weapon states are easy to add.
 
 Example: Do **not** use `bRunning` alongside `bWalking` or `bSprinting`; define an enumeration with clear state names.
 
@@ -1087,9 +1019,9 @@ A per-asset judgment: modular socketless assets should snap together cleanly on 
 
 The project chooses a power-of-2 or base-10 grid. For marketplace assets, Epic requires clean snapping at a grid of 10 units or larger.
 
-### All Meshes Must Have Collision
+### Meshes Must Have Collision Where They Are Used
 
-Every mesh, whether or not the level uses it for collision, needs proper collision defined: it helps the engine with bounds, occlusion, and lighting. Collision should be well-formed to the asset.
+Meshes requiring physical interaction or collision queries must have suitable, well-formed collision. Visual-only meshes, such as those used by Niagara effects, may omit collision.
 
 ### All Meshes Should Be Scaled Correctly
 
@@ -1120,13 +1052,13 @@ Niagara assets use these prefixes: `NS_` for a System, `NE_` for an Emitter, `NM
 
 A System's quality, significance, and culling come from its [Effect Type](https://dev.epicgames.com/documentation/en-us/unreal-engine/scalability-and-best-practices-for-niagara), not per-instance switches or Blueprint toggles. Define scalability once in the Effect Type: the effect then behaves the same wherever spawned and scales down for weaker targets without editing the System.
 
-### Set Fixed Bounds
+### Set Bounds Correctly
 
-Every System must set fixed bounds covering the volume the effect can actually occupy. A System left on dynamic bounds, or with bounds that do not contain the effect, culls incorrectly: it pops out of view early, or never culls and keeps costing performance off screen.
+Prefer fixed bounds, covering the volume the effect can actually occupy. GPU emitters must use a supported bounds mode (fixed or programmable), because dynamic bounds are CPU-only; a CPU emitter may use dynamic bounds where justified. A System whose bounds do not contain the effect culls incorrectly: it pops out of view early, or never culls and keeps costing performance off screen.
 
 ### Pick The Right Emitter Sim Target
 
-Use GPU emitters for high particle counts and anything purely visual. Use CPU emitters when the simulation has to read or write gameplay state, collide against the world, or when the count is small enough that a GPU emitter's overhead is not worth it. A CPU emitter chosen only "because it was easier" is a performance bug waiting to happen.
+Choose an emitter's sim target from its requirements, not a single rule. A GPU emitter suits high particle counts and effects with no per-particle gameplay reads, and needs a supported (fixed or programmable) bounds mode. A CPU emitter is needed when gameplay reads or writes particle attributes, when determinism or replication matters, or when the count is low enough that GPU dispatch and readback overhead dominates. GPU emitters can collide against the world through scene depth, distance fields, or GPU ray tracing, within their limits; choose a CPU emitter when collision or reads must be exact. Treat any CPU/GPU crossover point as a heuristic and confirm it by profiling on target hardware; an emitter chosen only "because it was easier" is a performance bug waiting to happen.
 
 ### Reuse Emitters And Modules
 
@@ -1147,7 +1079,7 @@ Linter is stricter than the editor and catches load errors the editor resolves o
 
 ### Lighting Should Be Built
 
-Levels often go unlit during development, but any test, internal, or shipping build, or any distributed build, has lighting built.
+Levels often go unlit during development. Where precomputed lighting is enabled and used, lighting must be built for any test, internal, or shipping build, or any distributed build.
 
 ### No Player Visible Z Fighting
 
@@ -1155,7 +1087,7 @@ No [z-fighting](https://en.wikipedia.org/wiki/Z-fighting) anywhere the player ca
 
 ### Compose Levels From Isolated Components
 
-Build a playable area from multiple level components, not one monolithic map, except for a small or test level. The Persistent Level is the composition root: it references and coordinates components but holds no authored gameplay, lighting, audio, geometry, or segment content. Treat it as glue only, and do not edit it for ordinary feature work.
+Build a playable area from multiple level components, not one monolithic map, except for a small or test level. The Persistent Level is the composition root: it references and coordinates components but holds no authored gameplay, lighting, audio, geometry, or segment content. Treat it as glue only, and do not edit it for ordinary feature work. This convention applies to projects using traditional level streaming; World Partition projects follow their project's World Partition architecture.
 
 Name the Persistent Level with the `_P` suffix. Split independently owned work into focused components with the established suffixes (`_Gameplay`, `_Light`, `_Audio`, `_Geo`), and give extra world segments clear names such as `_Segment01`. Keep components separable so teammates can work on different areas without locking the whole level. Put all Level Blueprint logic in the `_Gameplay` component, never in the Persistent Level Blueprint.
 
@@ -1165,7 +1097,7 @@ This lowers multi-person edit conflicts: each contributor works in one component
 
 **Figure 5.** A Persistent Level assembling separate gameplay, geometry, lighting, audio, and segment components.
 
-## Textures
+## Texture Guidelines
 
 This section will focus on Texture assets and their internals.
 
