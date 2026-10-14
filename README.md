@@ -326,11 +326,11 @@ Sometimes the asset that defines a concept is not the one being filed. The prima
 
 Two cases sort by type in `Art` instead:
 * An asset whose association cannot be pinned to one concept, or that several concepts share, is generic. A wall material used across the project belongs to no single wall, so it lives in [`Art/Materials`](#artmaterials) or `Art/Textures` by type.
-* A vast catalogue, such as `Art/Environment`, holds hundreds of meshes and as many shared materials and textures. Chasing a home for every dependency is unmanageable, so a set this size keeps its own `Materials` and `Textures` sub-folders and sorts into them by type.
+* A catalogue, such as `Art/Environment`, `FX`, or `UI`, is a huge collection of one kind of asset with as many supporting assets. Chasing a home for every dependency is unmanageable, so a catalogue sorts its supporting assets into its own type sub-folders, `Materials`, `Meshes`, and `Textures`.
 
 Blueprint assets never follow a concept: code must never live with art. Every Blueprint and every code-only asset, such as an enumeration or a struct, stays in [`Blueprint`](#blueprint).
 
-> Do not create a folder called `Assets`, and do not split a folder into sibling folders that are only distinguished by asset type (for example a `Meshes` folder next to a `Textures` folder). Name folders after the thing they contain, not the type of asset that happens to live there. The type-named folders are only the ones the rules above call for: the generic homes [`Art/Materials`](#artmaterials) (with its `MaterialInstances` and `MaterialFunctions` sub-folders) and [`Art/Textures`](#arttextures), plus `Art/PhysicalMaterials` and `Art/Fonts`. A vast catalogue adds its own `Materials` and `Textures` for the shared assets it cannot place by association, such as `Art/Environment/Materials` and `Art/Environment/Textures`.
+> Do not create a folder called `Assets`, and do not split a folder into sibling folders that are only distinguished by asset type (for example a `Meshes` folder next to a `Textures` folder). Name folders after the thing they contain, not the type of asset that happens to live there. The type-named folders are only the ones the rules above call for: the generic homes [`Art/Materials`](#artmaterials) (with its `MaterialInstances` and `MaterialFunctions` sub-folders) and [`Art/Textures`](#arttextures), plus `Art/PhysicalMaterials` and `Art/Fonts`. A catalogue adds its own `Materials`, `Meshes`, and `Textures` for the supporting assets it cannot place by association, such as `Art/Environment/Materials` and `FX/Meshes`.
 
 **Example Project Content Structure**
 <pre>
@@ -365,7 +365,9 @@ Blueprint assets never follow a concept: code must never live with art. Every Bl
         |   |-- Tools
         |   |-- <a href="#give-every-blueprint-system-its-own-folder">Weapons</a>
         |-- <a href="#fx">FX</a>
+        |   |-- Materials
         |   |-- Meshes
+        |   |-- Textures
         |-- <a href="#maps">Maps</a>
         |   |-- ArenaLevel1
         |   |-- Level1
@@ -383,6 +385,8 @@ Blueprint assets never follow a concept: code must never live with art. Every Bl
             |-- MainMenu
             |-- Options
             |-- Transition
+            |-- Materials
+            |-- Textures
 </pre>
 
 The reasons for this structure are listed in the following sub-sections.
@@ -500,7 +504,7 @@ A gameplay system whose art fits none of the folders above gets a matching folde
 
 #### FX
 
-`FX` is a concept: an effect lives here with everything it relies on, its Niagara system, meshes, materials, textures, and instances, so the whole effect moves as one unit. The Niagara System is the primary asset, so it sits at the root; a mesh an effect uses is not the primary asset, so it sorts into `FX/Meshes` and takes the `SM_FX_` prefix. A generic effect material or texture that no single effect owns sorts by type into [`Art/Materials`](#artmaterials) or `Art/Textures` instead.
+`FX` is a catalogue, like `Art/Environment` and `UI`: a huge collection of one kind of asset, the Niagara System. Its systems sit at the root, and the assets an effect relies on sort into type sub-folders, `FX/Materials`, `FX/Meshes`, and `FX/Textures`. A static mesh used only by particle effects lives in `FX/Meshes` and carries the `SM_FX_` prefix.
 
 #### Maps
 
@@ -528,9 +532,9 @@ Audio belonging to a single asset lives with that asset, so it migrates as a uni
 
 #### UI
 
-`UI` is a concept: the interface lives here, its widgets, UI materials and instances, and UI textures, grouped by screen or element such as `UI/HUD`, `UI/MainMenu`, or `UI/Options`, so a screen's widgets, textures, and materials migrate together: a crosshair material in `UI/HUD`, a button material in `UI/BaseElements`.
+`UI` is a catalogue, like `Art/Environment` and `FX`: the interface's assets, grouped by screen or element such as `UI/HUD`, `UI/MainMenu`, or `UI/Options`, so a screen's widgets, textures, and materials migrate together: a crosshair material in `UI/HUD`, a button material in `UI/BaseElements`.
 
-A UI asset that serves no single screen is generic and sorts by type into [`Art/Materials`](#artmaterials) or `Art/Textures`; a generic weapon icon that names no single weapon (a placeholder or fallback) is a base element, in `UI/BaseElements`. A non-widget UI Blueprint, such as a HUD class, is code and lives in `Blueprint/UI`; only widgets and their assets stay in `UI`. Fonts are art and live in `Art/Fonts`, not here.
+A UI asset that serves no single screen sorts by type into `UI/Materials` or `UI/Textures`; a generic weapon icon that names no single weapon (a placeholder or fallback) is a base element, in `UI/BaseElements`. A non-widget UI Blueprint, such as a HUD class, is code and lives in `Blueprint/UI`; only widgets and their assets stay in `UI`. Fonts are art and live in `Art/Fonts`, not here.
 
 
 ### Keep Base Classes With Their System
