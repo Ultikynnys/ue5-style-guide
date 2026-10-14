@@ -344,7 +344,7 @@ Blueprint assets never follow a concept: code must never live with art. Every Bl
         |   |   |-- Priestess
         |   |   |-- RangedDummy
         |   |   |-- Tank
-        |   |-- Components
+        |   |-- Decals
         |   |-- Environment
         |   |   |-- Materials
         |   |   |-- Textures
@@ -354,16 +354,18 @@ Blueprint assets never follow a concept: code must never live with art. Every Bl
         |   |-- <a href="#artmaterials">Materials</a>
         |   |   |-- MaterialInstances
         |   |   |-- MaterialFunctions
+        |   |-- PostProcess
         |   |-- <a href="#arttextures">Textures</a>
-        |   |-- Tools
         |   |-- Weapons
         |-- <a href="#blueprint">Blueprint</a>
         |   |-- Components
+        |   |-- Consumables
         |   |-- Enemies
         |   |-- GameModes
         |   |-- Interactables
         |   |-- Player
         |   |-- Tools
+        |   |-- UI
         |   |-- <a href="#give-every-blueprint-system-its-own-folder">Weapons</a>
         |-- <a href="#fx">FX</a>
         |   |-- Materials
@@ -371,21 +373,15 @@ Blueprint assets never follow a concept: code must never live with art. Every Bl
         |   |-- Textures
         |-- <a href="#maps">Maps</a>
         |   |-- ArenaLevel1
+        |   |-- ArtTestLevel
         |   |-- Level1
         |   |-- Level2
         |   |-- Level3
+        |   |-- LevelLibrary
         |   |-- MainMenu
         |   |-- TestLevels
         |-- <a href="#sfx">SFX</a>
-        |   |-- Attenuation
-        |   |-- Enemies
-        |   |-- Music
         |-- <a href="#ui">UI</a>
-            |-- BaseElements
-            |-- HUD
-            |-- MainMenu
-            |-- Options
-            |-- Transition
             |-- Materials
             |-- Textures
 </pre>
@@ -483,15 +479,17 @@ Not every project needs every folder. What matters is that when a folder exists,
 
 * `Art/Characters` - Character art, with a sub-folder per character (`Art/Characters/Priestess`).
 * `Art/Components` - Art for the reusable actor components in `Blueprint/Components`: their meshes, material instances, and textures.
+* `Art/Decals` - Decal materials, instances, and textures (`M_Decal_`, `MI_Decal_`, `T_Decal_`), kept in their own folder rather than in `Art/Materials`; the type label stays on the asset, so the set reads the same wherever it sits.
 * `Art/Environment` - The one place a level designer looks for scenery: environment meshes, kept flat at the root so no one digs for a prop, plus a `Materials` sub-folder and a `Textures` sub-folder for the shared materials and textures the catalogue cannot place by association, since it is vast enough that tracking each dependency's home would be unmanageable. Any large flat set may add the same two folders. A placeable actor that is not scenery belongs to its own system: art in `Art/<System>`, Blueprint in `Blueprint/<System>`; see [Blueprint](#blueprint).
 * `Art/Fonts` - Fonts for the interface. See [UI](#ui).
 * `Art/GeometryCollection` - Every geometry collection: the assets that group geometry into a simulable, fracturable, destructible element. Reserved for them; a physics destruction element lives here and nowhere else. See [`Art/GeometryCollection`](#artgeometrycollection).
 * `Art/LUT` - Color lookup tables (LUTs) used for color grading.
-* `Art/Materials` - The home for the project's generic materials, filed flat at the root, the prefix carrying the type (`M_PP_`, `M_UI_`, `M_FX_`, `M_Decal_`). A material tied to a single concept lives with that concept instead. See [`Art/Materials`](#artmaterials).
+* `Art/Materials` - The home for the project's generic materials, filed flat at the root, the prefix carrying the type (`M_UI_`, `M_FX_`). A material tied to a single concept lives with that concept instead, and the decal and post-process materials keep their own folders (`Art/Decals`, `Art/PostProcess`). See [`Art/Materials`](#artmaterials).
   * `Art/Materials/MaterialInstances` - Generic material instances that name no single asset, such as a generic wall instance.
   * `Art/Materials/MaterialFunctions` - Reusable material functions.
 * `Art/PhysicalMaterials` - Physical materials used for surface responses such as footstep and impact effects.
-* `Art/Textures` - The home for the project's generic textures, flat, the prefix carrying the type (`T_PP_`, `T_UI_`, `T_FX_`, `T_Decal_`). A texture tied to a single concept lives with that concept instead. It sits beside `Art/Materials`, not inside it, to keep the tree shallow. See [`Art/Textures`](#arttextures).
+* `Art/PostProcess` - Post-process materials, instances, and textures (`M_PP_`, `MI_PP_`, `T_PP_`), kept in their own folder rather than in `Art/Materials` for the same reason.
+* `Art/Textures` - The home for the project's generic textures, flat, the prefix carrying the type (`T_UI_`, `T_FX_`). A texture tied to a single concept lives with that concept instead, and the decal and post-process textures sit with their materials in `Art/Decals` and `Art/PostProcess`. It sits beside `Art/Materials`, not inside it, to keep the tree shallow. See [`Art/Textures`](#arttextures).
 
 A gameplay system whose art fits none of the folders above gets a matching folder here, such as `Art/Weapons` or `Art/Tools`, mirroring its `Blueprint/<System>` folder. Every system splits the same way: art and animation in `Art/<System>`, logic in `Blueprint/<System>`. An Animation Blueprint is animation, so it lives here too; see [Blueprint](#blueprint).
 
@@ -507,6 +505,8 @@ A gameplay system whose art fits none of the folders above gets a matching folde
 #### FX
 
 `FX` is a catalogue, like `Art/Environment` and `UI`: a huge collection of one kind of asset, the Niagara System. Its systems sit at the root, and the assets an effect relies on sort into type sub-folders, `FX/Materials`, `FX/Meshes`, and `FX/Textures`. A static mesh used only by particle effects lives in `FX/Meshes` and carries the `SM_FX_` prefix.
+
+Tight association still wins: an effect with a clear, single-use association to one asset may live with that consumer instead of here - a weapon's `NS_` systems under `Art/Weapons/<Weapon>`, a character's under `Art/Characters/<Character>`, an interactable's under `Art/Interactables/<System>`. Only effects that are shared across several assets, or tied to no single asset, sort into `FX`.
 
 #### Maps
 
@@ -584,7 +584,7 @@ When adding a new asset, look at the materials that already exist before creatin
 
 `Art/Materials` holds its generic materials (`M_`) flat at its root, plus a `MaterialInstances` sub-folder for instances that name no single asset and a `MaterialFunctions` sub-folder for reusable functions.
 
-Every generic material lives here, whatever its type: a mesh material (`M_`) and a type-tied one (`M_PP_`, `M_UI_`, `M_FX_`, `M_Decal_`). The label distinguishes them; browse the folder with the Content Browser's type filters instead of splitting it into `PP`, `UI`, `FX`, and `Decal` sub-folders.
+Every generic material lives here, whatever its type: a mesh material (`M_`) and a type-tied one (`M_UI_`, `M_FX_`). The label distinguishes them, so do not split the folder into `PP`, `UI`, or `FX` sub-folders; browse it with the Content Browser's type filters instead. A single type-tied set may leave for a top-level folder of its own when it is big enough to deserve one - the decal set lives in `Art/Decals`, the post-process set in `Art/PostProcess` - and its assets keep their label, so the type is never in doubt.
 
 A material instance is placed by what it dresses, not by its material. An instance tied to an asset or asset set lives with it, in the asset's folder or a `Materials` sub-folder there, so deleting the folder deletes the instance too and no orphan is left behind: a weapon's instance sits in `Art/Weapons`, the environment set's in `Art/Environment/Materials`. Only a generic instance that names no single asset, such as a generic wall instance, lives in `Art/Materials/MaterialInstances`.
 
@@ -600,7 +600,7 @@ There is no separate debug folder: a testing or debug material lives in `Art/Mat
 
 ### `Art/Textures`
 
-`Content/Haeretica/Art/Textures` is the home for the project's generic textures: those that belong to no single concept, plus the shared ones a vast catalogue draws from, whatever their label (`T_`, `T_PP_`, `T_UI_`, `T_FX_`, `T_Decal_`), flat in the one folder like the materials. A texture tied to one concept lives with that concept instead. It sits beside `Art/Materials`, not inside it: even though every texture here feeds a material, nesting `Textures` under `Materials` would add a level and buy nothing, so the two stay siblings.
+`Content/Haeretica/Art/Textures` is the home for the project's generic textures: those that belong to no single concept, plus the shared ones a vast catalogue draws from, whatever their label (`T_`, `T_UI_`, `T_FX_`), flat in the one folder like the materials. The decal and post-process textures sit with their materials instead, in `Art/Decals` and `Art/PostProcess`. A texture tied to one concept lives with that concept instead. It sits beside `Art/Materials`, not inside it: even though every texture here feeds a material, nesting `Textures` under `Materials` would add a level and buy nothing, so the two stay siblings.
 
 ### `Art/GeometryCollection`
 
