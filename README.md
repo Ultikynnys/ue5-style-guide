@@ -477,7 +477,6 @@ The current project uses the following top-level folders beneath its project fol
 In this project, `Art` holds character and system art alongside generic visual asset collections:
 
 * `Art/Characters` - Character art, with a sub-folder per character (`Art/Characters/Priestess`).
-* `Art/Components` - Art for the reusable actor components in `Blueprint/Components`: their meshes, material instances, and textures.
 * `Art/Decals` - Decal materials, instances, and textures (`M_Decal_`, `MI_Decal_`, `T_Decal_`). The type label stays on the asset, so the set reads the same wherever it sits.
 * `Art/Environment` - Environment meshes stay at the root so a level designer can browse scenery at a glance. Its large supporting collections live in `Materials` and `Textures`.
 * `Art/Fonts` - Fonts for the interface. See [UI](#ui).
