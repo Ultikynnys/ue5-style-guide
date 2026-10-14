@@ -123,6 +123,7 @@ All mesh types: static, skeletal, destructible, and Chaos geometry collections.
 | Asset Type              | Prefix     | Notes                            |
 | ----------------------- | ---------- | -------------------------------- |
 | Static Mesh             | SM_        |                                  |
+| Static Mesh (FX)        | SM_FX_     | A static mesh used only by particle effects; filed in `FX/Meshes`. |
 | Skeletal Mesh           | SKM_       |                                  |
 | Destructible Mesh       | DM_        |                                  |
 | Geometry Collection     | GC_        | Chaos destruction.               |
@@ -321,6 +322,8 @@ All project content lives under a folder named after the project (`Content/Haere
 
 File an asset by association first. One that belongs to a single concept lives flat with that concept's other assets, whatever their types: every part of a weapon, its mesh, material, texture, animation, and sound alike, sits together in `Art/Weapons/Pistol`, so the set moves, migrates, and is deleted as one unit.
 
+Sometimes the asset that defines a concept is not the one being filed. The primary asset sits at the root of the concept's folder; an asset that only serves it, such as a mesh a Niagara effect borrows, is secondary and sorts into a type sub-folder, such as `FX/Meshes`.
+
 Two cases sort by type in `Art` instead:
 * An asset whose association cannot be pinned to one concept, or that several concepts share, is generic. A wall material used across the project belongs to no single wall, so it lives in [`Art/Materials`](#artmaterials) or `Art/Textures` by type.
 * A vast catalogue, such as `Art/Environment`, holds hundreds of meshes and as many shared materials and textures. Chasing a home for every dependency is unmanageable, so a set this size keeps its own `Materials` and `Textures` sub-folders and sorts into them by type.
@@ -362,6 +365,7 @@ Blueprint assets never follow a concept: code must never live with art. Every Bl
         |   |-- Tools
         |   |-- <a href="#give-every-blueprint-system-its-own-folder">Weapons</a>
         |-- <a href="#fx">FX</a>
+        |   |-- Meshes
         |-- <a href="#maps">Maps</a>
         |   |-- ArenaLevel1
         |   |-- Level1
@@ -496,7 +500,7 @@ A gameplay system whose art fits none of the folders above gets a matching folde
 
 #### FX
 
-`FX` is a concept: an effect lives here with everything it relies on, its Niagara system, meshes, materials, textures, and instances, so the whole effect moves as one unit. A generic effect material or texture that no single effect owns sorts by type into [`Art/Materials`](#artmaterials) or `Art/Textures` instead.
+`FX` is a concept: an effect lives here with everything it relies on, its Niagara system, meshes, materials, textures, and instances, so the whole effect moves as one unit. The Niagara System is the primary asset, so it sits at the root; a mesh an effect uses is not the primary asset, so it sorts into `FX/Meshes` and takes the `SM_FX_` prefix. A generic effect material or texture that no single effect owns sorts by type into [`Art/Materials`](#artmaterials) or `Art/Textures` instead.
 
 #### Maps
 
