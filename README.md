@@ -42,7 +42,7 @@ Not legal advice: do not bring illegal content or behavior into a project. For e
 
 More folders do not mean easier discovery. Deep, per-asset folder trees slow people down and invite duplicate assets. Prefer a few broad, clearly named folders that group related content where people look for it.
 
-For example, `Art/Environment` keeps static environment meshes together so a level designer sees every scenery asset at a glance. Put the set's material instances and textures in its `Materials` and `Textures` sub-folders, but do not give every prop its own folder split into `Meshes`, `Materials`, and `Textures`. Folders should make a collection easier to browse, not add structure for its own sake.
+For example, `Art/Environment` keeps static environment meshes together so a level designer sees every scenery asset at a glance. Put the set's material instances and textures in its `Materials` and `Textures` sub-folders, but do not give every prop its own folder split into `Meshes`, `Materials`, and `Textures`. Keep those two sub-folders siblings: even though the textures only feed the materials, nesting `Textures` inside `Materials` would add a level and buy nothing, so they sit at the same level. Folders should make a collection easier to browse, not add structure for its own sake.
 
 ![Example of environment assets organized together in a browsable folder](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/folder-organization-example.png)
 
