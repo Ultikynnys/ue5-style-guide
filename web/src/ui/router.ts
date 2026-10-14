@@ -12,6 +12,12 @@ export function initRouter(refs: AppRefs): void {
   const { guide, contentEl, tocEl, sidebar, toast } = refs;
   const toTop = document.getElementById("to-top");
 
+  // A section turns active once its top crosses this line while scrolling.
+  const SPY_LINE = 120;
+  // A clicked target that can't reach SPY_LINE (page pinned at the bottom)
+  // stays active until the user scrolls again.
+  let pinnedId = "";
+
   const resolve = (rawHash: string): { id: string; top: boolean } => {
     const hash = decodeURIComponent(rawHash.replace(/^#/, ""));
     if (!hash || hash === "table-of-contents" || hash === "top") {
@@ -49,6 +55,7 @@ export function initRouter(refs: AppRefs): void {
   const go = (hash: string, smooth = true): void => {
     const { id, top } = resolve(hash);
     if (top) {
+      pinnedId = "";
       window.scrollTo({ top: 0, behavior: smooth ? "smooth" : "auto" });
       setActive("");
       return;
@@ -56,6 +63,9 @@ export function initRouter(refs: AppRefs): void {
     if (!id) return;
     const section = document.getElementById(id);
     if (!section) return;
+    // A target near the page bottom can't be scrolled up to SPY_LINE, so pin it
+    // and let onScroll keep it active once the scroll settles.
+    pinnedId = id;
     section.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "start" });
     flash(section);
     setActive(id);
@@ -80,6 +90,14 @@ export function initRouter(refs: AppRefs): void {
     history.replaceState(null, "", href);
     if (window.matchMedia("(max-width: 900px)").matches) closeDrawer();
   });
+
+  // Any manual scroll hands control back to the position-based spy.
+  const releasePin = (): void => {
+    pinnedId = "";
+  };
+  window.addEventListener("wheel", releasePin, { passive: true });
+  window.addEventListener("touchstart", releasePin, { passive: true });
+  window.addEventListener("keydown", releasePin);
 
   const showToast = (message: string): void => {
     toast.textContent = message;
@@ -140,8 +158,19 @@ export function initRouter(refs: AppRefs): void {
       const sections = contentEl.querySelectorAll<HTMLElement>(".rule");
       let active = "";
       for (const section of sections) {
-        if (section.getBoundingClientRect().top <= 120) active = section.id;
+        if (section.getBoundingClientRect().top <= SPY_LINE) active = section.id;
         else break;
+      }
+      if (pinnedId) {
+        const pinned = document.getElementById(pinnedId);
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        if (
+          pinned &&
+          window.scrollY >= maxScroll - 2 &&
+          pinned.getBoundingClientRect().top > SPY_LINE
+        ) {
+          active = pinnedId;
+        }
       }
       setActive(active);
     });
