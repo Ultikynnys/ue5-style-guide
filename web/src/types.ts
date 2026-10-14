@@ -3,11 +3,11 @@ export type NodeKind = "section" | "rule" | "meta";
 export interface StyleRule {
   /** Stable DOM id / permalink target, e.g. "base-asset-name" or "rule-3.2.1.2". */
   id: string;
-  /** Numeric rule number derived from the heading, e.g. "3.2.1.2", or null for unnumbered headings. */
+  /** Number derived from the heading tree (depth + sibling order), e.g. "3.2.1", or null for the document title. */
   number: string | null;
-  /** Heading text with the leading number and inline markdown stripped. */
+  /** Heading text with inline markdown stripped. */
   title: string;
-  /** Exact heading source text (number included). */
+  /** Exact heading source text. */
   heading: string;
   /** Heading depth, 1-6. */
   level: number;

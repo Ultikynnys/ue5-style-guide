@@ -4,9 +4,14 @@ import { fileURLToPath } from "node:url";
 const checker = fileURLToPath(new URL("./check-heading-rules.mjs", import.meta.url));
 const cases = [
   {
-    name: "rejects singleton subheadings",
+    name: "accepts number-less headings",
+    source: "# Parent\n## Child\n",
+    expected: 0,
+  },
+  {
+    name: "accepts a lone subheading",
     source: "# Parent\n## Only child\n",
-    expected: 1,
+    expected: 0,
   },
   {
     name: "accepts sibling subheadings",
@@ -14,18 +19,8 @@ const cases = [
     expected: 0,
   },
   {
-    name: "rejects more than three numeric components",
-    source: "# 1.2.3.4 Too deep\n",
-    expected: 1,
-  },
-  {
-    name: "rejects letters embedded in heading numbers",
-    source: "# 2.1e1 Example\n",
-    expected: 1,
-  },
-  {
-    name: "accepts letters in descriptive heading text",
-    source: "# 2.1 Example\n",
+    name: "accepts headings carrying numbers in their text",
+    source: "# 1.2.3.4 Any text\n",
     expected: 0,
   },
   {

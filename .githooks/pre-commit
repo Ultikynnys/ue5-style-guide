@@ -3,3 +3,4 @@ set -eu
 
 root=$(git rev-parse --show-toplevel)
 node "$root/scripts/check-heading-rules.mjs" README.md
+node "$root/scripts/check-reference-rules.mjs" README.md

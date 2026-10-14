@@ -7,8 +7,6 @@ import {
 } from "./markdown";
 
 const HEADING_RE = /^(#{1,6})\s+(.*?)\s*#*\s*$/;
-// Digits, optionally dotted, optionally with a trailing letter variant (1.1e1, 2e1, 00.1).
-const LEADING_NUMBER_RE = /^([0-9][0-9a-z]*(?:\.[0-9a-z]+)*)/i;
 
 interface MutableNode {
   id: string;
@@ -20,6 +18,7 @@ interface MutableNode {
   anchors: string[];
   parentId: string | null;
   childIds: string[];
+  childCount: number;
   bodyLines: string[];
   order: number;
 }
@@ -60,6 +59,7 @@ export function parseStyleGuide(markdown: string): StyleGuide {
   let pendingAnchors: string[] = [];
   let body: string[] = [];
   let order = 0;
+  let rootCounter = 0;
 
   const current = (): MutableNode | null =>
     stack.length ? stack[stack.length - 1] : null;
@@ -73,7 +73,7 @@ export function parseStyleGuide(markdown: string): StyleGuide {
   const uniqueId = (base: string): string => {
     const root = base || "rule";
     let id = root;
-    let n = 2;
+    let n = 1;
     while (usedIds.has(id)) id = `${root}-${n++}`;
     usedIds.add(id);
     return id;
@@ -81,23 +81,26 @@ export function parseStyleGuide(markdown: string): StyleGuide {
 
   const openHeading = (level: number, rawHeading: string): void => {
     const heading = stripInlineMarkdown(rawHeading);
-    const numMatch = rawHeading.match(LEADING_NUMBER_RE);
-    const number = numMatch ? numMatch[1].replace(/\.+$/, "") : null;
-    const title = number
-      ? stripInlineMarkdown(
-          rawHeading.slice(numMatch![0].length).replace(/^[\s.:\-–—]+/, ""),
-        )
-      : heading;
+    const title = heading;
 
     const anchors = pendingAnchors;
     pendingAnchors = [];
 
-    const idBase =
-      anchors[0] ?? (number ? `rule-${number}` : githubSlug(title || heading));
-
     while (stack.length && stack[stack.length - 1].level >= level) stack.pop();
 
     const parent = current();
+    let number: string | null = null;
+    if (level >= 2) {
+      if (parent && parent.number !== null) {
+        parent.childCount += 1;
+        number = `${parent.number}.${parent.childCount}`;
+      } else {
+        number = String(rootCounter++);
+      }
+    }
+
+    const idBase = anchors[0] ?? githubSlug(heading);
+
     const node: MutableNode = {
       id: uniqueId(idBase),
       number,
@@ -108,6 +111,7 @@ export function parseStyleGuide(markdown: string): StyleGuide {
       anchors,
       parentId: parent ? parent.id : null,
       childIds: [],
+      childCount: 0,
       bodyLines: [],
       order: order++,
     };

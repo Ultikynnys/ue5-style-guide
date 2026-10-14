@@ -63,6 +63,6 @@ export function githubSlug(text: string): string {
     .trim()
     .toLowerCase()
     .replace(/[^\p{L}\p{N}\w\s-]/gu, "")
-    .replace(/\s+/g, "-")
+    .replace(/\s/g, "-")
     .replace(/^-+|-+$/g, "");
 }
