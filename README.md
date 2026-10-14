@@ -126,7 +126,7 @@ All mesh types: static, skeletal, destructible, and Chaos geometry collections.
 | Static Mesh (FX)        | SM_FX_     | A static mesh used only by particle effects; filed in `FX/Meshes`. |
 | Skeletal Mesh           | SKM_       |                                  |
 | Destructible Mesh       | DM_        |                                  |
-| Geometry Collection     | GC_        | Chaos destruction.               |
+| Geometry Collection     | GC_        | A special asset that groups pieces of geometry so they can be simulated, fractured, and destroyed with Chaos Physics; filed in `Art/GeometryCollection`. |
 
 #### Blueprint Types
 
@@ -330,7 +330,7 @@ Two cases sort by type in `Art` instead:
 
 Blueprint assets never follow a concept: code must never live with art. Every Blueprint and every code-only asset, such as an enumeration or a struct, stays in [`Blueprint`](#blueprint).
 
-> Do not create a folder called `Assets`, and do not split a folder into sibling folders that are only distinguished by asset type (for example a `Meshes` folder next to a `Textures` folder). Name folders after the thing they contain, not the type of asset that happens to live there. The type-named folders are only the ones the rules above call for: the generic homes [`Art/Materials`](#artmaterials) (with its `MaterialInstances` and `MaterialFunctions` sub-folders) and [`Art/Textures`](#arttextures), plus `Art/PhysicalMaterials` and `Art/Fonts`. A catalogue adds its own `Materials`, `Meshes`, and `Textures` for the supporting assets it cannot place by association, such as `Art/Environment/Materials` and `FX/Meshes`.
+> Do not create a folder called `Assets`, and do not split a folder into sibling folders that are only distinguished by asset type (for example a `Meshes` folder next to a `Textures` folder). Name folders after the thing they contain, not the type of asset that happens to live there. The type-named folders are only the ones the rules above call for: the generic homes [`Art/Materials`](#artmaterials) (with its `MaterialInstances` and `MaterialFunctions` sub-folders) and [`Art/Textures`](#arttextures), plus [`Art/GeometryCollection`](#artgeometrycollection), `Art/PhysicalMaterials`, and `Art/Fonts`. A catalogue adds its own `Materials`, `Meshes`, and `Textures` for the supporting assets it cannot place by association, such as `Art/Environment/Materials` and `FX/Meshes`.
 
 **Example Project Content Structure**
 <pre>
@@ -349,6 +349,7 @@ Blueprint assets never follow a concept: code must never live with art. Every Bl
         |   |   |-- Materials
         |   |   |-- Textures
         |   |-- Fonts
+        |   |-- GeometryCollection
         |   |-- Interactables
         |   |-- <a href="#artmaterials">Materials</a>
         |   |   |-- MaterialInstances
@@ -484,6 +485,7 @@ Not every project needs every folder. What matters is that when a folder exists,
 * `Art/Components` - Art for the reusable actor components in `Blueprint/Components`: their meshes, material instances, and textures.
 * `Art/Environment` - The one place a level designer looks for scenery: environment meshes, kept flat at the root so no one digs for a prop, plus a `Materials` sub-folder and a `Textures` sub-folder for the shared materials and textures the catalogue cannot place by association, since it is vast enough that tracking each dependency's home would be unmanageable. Any large flat set may add the same two folders. A placeable actor that is not scenery belongs to its own system: art in `Art/<System>`, Blueprint in `Blueprint/<System>`; see [Blueprint](#blueprint).
 * `Art/Fonts` - Fonts for the interface. See [UI](#ui).
+* `Art/GeometryCollection` - Every geometry collection: the assets that group geometry into a simulable, fracturable, destructible element. Reserved for them; a physics destruction element lives here and nowhere else. See [`Art/GeometryCollection`](#artgeometrycollection).
 * `Art/LUT` - Color lookup tables (LUTs) used for color grading.
 * `Art/Materials` - The home for the project's generic materials, filed flat at the root, the prefix carrying the type (`M_PP_`, `M_UI_`, `M_FX_`, `M_Decal_`). A material tied to a single concept lives with that concept instead. See [`Art/Materials`](#artmaterials).
   * `Art/Materials/MaterialInstances` - Generic material instances that name no single asset, such as a generic wall instance.
@@ -599,6 +601,10 @@ There is no separate debug folder: a testing or debug material lives in `Art/Mat
 ### `Art/Textures`
 
 `Content/Haeretica/Art/Textures` is the home for the project's generic textures: those that belong to no single concept, plus the shared ones a vast catalogue draws from, whatever their label (`T_`, `T_PP_`, `T_UI_`, `T_FX_`, `T_Decal_`), flat in the one folder like the materials. A texture tied to one concept lives with that concept instead. It sits beside `Art/Materials`, not inside it: even though every texture here feeds a material, nesting `Textures` under `Materials` would add a level and buy nothing, so the two stay siblings.
+
+### `Art/GeometryCollection`
+
+`Content/Haeretica/Art/GeometryCollection` is reserved for geometry collections, the assets that group pieces of geometry so they can be simulated, fractured, and destroyed with Chaos Physics. Every physics destruction element lives here and nowhere else, so there is one place to look for destructible geometry.
 
 ### No Stray Empty Folders
 
