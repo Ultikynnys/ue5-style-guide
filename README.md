@@ -3,7 +3,7 @@
 **Store assets in the appropriate collection or alongside the things they serve.**
 
 * **Does an established collection cover it? Put it there.** Follow [Collections](#collections) for scope and layout, including generic type collections such as `Art/Materials` and `Art/Textures`, and concept-specific collections such as `Art/Environment`.
-* **Otherwise, sort by association.** Player-specific art belongs in `Art/Characters/Player`; player gameplay Blueprints and code-only supporting assets belong in `Blueprint/Player`. Keep each set together within that art/code split. Animation Blueprints are animation and stay with the art. Do not guess an owner or create a new folder just to give an asset somewhere to go.
+* **Otherwise, sort by association.** Player-specific art belongs in `Art/Characters/Player`; player gameplay Blueprints and code-only supporting assets belong in `Blueprint/Player`. Keep each set together within that art/code split. Do not guess an owner or create a new folder just to give an asset somewhere to go.
 
 A player's art is the opposite case: animations, Animation Blueprints, skeletal meshes, skeletons, materials, and textures all serve one character. Splitting that set into a folder for every type just creates more folders. Keep it together unless a supporting type grows enough to earn a sub-folder under the rules below. The player's audio still belongs in `SFX`.
 
@@ -343,7 +343,7 @@ Directory structure is law too, on par with naming: the two go hand in hand, and
 
 All project content lives under a folder named after the project (`Content/Haeretica`). The layout below describes this project's current top-level folders. DLC, patches, and sub-projects that ship separately are the exception: each gets its own top-level root. Because most assets carry their type in their prefix, these folders group by _purpose_; use the Content Browser's filters and search to narrow by type within a folder.
 
-A folder's own namesake type stays at its root: widget Blueprints sit flat in `UI`, Niagara systems at the root of `FX`, meshes at the root of `Art/Environment`; the root is where the folder's namesake belongs. Characters and weapons are the exception: each holds too many unique types to sit flat, so each gets a folder of its own, kept whole rather than split by type. The initial project structure is the other exception: common collections such as environment meshes, effects, and widgets are expected to reach hundreds of assets even in small projects, so their homes can exist from the start, without pre-creating a folder for every type that might someday appear.
+A folder's own namesake type stays at its root: widget Blueprints sit flat in `UI`, Niagara systems at the root of `FX`, meshes at the root of `Art/Environment`; the root is where the folder's namesake belongs. Some folders sort into a sub-folder per concept instead of staying flat; whether to do so is a question of conceptual clarity rather than a fixed rule, and the structure already in place settles it. Sort by association when a concept is a large, complex set of one-off assets that belongs together, as a character or a weapon is; stay flat when the concepts are small and simple, as interactables are, where one base class and its children read best as a single list and are quicker for the level designers who browse the folder to place assets. The initial project structure is the other exception: common collections such as environment meshes, effects, and widgets are expected to reach hundreds of assets even in small projects, so their homes can exist from the start, without pre-creating a folder for every type that might someday appear.
 
 Apply the rule of thumb above to new content. Flattening an existing folder to satisfy it costs more than it is worth: moving assets, fixing redirectors, and checking references for little benefit.
 
@@ -494,7 +494,7 @@ In this project, `Art` holds character and system art alongside generic visual a
 * `Art/PostProcess` - Post-process materials, instances, and textures (`M_PP_`, `MI_PP_`, `T_PP_`).
 * `Art/Textures` - The home for the project's generic textures, filed flat, the label carrying the type. See [`Art/Textures`](#arttextures).
 
-A gameplay system whose art fits none of the folders above gets a matching folder here, such as `Art/Weapons` or `Art/Tools`, mirroring its `Blueprint/<System>` folder. Every system splits the same way: art and animation in `Art/<System>`, logic in `Blueprint/<System>`. Animation Blueprints contain substantial animation content and are usually artist-authored, so they are categorized as art and live with the animation assets they serve. See [Blueprint](#blueprint).
+A gameplay system whose art fits none of the folders above gets a matching folder here, such as `Art/Weapons` or `Art/Tools`, mirroring its `Blueprint/<System>` folder. Every system splits the same way: art and animation in `Art/<System>`, logic in `Blueprint/<System>`. Animation Blueprints are heavily authored by animators, so they are categorized as art and live with the animation assets they serve, despite the word Blueprint in their name. An Animation Blueprint holds no load-bearing code: it only defines how something moves visually, and the load-bearing code lives in its consumer, usually the character Blueprint. See [Blueprint](#blueprint).
 
 #### Blueprint
 
