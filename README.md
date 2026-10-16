@@ -343,7 +343,7 @@ Directory structure is law too, on par with naming: the two go hand in hand, and
 
 All project content lives under a folder named after the project (`Content/Haeretica`). The layout below describes this project's current top-level folders. DLC, patches, and sub-projects that ship separately are the exception: each gets its own top-level root. Because most assets carry their type in their prefix, these folders group by _purpose_; use the Content Browser's filters and search to narrow by type within a folder.
 
-A folder's own namesake type stays at its root: widget Blueprints sit flat in `UI`, Niagara systems at the root of `FX`, meshes at the root of `Art/Environment`; the root is where the folder's namesake belongs. The initial project structure is the other exception: common collections such as environment meshes, effects, and widgets are expected to reach hundreds of assets even in small projects, so their homes can exist from the start, without pre-creating a folder for every type that might someday appear.
+A folder's own namesake type stays at its root: widget Blueprints sit flat in `UI`, Niagara systems at the root of `FX`, meshes at the root of `Art/Environment`; the root is where the folder's namesake belongs. Characters and weapons are the exception: each holds too many unique types to sit flat, so each gets a folder of its own, kept whole rather than split by type. The initial project structure is the other exception: common collections such as environment meshes, effects, and widgets are expected to reach hundreds of assets even in small projects, so their homes can exist from the start, without pre-creating a folder for every type that might someday appear.
 
 Apply the rule of thumb above to new content. Flattening an existing folder to satisfy it costs more than it is worth: moving assets, fixing redirectors, and checking references for little benefit.
 
@@ -383,7 +383,7 @@ Apply the rule of thumb above to new content. Flattening an existing folder to s
         |   |-- Player
         |   |-- Tools
         |   |-- UI
-        |   |-- <a href="#give-every-blueprint-system-its-own-folder">Weapons</a>
+        |   |-- <a href="#blueprint">Weapons</a>
         |-- <a href="#fx">FX</a>
         |   |-- Materials
         |   |-- Meshes
@@ -500,10 +500,38 @@ A gameplay system whose art fits none of the folders above gets a matching folde
 
 `Blueprint` contains Blueprint-related types: gameplay Blueprints, their subtypes, and assets intended to support Blueprint logic, such as enumerations, structs, interfaces, data tables, input actions, behavior trees, blackboards, and environment queries. An asset does not belong here merely because a Blueprint references it; it must be a Blueprint-related type or serve a supporting role in Blueprint logic. Widget Blueprints stay in `UI`. Each system's Blueprint-related assets stay here, separate from its art: weapon logic lives in `Blueprint/Weapons`, while the weapon's meshes, materials, textures, and animation live in `Art/Weapons`; interactables split the same way. All audio lives in `SFX`, even when only one system uses it.
 
-* `Blueprint/LevelActors` - Rarely needed: a Blueprint a designer drops into a level normally belongs to a system and lives in that system's folder (`Blueprint/<System>`); only a lone actor with no system of its own lands here.
 * `Blueprint/Components` - Reusable actor components.
-* `Blueprint/Enemies`, `Blueprint/Player`, `Blueprint/Weapons`, `Blueprint/Interactables`, `Blueprint/GameModes`, and `Blueprint/Tools` - One folder per gameplay system, holding all of the system's Blueprints. See [Give Every Blueprint System Its Own Folder](#give-every-blueprint-system-its-own-folder).
+* `Blueprint/Enemies`, `Blueprint/Player`, `Blueprint/Weapons`, `Blueprint/Interactables`, `Blueprint/GameModes`, and `Blueprint/Tools` - One folder per gameplay system, holding all of the system's Blueprints.
+* `Blueprint/<System>/Base` - The system's base classes and shared assets.
 * `Blueprint/UI` - UI logic: the non-widget UI Blueprints, such as HUD classes, plus UI data such as enumerations. Every UI Blueprint that is not a widget lives here; the widgets themselves are the UI and stay in [`UI`](#ui).
+
+There is no separate `Core` folder. A base class lives in its system's folder; where a system has a family of concrete Blueprints, that is a `Base` sub-folder. `BP_BaseWeapon` sits in `Blueprint/Weapons/Base`, the base pickup classes sit in `Blueprint/Interactables/Base`, and the base classes for enemies and consumables sit in `Blueprint/Enemies/Base` and `Blueprint/Consumables/Base`. The base `GameMode`, `Character`, and `PlayerController` classes live directly in `Blueprint/GameModes` and `Blueprint/Player`, which need no `Base` sub-folder.
+
+The `Base` sub-folder keeps two kinds of Blueprint apart from the rest of the system. The first is the base classes: a Blueprint is usually instanced from a base class, so a base class is never placed in a level and never used on its own, it exists to be inherited. The second is the assets every variant of the system shares. Just as a collection gathers one concept's assets in one place for browsing, `Base` gathers the system's shared assets, such as structs, data tables, and shared AI assets (behavior-tree tasks, services, and decorators, blackboards, and environment queries), instead of scattering them across the system's variant folders. The concrete Blueprints instanced from a base class, the ones used in game, live outside `Base`.
+
+A `Base` sub-folder belongs only inside `Blueprint`. Class inheritance is what it serves, and inheritance is rare outside Blueprints; where assets elsewhere share a parent, the project already handles it another way, such as the `M_` and `MI_` split for materials in [`Art/Materials`](#artmaterials). Do not add a `Base` folder under `Art`, `FX`, `UI`, `SFX`, or any other top-level folder.
+
+Base classes deserve a "don't touch these" reputation wherever they sit: a change there affects every child and can break the system project-wide. Designers make gameplay tweaks in child classes that expose the needed functionality, and world builders place prefab Blueprints from the system's other folders, leaving the base classes alone.
+
+Give specific pickup types their own sub-folders when there is a collection to group, such as `Blueprint/Interactables/Ammo/`, and leave the base classes alone.
+
+Within `Blueprint`, each gameplay system gets a folder named after it, holding the system's logic: its Blueprints, base classes, placeable actors, interfaces, and the data assets that support them.
+
+For example, a weapons system might look like this:
+
+<pre>
+|-- Blueprint
+    |-- Weapons
+        |-- Base
+        |   |-- BP_BaseWeapon
+        |   |-- BP_BaseWeaponInfo
+        |-- Pistol
+        |   |-- BP_DualPistols
+        |   |-- DA_WeaponInfoPistol
+        |-- Sword
+            |-- BP_Sword
+            |-- DA_WeaponInfoSword
+</pre>
 
 #### FX
 
@@ -579,7 +607,7 @@ Keep the main assets directly at the collection's root and group supporting asse
 
 #### Collection Examples
 
-The screenshots below show the project's collections; each keeps its namesake asset type at the root and its supporting types in sibling sub-folders. [Figure 2](#figure-2) is `Art/Environment`, [Figure 3](#figure-3) is `FX`, [Figure 4](#figure-4) is `UI`, and [Figure 5](#figure-5) is `SFX`.
+The screenshots below show the project's collections: [Figure 2](#figure-2) is `Art/Environment`, [Figure 3](#figure-3) is `FX`, [Figure 4](#figure-4) is `UI`, and [Figure 5](#figure-5) is `SFX`.
 
 ![The Art/Environment collection in the Content Browser: environment meshes at the root, with Materials and Textures sub-folders](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/collection-environment.png)
 
@@ -601,32 +629,11 @@ Keep the structure shallow. Do not add a folder for the main type, such as `SFX/
 
 **Keep the number of collections small.** They can scatter dependency chains, making related assets harder to rename, move, or remove together. Create one only when the browsing benefits for a large collection justify that cost.
 
-### Keep Base Classes With Their System
-
-There is no separate `Core` folder. A base class lives in its system's folder, beside the concrete Blueprints that inherit from it: `BP_WeaponBase` sits in `Blueprint/Weapons` next to `BP_Rifle`, a base pickup class sits in `Blueprint/Interactables` beside the specific pickup classes, and the base `GameMode`, `Character`, and `PlayerController` classes live in `Blueprint/GameModes` and `Blueprint/Player`. See [Give Every Blueprint System Its Own Folder](#give-every-blueprint-system-its-own-folder).
-
-Base classes deserve a "don't touch these" reputation wherever they sit: a change there affects every child and can break the system project-wide. Designers make gameplay tweaks in child classes that expose the needed functionality, and world builders place prefab Blueprints from designated folders, leaving the base class alone.
-
-Give specific pickup types their own sub-folders when there is a collection to group, such as `Blueprint/Interactables/Ammo/`, and leave the base class alone.
-
-### Give Every Blueprint System Its Own Folder
-
-Within `Blueprint`, each gameplay system gets a folder named after it, holding the system's logic: its Blueprints, base classes, placeable actors, interfaces, and the data assets that support them.
-
-For example, a weapons system might look like this:
-
-<pre>
-|-- Blueprint
-    |-- Weapons
-        |-- BP_WeaponBase
-        |-- BP_DesertEagle
-        |-- BP_RocketPistol
-        |-- BP_Rifle
-</pre>
+A gameplay system does not get a collection of its own. Its shared assets live with its logic in a `Blueprint/<System>/Base` sub-folder instead.
 
 ### Very Large Asset Sets Get Their Own Folder Layout
 
-A very large set follows the rule of thumb like any collection: the namesake assets stay at the root, and a large group of one supporting type may earn a sub-folder.
+A very large set follows the rule of thumb like any collection: a large group of one supporting type may earn a sub-folder.
 
 For example, a growing set of animations shared across characters may be easier to browse in a shared `Animations` folder. Further grouping by subject, such as `Locomotion` or `Cinematic`, should make the collection easier to browse.
 
