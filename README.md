@@ -347,8 +347,6 @@ A folder's own namesake type stays at its root: widget Blueprints sit flat in `U
 
 Apply the rule of thumb above to new content. Flattening an existing folder to satisfy it costs more than it is worth: moving assets, fixing redirectors, and checking references for little benefit.
 
-> Do not create a folder called `Assets`.
-
 **Example Project Content Structure**
 <pre>
 |-- Content
@@ -437,7 +435,7 @@ The reasons follow.
 
 This follows the same principle as keeping code out of the global namespace. Assets scattered outside the project folder are harder to organize and distinguish from imported content.
 
-Every asset needs a purpose to belong in the project.
+Every asset needs a purpose to belong in the project. A folder called `Assets` is the opposite of that; it names no purpose, so do not create one.
 
 #### Reduce Migration Conflicts
 
@@ -517,21 +515,17 @@ Give specific pickup types their own sub-folders when there is a collection to g
 
 Within `Blueprint`, each gameplay system gets a folder named after it, holding the system's logic: its Blueprints, base classes, placeable actors, interfaces, and the data assets that support them.
 
-For example, a weapons system might look like this:
+A complex concept gets its own folder: a weapon carries too many unique pieces to sit flat beside the others, and folding them all into `Base` would fill it with one-off, weapon-specific assets and turn it into a mess. So `Blueprint/Weapons` gives every weapon a folder of its own, as [Figure 2](#figure-2) shows:
 
-<pre>
-|-- Blueprint
-    |-- Weapons
-        |-- Base
-        |   |-- BP_BaseWeapon
-        |   |-- BP_BaseWeaponInfo
-        |-- Pistol
-        |   |-- BP_DualPistols
-        |   |-- DA_WeaponInfoPistol
-        |-- Sword
-            |-- BP_Sword
-            |-- DA_WeaponInfoSword
-</pre>
+![The Blueprint/Weapons folder in the Content Browser: one sub-folder per weapon](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/blueprint-weapons-per-concept.jpg)
+
+**Figure 2.** `Blueprint/Weapons`: one folder per weapon, each holding that weapon's Blueprints, data, and effects.
+
+Simpler systems stay flat instead. An interactables system keeps every Blueprint at the folder root, beside a single shared `Base` sub-folder, as [Figure 3](#figure-3) shows:
+
+![The Blueprint/Interactables folder in the Content Browser: interactable Blueprints flat at the root, with one Base sub-folder](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/blueprint-interactables-flat.png)
+
+**Figure 3.** `Blueprint/Interactables`: a flat structure, every interactable Blueprint at the root beside the shared `Base` folder.
 
 #### FX
 
@@ -607,23 +601,23 @@ Keep the main assets directly at the collection's root and group supporting asse
 
 #### Collection Examples
 
-The screenshots below show the project's collections: [Figure 2](#figure-2) is `Art/Environment`, [Figure 3](#figure-3) is `FX`, [Figure 4](#figure-4) is `UI`, and [Figure 5](#figure-5) is `SFX`.
+The screenshots below show the project's collections: [Figure 4](#figure-4) is `Art/Environment`, [Figure 5](#figure-5) is `FX`, [Figure 6](#figure-6) is `UI`, and [Figure 7](#figure-7) is `SFX`.
 
 ![The Art/Environment collection in the Content Browser: environment meshes at the root, with Materials and Textures sub-folders](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/collection-environment.png)
 
-**Figure 2.** `Art/Environment`: environment meshes at the root, with `Materials` and `Textures`.
+**Figure 4.** `Art/Environment`: environment meshes at the root, with `Materials` and `Textures`.
 
 ![The FX collection in the Content Browser: Niagara Systems at the root, with Materials, Meshes, and Textures sub-folders](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/collection-fx.png)
 
-**Figure 3.** `FX`: Niagara Systems at the root, with `Materials`, `Meshes`, and `Textures`.
+**Figure 5.** `FX`: Niagara Systems at the root, with `Materials`, `Meshes`, and `Textures`.
 
 ![The UI collection in the Content Browser: Widget Blueprints at the root, with Materials and Textures sub-folders](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/collection-ui.png)
 
-**Figure 4.** `UI`: Widget Blueprints at the root, with `Materials` and `Textures`.
+**Figure 6.** `UI`: Widget Blueprints at the root, with `Materials` and `Textures`.
 
 ![The SFX collection in the Content Browser: Sound Cues at the root, with Waves, Classes, and Attenuation sub-folders](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/collection-sfx.png)
 
-**Figure 5.** `SFX`: Sound Cues at the root, with `Waves`, `Classes`, and `Attenuation`.
+**Figure 7.** `SFX`: Sound Cues at the root, with `Waves`, `Classes`, and `Attenuation`.
 
 Keep the structure shallow. Do not add a folder for the main type, such as `SFX/Cues`, or repeat the supporting folder structure for every asset. Minimize folders that contain only more folders, and create supporting-type folders only for collections you actually have.
 
@@ -1038,22 +1032,22 @@ Make wire paths easy to follow. Readers should not have to untangle connections 
 
 #### Align Wires
 
-Node sizes and pin positions vary, but moving the nodes can keep the wires straight and the flow clear. Select the Blueprint nodes and use Straighten Connections (Q). See [Figure 6](#figure-6), [Figure 7](#figure-7), and [Figure 8](#figure-8) for good, bad, and acceptable results.
+Node sizes and pin positions vary, but moving the nodes can keep the wires straight and the flow clear. Select the Blueprint nodes and use Straighten Connections (Q). See [Figure 8](#figure-8), [Figure 9](#figure-9), and [Figure 10](#figure-10) for good, bad, and acceptable results.
 
 Good example: The tops of the nodes are staggered to keep a perfectly straight white exec line.
 ![Aligned By Wires](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/bp-graphs-align-wires-good.png "Aligned By Wires")
 
-**Figure 6.** Good: Staggered node tops keep the white execution wire straight.
+**Figure 8.** Good: Staggered node tops keep the white execution wire straight.
 
 Bad example: Aligning the tops of the nodes makes the white execution wire bend unnecessarily.
 ![Bad](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/bp-graphs-align-wires-bad.png "Wiggly")
 
-**Figure 7.** Bad: Aligning node tops makes the execution wire wiggly.
+**Figure 9.** Bad: Aligning node tops makes the execution wire wiggly.
 
 Acceptable example: When nodes cannot align cleanly, move them closer together to reduce bends in the wire.
 ![Acceptable](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/bp-graphs-align-wires-acceptable.png "Acceptable")
 
-**Figure 8.** Acceptable: When nodes cannot align perfectly, reduce the wire wiggle by moving them closer.
+**Figure 10.** Acceptable: When nodes cannot align perfectly, reduce the wire wiggle by moving them closer.
 
 #### White Exec Lines Are Top Priority
 
@@ -1172,11 +1166,11 @@ Split a playable area into multiple level components, except for a small or test
 
 Name the Persistent Level with the `_P` suffix and split independently owned work into focused components using the established suffixes, with extra world segments under clear names such as `_Segment01`. Put all Level Blueprint logic in the `_Gameplay` component: each contributor works in one component while the Persistent Level stays the stable assembly point.
 
-[Figure 9](#figure-9) shows a Persistent Level with separate gameplay, geometry, lighting, audio, and segment components.
+[Figure 11](#figure-11) shows a Persistent Level with separate gameplay, geometry, lighting, audio, and segment components.
 
 ![Example of a composed level with a Persistent Level and separate level components](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/level-composition-example.png)
 
-**Figure 9.** A Persistent Level assembling separate gameplay, geometry, lighting, audio, and segment components.
+**Figure 11.** A Persistent Level assembling separate gameplay, geometry, lighting, audio, and segment components.
 
 ## Texture Guidelines
 
