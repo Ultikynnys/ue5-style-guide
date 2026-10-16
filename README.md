@@ -579,12 +579,21 @@ Keep the main assets directly at the collection's root and group supporting asse
 
 #### Collection Examples
 
-The project's collections, each with its namesake asset type at the root and its supporting types in sibling sub-folders:
+![The Art/Environment collection in the Content Browser: environment meshes at the root, with Materials and Textures sub-folders](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/collection-environment.png)
 
-* `Art/Environment` - Environment meshes (`SM_`) at the root, with `Materials` and `Textures`.
-* `FX` - Niagara Systems (`NS_`) at the root, with `Materials`, `Meshes`, and `Textures`.
-* `UI` - Widget Blueprints (`WBP_`) at the root, with `Materials` and `Textures`.
-* `SFX` - Sound Cues (`Cue_`) at the root, with `Waves`, `Classes`, and `Attenuation`.
+**Figure 2.** `Art/Environment`: environment meshes at the root, with `Materials` and `Textures`.
+
+![The FX collection in the Content Browser: Niagara Systems at the root, with Materials, Meshes, and Textures sub-folders](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/collection-fx.png)
+
+**Figure 3.** `FX`: Niagara Systems at the root, with `Materials`, `Meshes`, and `Textures`.
+
+![The UI collection in the Content Browser: Widget Blueprints at the root, with Materials and Textures sub-folders](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/collection-ui.png)
+
+**Figure 4.** `UI`: Widget Blueprints at the root, with `Materials` and `Textures`.
+
+![The SFX collection in the Content Browser: Sound Cues at the root, with Waves, Classes, and Attenuation sub-folders](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/collection-sfx.png)
+
+**Figure 5.** `SFX`: Sound Cues at the root, with `Waves`, `Classes`, and `Attenuation`.
 
 Keep the structure shallow. Do not add a folder for the main type, such as `SFX/Cues`, or repeat the supporting folder structure for every asset. Minimize folders that contain only more folders, and create supporting-type folders only for collections you actually have.
 
@@ -1025,17 +1034,17 @@ Node sizes and pin positions vary, but moving the nodes can keep the wires strai
 Good example: The tops of the nodes are staggered to keep a perfectly straight white exec line.
 ![Aligned By Wires](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/bp-graphs-align-wires-good.png "Aligned By Wires")
 
-**Figure 2.** Good: Staggered node tops keep the white execution wire straight.
+**Figure 6.** Good: Staggered node tops keep the white execution wire straight.
 
 Bad example: Aligning the tops of the nodes makes the white execution wire bend unnecessarily.
 ![Bad](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/bp-graphs-align-wires-bad.png "Wiggly")
 
-**Figure 3.** Bad: Aligning node tops makes the execution wire wiggly.
+**Figure 7.** Bad: Aligning node tops makes the execution wire wiggly.
 
 Acceptable example: When nodes cannot align cleanly, move them closer together to reduce bends in the wire.
 ![Acceptable](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/bp-graphs-align-wires-acceptable.png "Acceptable")
 
-**Figure 4.** Acceptable: When nodes cannot align perfectly, reduce the wire wiggle by moving them closer.
+**Figure 8.** Acceptable: When nodes cannot align perfectly, reduce the wire wiggle by moving them closer.
 
 #### White Exec Lines Are Top Priority
 
@@ -1158,7 +1167,7 @@ The example below shows a Persistent Level with separate gameplay, geometry, lig
 
 ![Example of a composed level with a Persistent Level and separate level components](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/level-composition-example.png)
 
-**Figure 5.** A Persistent Level assembling separate gameplay, geometry, lighting, audio, and segment components.
+**Figure 9.** A Persistent Level assembling separate gameplay, geometry, lighting, audio, and segment components.
 
 ## Texture Guidelines
 
