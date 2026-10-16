@@ -66,6 +66,10 @@ for (let index = 0; index < lines.length; index++) {
     while (targetLine.has(name)) name = `${base}-${++n}`;
     addTarget(name, lineNo);
   }
+  // A figure caption anchors the image as `figure-<n>`, so a
+  // `[Figure <n>](#figure-<n>)` reference resolves like a heading link.
+  const figure = line.match(/^\*\*Figure\s+(\d+)\.\*\*/);
+  if (figure) addTarget(`figure-${figure[1]}`, lineNo);
   for (const match of line.matchAll(/\]\(#([^)]+)\)/g)) {
     refs.push({ target: match[1], line: lineNo });
   }

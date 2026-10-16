@@ -20,7 +20,9 @@ export function renderMarkdown(md: string): string {
     FIGURE_PATTERN,
     (_match, lead: string, img: string, caption: string) => {
       const prose = lead.trim();
-      return `${prose ? `<p>${prose}</p>` : ""}<figure>${img}<figcaption>${caption}</figcaption></figure>`;
+      const figure = caption.match(/Figure\s+(\d+)/i);
+      const id = figure ? ` id="figure-${figure[1]}"` : "";
+      return `${prose ? `<p>${prose}</p>` : ""}<figure${id}>${img}<figcaption>${caption}</figcaption></figure>`;
     },
   );
 }

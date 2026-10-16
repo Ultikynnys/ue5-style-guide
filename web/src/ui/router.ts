@@ -23,7 +23,9 @@ export function initRouter(refs: AppRefs): void {
     if (!hash || hash === "table-of-contents" || hash === "top") {
       return { id: "", top: true };
     }
-    const id = guide.aliases[hash] ?? (refs.byId.has(hash) ? hash : "");
+    const id =
+      guide.aliases[hash] ??
+      (refs.byId.has(hash) || document.getElementById(hash) ? hash : "");
     return { id, top: false };
   };
 
@@ -68,7 +70,7 @@ export function initRouter(refs: AppRefs): void {
     pinnedId = id;
     section.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "start" });
     flash(section);
-    setActive(id);
+    setActive(section.closest<HTMLElement>(".rule")?.id ?? "");
   };
 
   // Jump straight to the deep link on load; animate only for in-page navigation.

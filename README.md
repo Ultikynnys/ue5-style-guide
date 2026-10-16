@@ -53,7 +53,7 @@ Not legal advice: do not bring illegal content or behavior into a project. For e
 
 More folders do not make assets easier to find. Deep, per-asset folder trees slow people down and invite duplicate assets. Prefer a few broad, clearly named folders that group related content where people expect it. A set large enough to genuinely earn its own folder is not sprawl: see [Folder Names](#folder-names).
 
-For large type-based collections such as `Art/Environment`, follow the [Collections](#collections) layout.
+For large type-based collections such as `Art/Environment`, follow the [Collections](#collections) layout shown in [Figure 1](#figure-1).
 
 ![Example of environment assets organized together in a browsable folder](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/folder-organization-example.png)
 
@@ -579,6 +579,8 @@ Keep the main assets directly at the collection's root and group supporting asse
 
 #### Collection Examples
 
+The screenshots below show the project's collections; each keeps its namesake asset type at the root and its supporting types in sibling sub-folders. [Figure 2](#figure-2) is `Art/Environment`, [Figure 3](#figure-3) is `FX`, [Figure 4](#figure-4) is `UI`, and [Figure 5](#figure-5) is `SFX`.
+
 ![The Art/Environment collection in the Content Browser: environment meshes at the root, with Materials and Textures sub-folders](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/collection-environment.png)
 
 **Figure 2.** `Art/Environment`: environment meshes at the root, with `Materials` and `Textures`.
@@ -1029,7 +1031,7 @@ Make wire paths easy to follow. Readers should not have to untangle connections 
 
 #### Align Wires
 
-Node sizes and pin positions vary, but moving the nodes can keep the wires straight and the flow clear. Select the Blueprint nodes and use Straighten Connections (Q).
+Node sizes and pin positions vary, but moving the nodes can keep the wires straight and the flow clear. Select the Blueprint nodes and use Straighten Connections (Q). See [Figure 6](#figure-6), [Figure 7](#figure-7), and [Figure 8](#figure-8) for good, bad, and acceptable results.
 
 Good example: The tops of the nodes are staggered to keep a perfectly straight white exec line.
 ![Aligned By Wires](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/bp-graphs-align-wires-good.png "Aligned By Wires")
@@ -1163,7 +1165,7 @@ Split a playable area into multiple level components, except for a small or test
 
 Name the Persistent Level with the `_P` suffix and split independently owned work into focused components using the established suffixes, with extra world segments under clear names such as `_Segment01`. Put all Level Blueprint logic in the `_Gameplay` component: each contributor works in one component while the Persistent Level stays the stable assembly point.
 
-The example below shows a Persistent Level with separate gameplay, geometry, lighting, audio, and segment components.
+[Figure 9](#figure-9) shows a Persistent Level with separate gameplay, geometry, lighting, audio, and segment components.
 
 ![Example of a composed level with a Persistent Level and separate level components](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/level-composition-example.png)
 
