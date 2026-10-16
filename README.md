@@ -53,11 +53,11 @@ Not legal advice: do not bring illegal content or behavior into a project. For e
 
 More folders do not make assets easier to find. Deep, per-asset folder trees slow people down and invite duplicate assets. Prefer a few broad, clearly named folders that group related content where people expect it. A set large enough to genuinely earn its own folder is not sprawl: see [Folder Names](#folder-names).
 
-For large type-based collections such as `Art/Environment`, follow the [Collections](#collections) layout shown in [Figure 1](#figure-1).
+For large collections such as `Art/Environment`, follow the [Collections](#collections) layout shown in [Figure 1](#figure-1). A collection's name often describes how its content is used, so `Art/Environment` holds level-design assets.
 
 ![Example of environment assets organized together in a browsable folder](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/folder-organization-example.png)
 
-**Figure 1.** Static environment assets grouped together in the Content Browser.
+**Figure 1.** The `Art/Environment` collection: static level-design assets grouped together in the Content Browser.
 
 ## Globally Enforced Opinions
 
