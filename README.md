@@ -381,7 +381,7 @@ Apply the rule of thumb above to new content. Flattening an existing folder to s
         |   |-- Player
         |   |-- Tools
         |   |-- UI
-        |   |-- <a href="#blueprint">Weapons</a>
+        |   |-- Weapons
         |-- <a href="#fx">FX</a>
         |   |-- Materials
         |   |-- Meshes
