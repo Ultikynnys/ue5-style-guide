@@ -577,6 +577,15 @@ Keep the main assets directly at the collection's root and group supporting asse
 | `FX` | Niagara Systems | `Materials`, `Meshes`, `Textures` |
 | `SFX` | Sound Cues | `Waves`, `Classes`, `Attenuation`, `Concurrency` |
 
+#### Collection Examples
+
+The project's collections, each with its namesake asset type at the root and its supporting types in sibling sub-folders:
+
+* `Art/Environment` - Environment meshes (`SM_`) at the root, with `Materials` and `Textures`.
+* `FX` - Niagara Systems (`NS_`) at the root, with `Materials`, `Meshes`, and `Textures`.
+* `UI` - Widget Blueprints (`WBP_`) at the root, with `Materials` and `Textures`.
+* `SFX` - Sound Cues (`Cue_`) at the root, with `Waves`, `Classes`, and `Attenuation`.
+
 Keep the structure shallow. Do not add a folder for the main type, such as `SFX/Cues`, or repeat the supporting folder structure for every asset. Minimize folders that contain only more folders, and create supporting-type folders only for collections you actually have.
 
 **Keep the number of collections small.** They can scatter dependency chains, making related assets harder to rename, move, or remove together. Create one only when the browsing benefits for a large collection justify that cost.
