@@ -1,12 +1,11 @@
 ## Rule of Thumb
 
-**Sort by association first, by type when association does not help, and keep the folder count down.** Mix and match: one sorting method does not fit every collection.
+**Store assets in the appropriate collection or alongside the things they serve.**
 
-* **Know what it belongs to? Put it there.** Player-specific art and audio belong in `Art/Characters/Player`; player gameplay Blueprints and code-only supporting assets belong in `Blueprint/Player`. Keep each set together within that art/code split. Animation Blueprints are animation and stay with the art, not the gameplay code.
-* **Not sure, or shared by several things? Sort by type.** Use the established generic homes, such as `Art/Materials` for generic materials, `Art/Textures` for generic textures, and `SFX` for shared audio. Do not guess an owner or create a new folder just to give an asset somewhere to go.
-* **Browsing a predictable compendium? Keep its main assets together and sort the supporting assets by type.** A catalogue such as `Art/Environment` has a predictable shape: meshes, their materials, and their textures, including unique textures for meshes that need them. Keep the meshes at the root, with sibling `Materials` and `Textures` folders, rather than creating a folder for every prop or category and repeating the same sub-folders inside each.
+* **Does an established collection cover it? Put it there.** Follow [Collections](#collections) for scope and layout, including generic type collections such as `Art/Materials` and `Art/Textures`, and concept-specific collections such as `Art/Environment`.
+* **Otherwise, sort by association.** Player-specific art belongs in `Art/Characters/Player`; player gameplay Blueprints and code-only supporting assets belong in `Blueprint/Player`. Keep each set together within that art/code split. Animation Blueprints are animation and stay with the art, not the gameplay code. Do not guess an owner or create a new folder just to give an asset somewhere to go.
 
-A player is the opposite case: sounds, animations, Animation Blueprints, cues, skeletal meshes, skeletons, materials, textures, and sound classes all serve one character. Splitting that set into a folder for every type creates more folders, not a clearer home. Keep it together unless a supporting type grows enough to earn a sub-folder under the rules below.
+A player's art is the opposite case: animations, Animation Blueprints, skeletal meshes, skeletons, materials, and textures all serve one character. Splitting that set into a folder for every type creates more folders, not a clearer home. Keep it together unless a supporting type grows enough to earn a sub-folder under the rules below. The player's audio still belongs in `SFX`.
 
 **Use the fewest folders that make assets easy to find, and follow the structure already there.** Keep existing folders. As a rule of thumb, around fifteen assets of the same supporting type may warrant a sub-folder, but split only when it makes the collection easier to browse. See [Content Directory Structure](#content-directory-structure) for the detailed rules.
 
@@ -54,7 +53,7 @@ Not legal advice: do not bring illegal content or behavior into a project. For e
 
 More folders do not make assets easier to find. Deep, per-asset folder trees slow people down and invite duplicate assets. Prefer a few broad, clearly named folders that group related content where people expect it. A set large enough to genuinely earn its own folder is not sprawl: see [Folder Names](#folder-names).
 
-For example, `Art/Environment` keeps static environment meshes together so a level designer sees every scenery asset at a glance. Put the set's material instances and textures in its `Materials` and `Textures` sub-folders, but do not give every prop its own folder split into `Meshes`, `Materials`, and `Textures`. Keep the two sub-folders as siblings: textures only feed materials, but nesting `Textures` inside `Materials` adds a folder level and buys nothing. Folders should make a collection easier to browse, not add structure for its own sake.
+For large type-based collections such as `Art/Environment`, follow [Collections](#collections) rather than building a separate folder tree for every prop.
 
 ![Example of environment assets organized together in a browsable folder](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/folder-organization-example.png)
 
@@ -100,6 +99,8 @@ For a specific variation, `Variant` is a short, recognizable name for the subset
 For a generic variation, `Variant` is a two-digit number starting at `01`: nondescript rocks are `Rock_01`, `Rock_02`, and so on. Three digits is almost never needed; past 100 assets, use different base names or chained variants instead.
 
 Variants can be combined. Architectural visualization flooring might use the base name `Flooring` with variants like `Flooring_Marble_01`, `Flooring_Maple_01`, and `Flooring_Tile_Squares_01`.
+
+Audio follows the same pattern with its collection's rule: name sounds by association, `Prefix_WhoWhatWhich`, with variation numbers attached directly to the name, such as `S_PlayerHurt01`. See [SFX](#sfx) for the collection's storage and naming rules; the other naming rules still apply.
 
 
 **Examples:**
@@ -240,7 +241,8 @@ Asset types that fit no other category, such as data assets, curves, data tables
 | Level / Map                |            | [Should be in a folder called Maps.](#maps) Level naming is in [Suffixes](#suffixes). |
 | Animated Vector Field      | VFA_       |                                  |
 | Camera Anim                | CA_        |                                  |
-| Curve                     | C_         | Color, Table, Float, and Vector curves; suffixes in [Suffixes](#suffixes). |
+| Curve                     | C_         | Color, Float, and Vector subclasses use the suffixes in [Suffixes](#suffixes). |
+| Curve Table               | CT_        | A separate asset type, not a Curve subclass. |
 | Data Asset                 | DA_        |                                  |
 | Primary Data Asset         | PDA_       |                                  |
 | Data Table                 | DT_        |                                  |
@@ -272,6 +274,7 @@ Asset types that fit no other category, such as data assets, curves, data tables
 | Reverb Effect           | Reverb_    |                                  |
 | Sound Attenuation       | SA_        |                                  |
 | Sound Class             | SC_        |                                  |
+| Sound Concurrency       | SConcurrency_ | Name for the association or playback policy it serves. |
 | Sound Cue               | Cue_       |                                  |
 | Sound Mix               | Mix_       |                                  |
 | MetaSound Source        | MSS_       |                                  |
@@ -293,7 +296,7 @@ Asset types that fit no other category, such as data assets, curves, data tables
 
 ### Suffixes
 
-A suffix identifies an asset's specific role, such as a texture's normal or roughness channel. Since these assets share the `.uasset` extension, the name needs to convey that distinction. The table below lists the suffixes; prefixes are listed above. Omit the suffix when there is no useful distinction to make. Identify instances with a prefix rather than a type suffix (`MI_` for a material instance, `NPI_` for a Niagara Parameter Collection instance).
+**Prefixes identify asset types. Suffixes express conceptual differences within an asset family**, including subclass distinctions such as Color, Float, and Vector curves under `C_`, a texture's normal or roughness role, a level's purpose, or an asset's work-in-progress status. Do not use a suffix for a separate asset type: Curve Table uses `CT_`, not `C_..._Table`, and Sound Concurrency uses `SConcurrency_`, not `_SC`. The table below lists role and Curve subclass suffixes; prefixes are listed above. Omit the suffix when there is no useful distinction to make. Instances retain their established prefixes (`MI_` for a material instance, `NPI_` for a Niagara Parameter Collection instance).
 
 | Asset Type              | Suffix     | Notes                            |
 | ----------------------- | ---------- | -------------------------------- |
@@ -308,11 +311,9 @@ A suffix identifies an asset's specific role, such as a texture's normal or roug
 | Texture (Specular)      | _S         |                                  |
 | Texture (Metallic)      | _M         |                                  |
 | Texture (Packed)        | _*         |                                  |
-| Color Curve             | _Color     |                                  |
-| Curve Table             | _Table     |                                  |
-| Float Curve             | _Float     |                                  |
-| Vector Curve            | _Vector    |                                  |
-| Sound Concurrency       | _SC        | Should be named after a SoundClass |
+| Color Curve             | _Color     | Curve subclass: `C_PlayerDamage_Color`. |
+| Float Curve             | _Float     | Curve subclass: `C_PlayerDamage_Float`. |
+| Vector Curve            | _Vector    | Curve subclass: `C_PlayerDamage_Vector`. |
 
 #### Work In Progress
 
@@ -397,6 +398,10 @@ Apply the rule of thumb above when adding content, not as a reason to dismantle 
         |   |-- MainMenu
         |   |-- TestLevels
         |-- <a href="#sfx">SFX</a>
+        |   |-- Waves
+        |   |-- Classes
+        |   |-- Attenuation
+        |   |-- Concurrency
         |-- <a href="#ui">UI</a>
             |-- Materials
             |-- Textures
@@ -469,7 +474,7 @@ The current project uses the following top-level folders beneath its project fol
 * `Blueprint` - The Blueprints that make up the project's logic. See [Blueprint](#blueprint).
 * `FX` - Niagara systems and the other assets that make up visual effects. See [FX](#fx).
 * `Maps` - All map files. See [Maps](#maps).
-* `SFX` - Generic audio shared across the project: sound classes, attenuation presets, shared music. See [SFX](#sfx).
+* `SFX` - All audio assets, including music and audio used by only one character or system. See [SFX](#sfx).
 * `UI` - Widget Blueprints, with widget-specific materials and material instances in `UI/Materials`. See [UI](#ui).
 
 #### Art
@@ -478,7 +483,7 @@ In this project, `Art` holds character and system art alongside generic visual a
 
 * `Art/Characters` - Character art, with a sub-folder per character (`Art/Characters/Priestess`).
 * `Art/Decals` - Decal materials, instances, and textures (`M_Decal_`, `MI_Decal_`, `T_Decal_`). The type label stays on the asset, so the set reads the same wherever it sits.
-* `Art/Environment` - Environment meshes stay at the root so a level designer can browse scenery at a glance. Its large supporting collections live in `Materials` and `Textures`.
+* `Art/Environment` - All level-design assets and their supporting dependencies, including materials and textures. See [Collections](#collections) for its scope and layout.
 * `Art/Fonts` - Fonts for the interface. See [UI](#ui).
 * `Art/GeometryCollection` - Reusable destructible geometry, such as a breaking chair used across many levels. See [`Art/GeometryCollection`](#artgeometrycollection).
 * `Art/LUT` - Color lookup tables (LUTs) used for color grading.
@@ -493,7 +498,7 @@ A gameplay system whose art fits none of the folders above gets a matching folde
 
 #### Blueprint
 
-`Blueprint` contains Blueprint-related types: gameplay Blueprints, their subtypes, and assets intended to support Blueprint logic, such as enumerations, structs, interfaces, data tables, input actions, behavior trees, blackboards, and environment queries. An asset does not belong here merely because a Blueprint references it; it must be a Blueprint-related type or serve a supporting role in Blueprint logic. Widget Blueprints stay in `UI`. Each system's Blueprint-related assets stay here, separate from its art: weapon logic lives in `Blueprint/Weapons`, while the weapon's meshes, materials, textures, animation, and sounds live in `Art/Weapons`; interactables split the same way.
+`Blueprint` contains Blueprint-related types: gameplay Blueprints, their subtypes, and assets intended to support Blueprint logic, such as enumerations, structs, interfaces, data tables, input actions, behavior trees, blackboards, and environment queries. An asset does not belong here merely because a Blueprint references it; it must be a Blueprint-related type or serve a supporting role in Blueprint logic. Widget Blueprints stay in `UI`. Each system's Blueprint-related assets stay here, separate from its art: weapon logic lives in `Blueprint/Weapons`, while the weapon's meshes, materials, textures, and animation live in `Art/Weapons`; interactables split the same way. All audio lives in `SFX`, even when only one system uses it.
 
 * `Blueprint/LevelActors` - Rarely needed: a Blueprint a designer drops into a level normally belongs to a system and lives in that system's folder (`Blueprint/<System>`); only a lone actor with no system of its own lands here.
 * `Blueprint/Components` - Reusable actor components.
@@ -502,9 +507,9 @@ A gameplay system whose art fits none of the folders above gets a matching folde
 
 #### FX
 
-`FX` is a catalogue, like `Art/Environment` and `UI`: a huge collection of one kind of asset, the Niagara System. Its supporting collections are large enough to benefit from `FX/Materials`, `FX/Meshes`, and `FX/Textures` folders.
+`FX` is the Niagara System (`NS_`) collection. Follow the layout in [Collections](#collections).
 
-An effect with a clear, single-use association to one asset may live with that consumer instead of here: a weapon's `NS_` systems go under `Art/Weapons/<Weapon>`, a character's under `Art/Characters/<Character>`, an interactable's under `Art/Interactables/<System>`.
+Niagara Systems belong here even when only one weapon, character, or interactable uses them; name them by their association rather than moving them beside that consumer.
 
 #### Maps
 
@@ -520,16 +525,61 @@ A level folder may contain a `_GENERATED` folder, at the root of `Maps` or insid
 
 #### SFX
 
-`SFX` holds only shared audio: sound classes, attenuation and concurrency presets, shared music, and any cue or wave used by more than one asset. A sound class serving one asset lives with it, such as the player's `SC_Player` in `Art/Characters/Player`; only shared classes stay here (`SC_Master`, `SC_Weapon`, `SC_Enemy`). Cues move together with the waves, attenuations, and sound classes they use, so the set migrates as one.
+**All audio assets belong in `SFX`, including music.** This covers sound waves, cues, MetaSounds, dialogue, sound classes, mixes, attenuation, concurrency, and other audio resources. Keep them here even when they serve only one character, weapon, level, or system. Consumers stay in their normal folders: an audio sublevel lives in `Maps` and references resources in `SFX`. For example, `SC_Player` belongs under `SFX`, in `SFX/Classes` when that supporting folder exists, never in `Art/Characters/Player`.
 
-The current shared audio collection is small enough to browse flat: a four-preset `Attenuation` folder would be harder to navigate than the four files it would hold.
+`SFX` uses Sound Cues (`Cue_`) as its main asset type; follow the layout in [Collections](#collections). In this project's workflow, sounds are normally played through cues rather than directly from Sound Waves (`S_`); direct wave playback is reserved for special cases, such as music. Cues are usually sound effects, so they also fit the folder's name, even though `SFX` holds all audio.
+
+`SFX` is a collection like the others: it stores by type, and because its assets sit there rather than beside the things they serve, **their names must carry that association**.
+
+Name sounds in this order: **who, what, which**.
+
+* **Who:** the character, object, system, or context the sound is for, such as `Player` or `MainMenu`.
+* **What:** its purpose, such as `Hurt`, `BigHurt`, or `Music`.
+* **Which:** when there are variations, a two-digit number starting at `01`, attached directly to the name with no extra underscore.
+
+Use the asset's required type prefix, followed by `WhoWhatWhich`:
+
+| Asset Name | Meaning |
+| ---------- | ------- |
+| `Cue_PlayerHurt` | Player hurt sound cue |
+| `S_PlayerHurt01` | Player hurt, variation 01 |
+| `S_PlayerHurt02` | Player hurt, variation 02 |
+| `S_PlayerBigHurt01` | Player big hurt, variation 01 |
+| `S_MainMenuMusic01` | Main menu music, variation 01 |
+
+For an asset without variations, omit the number, not the association: `SC_Player` identifies the player's sound class. Shared audio should name its actual shared role or context rather than inventing a single owner.
+
+Sound Waves, including music, belong in `SFX/Waves`. Do not recreate character or system folder trees inside `SFX`; names carry those associations. The other naming and organization rules still apply.
 
 #### UI
 
-`UI` is a catalogue, like `Art/Environment` and `FX`: a huge collection of one kind of asset, the widget Blueprint, flat at the root so any screen's widgets are one glance away and nobody has to learn where a screen was filed. Splitting them by screen or element (`UI/HUD`, `UI/MainMenu`, `UI/Options`) buys nothing when each of those folders would hold one to three assets, nowhere near the fifteen that would earn one; a flat catalogue is the better design, exactly as it is for environment meshes.
+`UI` is the Widget Blueprint collection. Follow the layout in [Collections](#collections), rather than splitting widgets into per-screen folders such as `UI/HUD`, `UI/MainMenu`, and `UI/Options`.
 
-Widget-specific materials and instances (`M_UI_`, `MI_UI_`) live in `UI/Materials`, not beside individual widgets; generic UI parent materials reused across unrelated concepts remain in `Art/Materials`. `UI/Textures` likewise groups the catalogue's large texture collection. Keep other supporting types flat unless their volume makes a sub-folder useful. Fonts are art and live in `Art/Fonts`, not here.
+Widget-specific materials and instances (`M_UI_`, `MI_UI_`) live in `UI/Materials`, not beside individual widgets; generic UI parent materials reused across unrelated concepts remain in `Art/Materials`. `UI/Textures` likewise groups the collection's supporting textures. Keep other supporting types flat unless their volume makes a sub-folder useful. Fonts are art and live in `Art/Fonts`, not here.
 
+
+### Collections
+
+A **collection** groups assets by type or concept for browsing together. `Art/Materials` and `Art/Textures` are generic type collections; `Art/Environment` is a collection for level design.
+
+**If an established collection covers an asset, store it there**, even when only one consumer uses it. Otherwise, keep it with the things it serves, grouping supporting types within that association only when their volume warrants sub-folders.
+
+Use the most specific applicable collection. Level-design assets and their supporting materials and textures belong in `Art/Environment`; generic materials and textures belong in `Art/Materials` and `Art/Textures`. Keep supporting dependencies within the collection they serve: for audio, that collection is `SFX`, so audio belongs there rather than beside the consumer it supports.
+
+Keep the main assets directly at the collection's root and group supporting assets by type in sibling sub-folders.
+
+| Collection | Main assets at the root | Supporting sub-folders |
+| ---------- | ----------------------- | ---------------------- |
+| `Art/Materials` | Generic materials | `MaterialInstances`, `MaterialFunctions` |
+| `Art/Textures` | Generic textures | As needed |
+| `Art/Environment` | Level-design assets | `Materials`, `Textures` |
+| `UI` | Widget Blueprints | `Materials`, `Textures` |
+| `FX` | Niagara Systems | `Materials`, `Meshes`, `Textures` |
+| `SFX` | Sound Cues | `Waves`, `Classes`, `Attenuation`, `Concurrency` |
+
+Keep the structure shallow. Do not add a folder for the main type, such as `SFX/Cues`, or repeat the supporting folder structure for every asset. Minimize folders that contain only more folders, and create supporting-type folders only for collections you actually have.
+
+**Keep the number of collections small.** They can scatter dependency chains, making related assets harder to rename, move, or remove together. Create one only when the browsing benefits for a large collection justify that cost.
 
 ### Keep Base Classes With Their System
 
