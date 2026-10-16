@@ -343,7 +343,7 @@ Directory structure is law too, on par with naming: the two go hand in hand, and
 
 All project content lives under a folder named after the project (`Content/Haeretica`). The layout below describes this project's current top-level folders. DLC, patches, and sub-projects that ship separately are the exception: each gets its own top-level root. Because most assets carry their type in their prefix, these folders group by _purpose_; use the Content Browser's filters and search to narrow by type within a folder.
 
-A folder's own namesake type stays at its root: widget Blueprints sit flat in `UI`, Niagara systems at the root of `FX`, meshes at the root of `Art/Environment`; the root is where the folder's namesake belongs. Some folders sort into a sub-folder per concept instead of staying flat; whether to do so is a question of conceptual clarity rather than a fixed rule, and the structure already in place settles it. Sort by association when a concept is a large, complex set of one-off assets that belongs together, as a character or a weapon is; stay flat when the concepts are small and simple, as interactables are, where one base class and its children read best as a single list and are quicker for the level designers who browse the folder to place assets. The initial project structure is the other exception: common collections such as environment meshes, effects, and widgets are expected to reach hundreds of assets even in small projects, so their homes can exist from the start, without pre-creating a folder for every type that might someday appear.
+A folder's own namesake type stays at its root: widget Blueprints sit flat in `UI`, Niagara systems at the root of `FX`, meshes at the root of `Art/Environment`; the root is where the folder's namesake belongs. A folder may instead sort into a sub-folder per concept; the structure already in place decides, and [Blueprint](#blueprint) covers the choice. The initial project structure is the other exception: common collections such as environment meshes, effects, and widgets are expected to reach hundreds of assets even in small projects, so their homes can exist from the start, without pre-creating a folder for every type that might someday appear.
 
 Apply the rule of thumb above to new content. Flattening an existing folder to satisfy it costs more than it is worth: moving assets, fixing redirectors, and checking references for little benefit.
 
@@ -515,17 +515,17 @@ Give specific pickup types their own sub-folders when there is a collection to g
 
 Within `Blueprint`, each gameplay system gets a folder named after it, holding the system's logic: its Blueprints, base classes, placeable actors, interfaces, and the data assets that support them.
 
-A complex concept gets its own folder: a weapon carries too many unique pieces to sit flat beside the others, and folding them all into `Base` would fill it with one-off, weapon-specific assets and turn it into a mess. So `Blueprint/Weapons` gives every weapon a folder of its own, as [Figure 2](#figure-2) shows:
-
-![The Blueprint/Weapons folder in the Content Browser: one sub-folder per weapon](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/blueprint-weapons-per-concept.jpg)
-
-**Figure 2.** `Blueprint/Weapons`: one folder per weapon, each holding that weapon's Blueprints, data, and effects.
-
-Simpler systems stay flat instead. An interactables system keeps every Blueprint at the folder root, beside a single shared `Base` sub-folder, as [Figure 3](#figure-3) shows:
+Prefer a flat folder. When the code resolves into a `Base` sub-folder plus concrete Blueprints at the root, keep those Blueprints flat, the way interactables does, as [Figure 2](#figure-2) shows:
 
 ![The Blueprint/Interactables folder in the Content Browser: interactable Blueprints flat at the root, with one Base sub-folder](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/blueprint-interactables-flat.png)
 
-**Figure 3.** `Blueprint/Interactables`: a flat structure, every interactable Blueprint at the root beside the shared `Base` folder.
+**Figure 2.** `Blueprint/Interactables`: a flat structure, every interactable Blueprint at the root beside the shared `Base` folder.
+
+Sort into a folder per item when a concept carries a lot of one-off, non-reusable assets, the way weapons and characters do: those cannot go in `Base`, so the concept needs a folder of its own, as [Figure 3](#figure-3) shows:
+
+![The Blueprint/Weapons folder in the Content Browser: one sub-folder per weapon](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/blueprint-weapons-per-concept.jpg)
+
+**Figure 3.** `Blueprint/Weapons`: one folder per weapon, each holding that weapon's Blueprints, data, and effects.
 
 #### FX
 
