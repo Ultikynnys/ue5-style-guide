@@ -92,15 +92,15 @@ Most assets carry a prefix: a short form of the asset type, usually an acronym, 
 
 An asset's _Base Asset Name_ identifies the group of related assets it belongs to. The full naming pattern is `Prefix_BaseAssetName_Variant_Suffix`.
 
-`Prefix` and `Suffix` come from the asset type, via the [Asset Name Modifiers](#asset-name-modifiers) tables and the [Suffixes](#suffixes) table below.
+`Prefix` and `Suffix` come from the asset type, via the type tables below and the [Suffixes](#suffixes) table.
 
 `BaseAssetName` is a short, recognizable name for the group. If you have a character named Bob, all of Bob's assets use `Bob`.
 
 For a specific variation, `Variant` is a short, recognizable name for the subset. Bob's skins keep `Bob` and add a `Variant`: 'Evil' is `Bob_Evil`, 'Retro' is `Bob_Retro`.
 
-For a generic variation, `Variant` is a two-digit number starting at `01`: nondescript rocks are `Rock_01`, `Rock_02`, and so on. Three digits is almost never needed; past 100 assets, use different base names or chained variants instead.
+For a generic variation, `Variant` is a two-digit number starting at `01`: nondescript rocks are `Rock01`, `Rock02`, and so on. Three digits is almost never needed; past 100 assets, use different base names or chained variants instead.
 
-Variants can be combined. Architectural visualization flooring might use the base name `Flooring` with variants like `Flooring_Marble_01`, `Flooring_Maple_01`, and `Flooring_Tile_Squares_01`.
+Variants can be combined. Architectural visualization flooring might use the base name `Flooring` with variants like `Flooring_Marble01`, `Flooring_Maple01`, and `Flooring_Tile_Squares01`.
 
 Audio follows the same pattern with its collection's rule: name sounds by association, `Prefix_WhoWhatWhich`, with variation numbers attached directly to the name, such as `S_PlayerHurt01`. See [SFX](#sfx) for the collection's storage and naming rules; the other naming rules still apply.
 
@@ -121,15 +121,11 @@ Audio follows the same pattern with its collection's rule: name sounds by associ
 
 | Asset Type              | Asset Name                                                 |
 | ----------------------- | ---------------------------------------------------------- |
-| Static Mesh (01)        | SM_Rock_01                                                 |
-| Static Mesh (02)        | SM_Rock_02                                                 |
-| Static Mesh (03)        | SM_Rock_03                                                 |
+| Static Mesh (01)        | SM_Rock01                                                 |
+| Static Mesh (02)        | SM_Rock02                                                 |
+| Static Mesh (03)        | SM_Rock03                                                 |
 | Material                | M_Rock                                                     |
 | Material Instance (Snow)| MI_Rock_Snow                                               |
-
-### Asset Name Modifiers
-
-Use these tables to pick an asset's prefix. If a prefix and a suffix would be the same, use only the prefix.
 
 #### Meshes
 
@@ -479,7 +475,7 @@ In this project, `Art` holds character and system art alongside generic visual a
 * `Art/LUT` - Color lookup tables (LUTs) used for color grading.
 * `Art/Materials` - The home for the project's generic mesh materials, filed flat at the root. See [`Art/Materials`](#artmaterials).
   * `Art/Materials/MaterialInstances` - Generic material instances that name no single asset, such as a generic wall instance.
-  * `Art/Materials/MaterialFunctions` - Reusable material functions.
+  * `Art/Materials/MaterialFunctions` - Generic material functions.
 * `Art/PhysicalMaterials` - Physical materials used for surface responses such as footstep and impact effects.
 * `Art/PostProcess` - Post-process materials, instances, and textures (`M_PP_`, `MI_PP_`, `T_PP_`).
 * `Art/Textures` - The home for the project's generic mesh textures, filed flat. See [`Art/Textures`](#arttextures).
@@ -494,8 +490,6 @@ A gameplay system whose art fits none of the folders above gets a matching folde
 * `Blueprint/Characters`, `Blueprint/Weapons`, `Blueprint/Interactables`, `Blueprint/GameModes`, and `Blueprint/Tools` - One folder per gameplay system, holding all of the system's Blueprints. Player and enemy Blueprints live together under `Blueprint/Characters`, mirroring `Art/Characters`.
 * `Blueprint/<System>/Base` - The system's base classes and shared assets.
 * `Blueprint/UI` - UI logic: the non-widget UI Blueprints, such as HUD classes, plus UI data such as enumerations. Every UI Blueprint that is not a widget lives here; the widgets themselves are the UI and stay in [`UI`](#ui).
-
-There is no separate `Core` folder. A base class lives in its system's folder; where a system has a family of concrete Blueprints, that is a `Base` sub-folder. `BP_BaseWeapon` sits in `Blueprint/Weapons/Base`, the base pickup classes sit in `Blueprint/Interactables/Base`, and the base character and enemy classes sit in `Blueprint/Characters/Base`, beside the consumable base classes in `Blueprint/Consumables/Base`. The base `GameMode` and `Character`/`PlayerController` classes live directly in `Blueprint/GameModes` and `Blueprint/Characters/Player`, which need no `Base` sub-folder.
 
 The `Base` sub-folder keeps two kinds of Blueprint apart from the rest of the system. The first is the base classes: a Blueprint is usually instanced from a base class, so a base class is never placed in a level and never used on its own, it exists to be inherited. The second is the assets every variant of the system shares. Just as a collection gathers one concept's assets in one place for browsing, `Base` gathers the system's shared assets, such as structs, data tables, and shared AI assets (behavior-tree tasks, services, and decorators, blackboards, and environment queries), instead of scattering them across the system's variant folders. The concrete Blueprints instanced from a base class, the ones used in game, live outside `Base`.
 
@@ -539,7 +533,7 @@ A level folder may contain a `_GENERATED` folder, at the root of `Maps` or insid
 
 #### SFX
 
-**All audio assets belong in `SFX`, including music.** This covers sound waves, cues, MetaSounds, dialogue, sound classes, mixes, attenuation, concurrency, and other audio resources. Keep them here even when they serve only one character, weapon, level, or system. Consumers stay in their normal folders: an audio sublevel lives in `Maps` and references resources in `SFX`. For example, `SC_Player` belongs under `SFX`, in `SFX/Classes` when that supporting folder exists.
+**All audio assets belong in `SFX`, including music.** This covers sound waves, cues, MetaSounds, dialogue, sound classes, mixes, attenuation, concurrency, and other audio resources. Keep them here even when they serve only one character, weapon, level, or system. Consumers stay in their normal folders: an audio sublevel lives in `Maps` and references resources in `SFX`. For example, `SC_Player` belongs under `SFX`, in `SFX/Classes` when that supporting folder exists; other supporting types get their own type folder the same way, such as `SFX/Mixes` or `SFX/Concurrency`.
 
 `SFX` uses Sound Cues (`Cue_`) as its main asset type; follow the layout in [Collections](#collections). In this project's workflow, sounds are normally played through cues; direct wave playback from Sound Waves (`S_`) is reserved for special cases, such as music. Cues are usually sound effects, so they also fit the folder's name, even though `SFX` holds all audio.
 
@@ -613,7 +607,7 @@ The screenshots below show the project's collections: [Figure 4](#figure-4) is `
 
 **Figure 7.** `SFX`: Sound Cues at the root, with `Waves`, `Classes`, and `Attenuation`.
 
-Keep the structure shallow. Do not add a folder for the main type, such as `SFX/Cues`, or repeat the supporting folder structure for every asset. Minimize folders that contain only more folders, and create supporting-type folders only for collections you actually have.
+Keep the structure shallow. Do not add a folder for the main type, such as `SFX/Cues`, or repeat the supporting folder structure for every asset. Minimize folders that contain only more folders, and create a supporting-type folder only when a collection actually holds that type.
 
 **Keep the number of collections small.** They can scatter dependency chains, making related assets harder to rename, move, or remove together. Create one only when the browsing benefits for a large collection justify that cost.
 
@@ -627,7 +621,7 @@ For example, a growing set of animations shared across characters may be easier 
 
 ### `Art/Materials`
 
-`Content/Haeretica/Art/Materials` holds generic mesh parent materials at its root, generic material instances in `MaterialInstances`, and reusable material functions in `MaterialFunctions`; a parent material never sits in either sub-folder, and its instances live in many other folders with the assets they dress, reusing the parent. UI and FX materials live with their own collection, not here; browse this folder with the Content Browser's type filters.
+`Content/Haeretica/Art/Materials` holds generic mesh parent materials at its root, generic material instances in `MaterialInstances`, and generic material functions in `MaterialFunctions`; a parent material never sits in either sub-folder, and its instances live in many other folders with the assets they dress, reusing the parent. UI and FX materials live with their own collection, not here; browse this folder with the Content Browser's type filters.
 
 > This keeps a 'use material instances only' policy easy to enforce: every generic mesh material in the project sits in this one folder, so it is the complete set of those materials to instance. The UI, FX, decal, and post-process sets are the exception, each complete in its own folder.
 
@@ -782,7 +776,7 @@ When a class owns an instance of a complex type, e.g. `BP_PlayerCharacter` owns 
 
 Example: Use `Hat`, `Flag`, and `Ability`.
 
-When a class does not own the value, use a noun plus the type name.
+When a class does not own the value, use a noun plus the type name. A long type name may be shortened to the part that still identifies it.
 
 Example: A `BP_Turret` targeting a `BP_PlayerCharacter` stores it as `TargetPlayer`: within `BP_Turret` that reads clearly as a reference it does not own.
 
@@ -944,7 +938,7 @@ Bad examples:
 
 Event handlers and dispatchers start with `On`, though the verb may move to the end when past tense reads better.
 
-[Collocations](http://dictionary.cambridge.org/us/grammar/british-grammar/about-words-clauses-and-sentences/collocation) of `On` are exempt from the verb rule.
+[Collocations](http://dictionary.cambridge.org/us/grammar/british-grammar/about-words-clauses-and-sentences/collocation) of `On` are exempt from the verb rule: when `On` plus the word already names the event, as in `OnDeath`, `OnPickup`, and `OnClick`, no verb is needed; otherwise keep one, as in `OnTargetChanged`.
 
 `Handle` is not allowed: Unreal uses `On`, even where other frameworks prefer `Handle`.
 
@@ -986,7 +980,7 @@ Bad examples:
 
 #### All Functions Must Have Return Nodes
 
-All functions must have return nodes, no exceptions. Events are exempt, since a Blueprint event has no return node.
+All functions must have return nodes. Events are exempt, since a Blueprint event has no return node.
 
 A return node marks where a function's execution ends. In graphs full of `Sequence`, `ForLoopWithBreak`, and reroute nodes, an explicit end point aids readability, maintenance, and debugging.
 
