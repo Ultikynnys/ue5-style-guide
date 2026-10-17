@@ -1,13 +1,14 @@
 ## Rule of Thumb
 
-**Store assets in the appropriate collection or alongside the things they serve.**
+**Store assets with their clear owner; use collections for assets without a specific owner. This project's audio and map rules take precedence.**
 
-* **Does an established collection cover it? Put it there.** Follow [Collections](#collections) for scope and layout, including generic type collections such as `Art/Materials` and `Art/Textures`, and concept-specific collections such as `Art/Environment`.
-* **Otherwise, sort by association.** Player-specific art belongs in `Art/Characters/Player`; player gameplay Blueprints and code-only supporting assets belong in `Blueprint/Characters/Player`. Keep each set together within that art/code split. Do not guess an owner or create a new folder just to give an asset somewhere to go.
+* **For non-audio, non-level assets, clear ownership comes first.** Keep an asset with the character, weapon, interactable, screen, effect, or system it serves, even when a collection exists for its type. Player-specific art and supporting resources belong in `Art/Characters/Player`; player gameplay Blueprints and code-only supporting assets belong in `Blueprint/Characters/Player`. Keep each set together within that art/code split.
+* **Otherwise, use the appropriate collection.** Use a collection only for generic assets or resources with no clear defining owner, such as `Art/Materials`, `Art/Textures`, `Art/Environment`, `FX`, or `UI`. Multiple consumers alone never move an asset: keep it with its defining owner when that association remains clear. Do not guess an owner or create a new folder just to give an asset somewhere to go.
+* **Project-specific exceptions take precedence.** All audio resources always stay in the `SFX` collection, including music and sounds owned by one character, weapon, screen, or system. All level assets stay under `Maps`, including owner-specific and test levels, so map discovery and builds have one entry point.
 
-A player's art is the opposite case: animations, Animation Blueprints, skeletal meshes, skeletons, materials, and textures all serve one character. Splitting that set into a folder for every type just creates more folders. Keep it together unless a supporting type grows enough to earn a sub-folder under the rules below. The player's audio still belongs in `SFX`.
+A player's animations, Animation Blueprints, skeletal meshes, skeletons, materials, textures, and effects can all serve that character. Splitting the set into a collection for every type scatters its dependencies. Keep it together unless a supporting type grows enough to earn a sub-folder under the rules below. Asset type prefixes and context labels still apply wherever an asset lives.
 
-**Use the fewest folders that make assets easy to find, and follow the structure already there.** Keep existing folders. As a rule of thumb, around fifteen assets of the same supporting type may warrant a sub-folder, but split only when it makes the collection easier to browse. See [Content Directory Structure](#content-directory-structure) for the detailed rules.
+**Use the fewest folders that make assets easy to find, and follow the structure already there.** Reuse existing owner folders rather than creating parallel trees. This placement policy does not require a wholesale migration of existing content. As a rule of thumb, around fifteen assets of the same supporting type may warrant a sub-folder, but split only when it makes the set easier to browse. See [Content Directory Structure](#content-directory-structure) for the detailed rules.
 
 ## Principles
 
@@ -53,7 +54,7 @@ Not legal advice: do not bring illegal content or behavior into a project. For e
 
 More folders do not make assets easier to find. Deep, per-asset folder trees slow people down and invite duplicate assets. Prefer a few broad, clearly named folders that group related content where people expect it. A set large enough to genuinely earn its own folder is not sprawl: see [Folder Names](#folder-names).
 
-For large collections such as `Art/Environment`, follow the [Collections](#collections) layout shown in [Figure 1](#figure-1). A collection's name often describes how its content is used, so `Art/Environment` holds level-design assets.
+For large collections such as `Art/Environment`, follow the [Collections](#collections) layout shown in [Figure 1](#figure-1). A collection's name describes its browsing scope, not a reason to separate assets from a clear owner: `Art/Environment` holds reusable level-design assets, while an owned set keeps its dependencies together.
 
 ![Example of environment assets organized together in a browsable folder](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/folder-organization-example.png)
 
@@ -102,7 +103,7 @@ For a generic variation, `Variant` is a two-digit number starting at `01`: nonde
 
 Variants can be combined. Architectural visualization flooring might use the base name `Flooring` with variants like `Flooring_Marble01`, `Flooring_Maple01`, and `Flooring_Tile_Squares01`.
 
-Audio follows the same pattern with its collection's rule: name sounds by association, `Prefix_WhoWhatWhich`, with variation numbers attached directly to the name, such as `S_PlayerHurt01`. See [SFX](#sfx) for the collection's storage and naming rules; the other naming rules still apply.
+Audio in the `SFX` collection follows the same naming pattern: name sounds by association, `Prefix_WhoWhatWhich`, with variation numbers attached directly to the name, such as `S_PlayerHurt01`. See [SFX](#sfx) for the collection's storage and naming rules; the other naming rules still apply.
 
 
 **Examples:**
@@ -134,10 +135,10 @@ All mesh types: static, skeletal, destructible, and Chaos geometry collections.
 | Asset Type              | Prefix     | Notes                            |
 | ----------------------- | ---------- | -------------------------------- |
 | Static Mesh             | SM_        |                                  |
-| Static Mesh (FX)        | SM_FX_     | A static mesh used only by particle effects; filed in `FX/Meshes`. |
+| Static Mesh (FX)        | SM_FX_     | A static mesh used only by particle effects; keep it with its effect's owner, or in `FX/Meshes` when generic or shared with no clear owner. |
 | Skeletal Mesh           | SKM_       |                                  |
 | Destructible Mesh       | DM_        |                                  |
-| Geometry Collection     | GC_        | A special asset that groups pieces of geometry so they can be simulated, fractured, and destroyed with Chaos Physics; filed in `Art/GeometryCollection`. |
+| Geometry Collection     | GC_        | Geometry grouped for Chaos simulation, fracture, and destruction; keep it with its owner, or in `Art/GeometryCollection` when reusable with no clear owner. |
 
 #### Blueprint Types
 
@@ -161,18 +162,18 @@ Blueprint classes, plus the data types that support them, such as enumerations, 
 
 #### Materials
 
-A generic mesh material sorts by type into [`Art/Materials`](#artmaterials). A type-tied material lives with its own set instead, so shading contexts never mix: `UI` and `FX` materials in [`UI`](#ui)'s and [`FX`](#fx)'s `Materials` sub-folders, and the decal and post-process sets in their own top-level folders (`Art/Decals`, `Art/PostProcess`).
+Keep a material with its clear owner, regardless of shading context. A generic mesh material belongs in [`Art/Materials`](#artmaterials). A context material (`M_UI_`, `M_FX_`, `M_Decal_`, `M_PP_`) used with no single owner belongs in its context collection, `UI/Materials`, `FX/Materials`, `Art/Decals`, or `Art/PostProcess`; an owned one stays with its owner. Context labels distinguish intended use even when an owner's folder contains several material types.
 
 The only type labels are `PP`, `Decal`, `UI`, and `FX`; an `M_` material that carries none of them is a mesh material.
 
-Use a label where possible to make the intended use clear. Material and texture settings can produce unexpected results when an asset is used in the wrong context. If a label is omitted, the asset's name and type must still make its purpose clear.
+Use the required `PP`, `Decal`, `UI`, or `FX` label for a material authored for that context, as listed below. Ownership changes its folder, not its naming requirements. Material and texture settings can produce unexpected results when an asset is used in the wrong context.
 
 | Asset Type                    | Prefix     | Notes                            |
 | ----------------------------- | ---------- | -------------------------------- |
 | Material                      | M_         | A mesh material; reuse it through instances. A type-tied material carries its label (`M_PP_`, `M_UI_`, `M_Decal_`, `M_FX_`). |
 | Material (Post Process)       | M_PP_, MI_PP_ | Post-process (screenspace) materials, named with the `PP` label. |
-| Material (UI)                 | M_UI_, MI_UI_ | UI materials and instances carry the `UI` label and live in `UI/Materials`. They never mix with mesh materials, so keep them out of `Art/Materials`. |
-| Material (FX)                 | M_FX_, MI_FX_ | Materials used only for particles; they carry the `FX` label and live in `FX/Materials`, apart from mesh materials. |
+| Material (UI)                 | M_UI_, MI_UI_ | Carry the `UI` label and stay with their owner; generic or shared instances with no clear owner live in `UI/Materials`, not the generic mesh material collection. |
+| Material (FX)                 | M_FX_, MI_FX_ | Materials used only for particles; carry the `FX` label and stay with their owner, or in `FX/Materials` when generic or shared with no clear owner. |
 | Material Function             | MF_        | A generic one lives in `Art/Materials/MaterialFunctions`; one a concept owns lives with it. |
 | Material Instance             | MI_        | Lives with the asset it dresses (its folder, or a `Materials` sub-folder there); a generic instance that names no single asset lives in `Art/Materials/MaterialInstances`, or in its own set's folder when that set has one (`Art/Decals`, `Art/PostProcess`). |
 | Material Parameter Collection | MPC_       |                                  |
@@ -184,17 +185,17 @@ Use a label where possible to make the intended use clear. Material and texture 
 
 The same labels apply to textures (`T_PP_`, `T_Decal_`, `T_UI_`, `T_FX_`); a `T_` texture that carries none of them is a mesh texture.
 
-A generic mesh texture sorts by type into [`Art/Textures`](#arttextures); as with materials, the `UI` and `FX` textures sit in [`UI`](#ui)'s and [`FX`](#fx)'s `Textures` sub-folders, and the decal and post-process textures with their own set in `Art/Decals` and `Art/PostProcess`.
+Keep a texture with its clear owner, just like a material. Generic mesh textures belong in [`Art/Textures`](#arttextures). A context texture (`T_UI_`, `T_FX_`, `T_Decal_`, `T_PP_`) used with no single owner belongs in its context collection, `UI/Textures`, `FX/Textures`, `Art/Decals`, or `Art/PostProcess`; an owned one stays with its owner. Labels and texture settings describe use, not a mandatory collection destination.
 
-The label is preferred here too, for the same reason.
+Use the required context label for textures too, as listed below. Ownership changes their folder, not their naming requirements.
 
 | Asset Type              | Prefix     | Notes                            |
 | ----------------------- | ---------- | -------------------------------- |
 | Texture                 | T_         | A texture with no suffix is implied to be Diffuse/Albedo/Base Color. |
 | Texture (Post Process)  | T_PP_      | Post-process (screenspace) textures. |
 | Texture (Decal)         | T_Decal_   | The `Decal` label goes right after the type. |
-| Texture (UI)            | T_UI_      | UI textures; they live in `UI/Textures`. |
-| Texture (FX)            | T_FX_      | Textures used only for particles; they live in `FX/Textures`. |
+| Texture (UI)            | T_UI_      | UI textures; keep with their owner, or in `UI/Textures` when generic or shared with no clear owner. |
+| Texture (FX)            | T_FX_      | Textures used only for particles; keep with their owner, or in `FX/Textures` when generic or shared with no clear owner. |
 | Texture Cube            | TC_        |                                  |
 | Media Texture           | MTX_       |                                  |
 | Render Target           | RT_        |                                  |
@@ -239,7 +240,7 @@ Asset types that fit no other category, such as data assets, curves, data tables
 | Level / Map                |            | [Should be in a folder called Maps.](#maps) Level naming is in [Suffixes](#suffixes). |
 | Animated Vector Field      | VFA_       |                                  |
 | Camera Anim                | CA_        |                                  |
-| Curve                     | C_         | Color, Float, and Vector subclasses use the suffixes in [Suffixes](#suffixes). |
+| Curve                     | C_         | A Color, Float, or Vector curve requires its subclass suffix from [Suffixes](#suffixes), since each subclass behaves differently: `C_PlayerDamage_Color`, `C_PlayerDamage_Float`, `C_PlayerDamage_Vector`. |
 | Curve Table               | CT_        | A standalone asset type of its own, distinct from the Curve subclasses. |
 | Data Asset                 | DA_        |                                  |
 | Primary Data Asset         | PDA_       |                                  |
@@ -278,7 +279,7 @@ Asset types that fit no other category, such as data assets, curves, data tables
 | MetaSound Source        | MSS_       |                                  |
 | MetaSound Patch         | MSP_       |                                  |
 | Sound Wave              | S_         |                                  |
-| Font                    | F_         | Lives in `Art/Fonts`. |
+| Font                    | F_         | Keep with its owner; generic or shared fonts with no clear owner live in `Art/Fonts`. |
 | Font Face               | FF_        |                                  |
 | Slate Brush             | Brush_     |                                  |
 | Slate Widget Style      | Style_     |                                  |
@@ -294,7 +295,7 @@ Asset types that fit no other category, such as data assets, curves, data tables
 
 ### Suffixes
 
-**Prefixes identify asset types. Suffixes express conceptual differences within an asset family**, including subclass distinctions such as Color, Float, and Vector curves under `C_`, a texture's normal or roughness role, a level's purpose, or an asset's work-in-progress status. A separate asset type takes its own prefix: Curve Table uses `CT_`, and Sound Concurrency uses `SConcurrency_`. The table below lists role and Curve subclass suffixes; prefixes are listed above. Omit the suffix when there is no useful distinction to make. Instances retain their established prefixes (`MI_` for a material instance, `NPI_` for a Niagara Parameter Collection instance).
+**Prefixes identify asset types. Suffixes express conceptual differences within an asset family**, including subclass distinctions such as Color, Float, and Vector curves under `C_`, a texture's normal or roughness role, a level's purpose, or an asset's work-in-progress status. A separate asset type takes its own prefix: Curve Table uses `CT_`, and Sound Concurrency uses `SConcurrency_`. The table below lists role and Curve subclass suffixes; prefixes are listed above. Omit an optional role suffix when there is no useful distinction to make, but a Curve always takes its Color, Float, or Vector subclass suffix because each subclass behaves differently. Instances retain their established prefixes (`MI_` for a material instance, `NPI_` for a Niagara Parameter Collection instance).
 
 | Asset Type              | Suffix     | Notes                            |
 | ----------------------- | ---------- | -------------------------------- |
@@ -339,11 +340,11 @@ A level without a suffix is monolithic: it contains the whole scene. This is rea
 
 Directory structure is law too, on par with naming: the two go hand in hand, and breaking either causes chaos.
 
-All project content lives under a folder named after the project (`Content/Haeretica`). The layout below describes this project's current top-level folders. DLC, patches, and sub-projects that ship separately are the exception: each gets its own top-level root. Because most assets carry their type in their prefix, these folders group by _purpose_; use the Content Browser's filters and search to narrow by type within a folder.
+All content authored for the main project lives under `Content/Haeretica`. Plugins and external third-party dependencies retain their own roots and organization. The layout below describes this project's current top-level folders. DLC, patches, and sub-projects that ship separately are the exception: each gets its own top-level root. Because most assets carry their type in their prefix, these folders group by _purpose_; use the Content Browser's filters and search to narrow by type within a folder.
 
-A folder's own namesake type stays at its root: widget Blueprints sit flat in `UI`, Niagara systems at the root of `FX`, meshes at the root of `Art/Environment`; the root is where the folder's namesake belongs. A folder may instead sort into a sub-folder per concept; the structure already in place decides, and [Blueprint](#blueprint) covers the choice. The initial project structure is the other exception: common collections such as environment meshes, effects, and widgets are expected to reach hundreds of assets even in small projects, so their homes can exist from the start, without pre-creating a folder for every type that might someday appear.
+Apply the project's `SFX` and `Maps` exceptions first; otherwise choose the owner before choosing a type-based collection. Generic main assets stay at a collection's root: shared widget Blueprints sit flat in `UI`, generic Niagara systems at the root of `FX`, and generic environment meshes at the root of `Art/Environment`. An owned set with private dependencies may use a per-concept sub-folder under its owner; [Blueprint](#blueprint) covers the art/logic split. Common collections can exist from the start without pre-creating a folder for every supporting type that might someday appear.
 
-Apply the rule of thumb above to new content. Flattening an existing folder to satisfy it costs more than it is worth: moving assets, fixing redirectors, and checking references for little benefit.
+Apply the ownership-first rule above to new content. It does not require flattening existing folders or migrating the whole project: moving assets, fixing redirectors, and checking references should serve a concrete organizational benefit.
 
 **Example Project Content Structure**
 <pre>
@@ -364,9 +365,11 @@ Apply the rule of thumb above to new content. Flattening an existing folder to s
         |   |-- Fonts
         |   |-- GeometryCollection
         |   |-- Interactables
+        |   |-- LUT
         |   |-- <a href="#artmaterials">Materials</a>
         |   |   |-- MaterialInstances
         |   |   |-- MaterialFunctions
+        |   |-- PhysicalMaterials
         |   |-- PostProcess
         |   |-- <a href="#arttextures">Textures</a>
         |   |-- Weapons
@@ -423,7 +426,7 @@ A Unicode character in your computer's user name (say you are `Zoë`) breaks any
 
 ### Use A Top Level Folder For Project Specific Assets
 
-Every project asset lives in a folder named after the project: for 'Haeretica', _all_ content lives in `Content/Haeretica`.
+Every asset authored for the main project lives in `Content/Haeretica`. Plugins and external third-party dependencies retain their own roots; separately shipped DLC, sub-projects, and patches may use their own top-level folders.
 
 The reasons follow.
 
@@ -439,7 +442,7 @@ Teams routinely copy assets between projects. The Content Browser's Migrate tool
 
 Those dependencies are the danger. When assets sit outside a top level folder and two projects share similarly named or already-migrated assets, a migration can silently overwrite the existing ones.
 
-Merge a migration safely with the Content Browser's 'Replace References' tool: assets outside your top level folder are clearly pending a merge. Once merged, no stray top level folder should remain in your Content tree, and future migrations are safe.
+Merge a migration safely with the Content Browser's 'Replace References' tool: assets outside your top level folder are clearly pending a merge. Once merged, remove obsolete migration folders after fixing their references. Retained third-party dependencies and separately shipped content may keep their own roots.
 
 
 **Shared Material Example:**
@@ -458,48 +461,44 @@ The current project uses the following top-level folders beneath its project fol
 
 * `Art` - Character and system art, plus generic visual asset collections. See [Art](#art).
 * `Blueprint` - The Blueprints that make up the project's logic. See [Blueprint](#blueprint).
-* `FX` - Niagara systems and the other assets that make up visual effects. See [FX](#fx).
+* `FX` - Generic or shared Niagara systems with no clear owner, and their visual-effect resources. Owned effects stay with their associated set. See [FX](#fx).
 * `Maps` - All map files. See [Maps](#maps).
-* `SFX` - All audio assets, including music and audio used by only one character or system. See [SFX](#sfx).
-* `UI` - Widget Blueprints, with widget-specific materials and material instances in `UI/Materials`. See [UI](#ui).
+* `SFX` - All audio resources; a project-specific rule that overrides ownership-first placement. See [SFX](#sfx).
+* `UI` - Shared widgets and screen-owned interface sets, with each screen's dependencies kept together. See [UI](#ui).
 
 #### Art
 
 In this project, `Art` holds character and system art alongside generic visual asset collections:
 
 * `Art/Characters` - Character art, with a sub-folder per character (`Art/Characters/Priestess`).
-* `Art/Decals` - Decal materials, instances, and textures (`M_Decal_`, `MI_Decal_`, `T_Decal_`). The type label stays on the asset, so the set reads the same wherever it sits.
-* `Art/Environment` - All level-design assets and their supporting dependencies, including materials and textures. See [Collections](#collections) for its scope and layout.
-* `Art/Fonts` - Fonts for the interface. See [UI](#ui).
-* `Art/GeometryCollection` - Reusable destructible geometry, such as a breaking chair used across many levels. See [`Art/GeometryCollection`](#artgeometrycollection).
-* `Art/LUT` - Color lookup tables (LUTs) used for color grading.
+* `Art/Decals` - Generic or shared decal materials, instances, and textures with no clear owner (`M_Decal_`, `MI_Decal_`, `T_Decal_`). Owned decals stay with their associated set and retain the same labels.
+* `Art/Environment` - Reusable level-design sets and their supporting dependencies, including materials and textures; assets with a more specific owner stay with that owner. See [Collections](#collections) for its scope and layout.
+* `Art/Fonts` - Generic or shared fonts with no clear owner; fonts specific to one screen or set stay with it. See [UI](#ui).
+* `Art/GeometryCollection` - Generic destructible geometry with no clear owner. A breaking chair's private geometry collection stays with the chair, even when the chair appears in many levels. See [`Art/GeometryCollection`](#artgeometrycollection).
+* `Art/LUT` - Generic or shared color lookup tables (LUTs) with no clear owner, used for color grading.
 * `Art/Materials` - The home for the project's generic mesh materials, filed flat at the root. See [`Art/Materials`](#artmaterials).
   * `Art/Materials/MaterialInstances` - Generic material instances that name no single asset, such as a generic wall instance.
   * `Art/Materials/MaterialFunctions` - Generic material functions.
-* `Art/PhysicalMaterials` - Physical materials used for surface responses such as footstep and impact effects.
-* `Art/PostProcess` - Post-process materials, instances, and textures (`M_PP_`, `MI_PP_`, `T_PP_`).
+* `Art/PhysicalMaterials` - Generic or shared physical materials with no clear owner, used for surface responses such as footstep and impact effects.
+* `Art/PostProcess` - Generic or shared post-process materials, instances, and textures with no clear owner (`M_PP_`, `MI_PP_`, `T_PP_`); owned sets stay with their associated folder.
 * `Art/Textures` - The home for the project's generic mesh textures, filed flat. See [`Art/Textures`](#arttextures).
 
-A gameplay system whose art fits none of the folders above gets a matching folder here, such as `Art/Weapons` or `Art/Tools`, mirroring its `Blueprint/<System>` folder. Every system splits the same way: art and animation in `Art/<System>`, logic in `Blueprint/<System>`, and both sides share the same folder name. Characters are the clearest case, `Art/Characters/<Name>` beside `Blueprint/Characters/<Name>`. UI is the deliberate exception: widgets are their own top-level `UI` collection rather than a per-concept folder, so only UI logic sits in `Blueprint/UI`. Animation Blueprints are heavily authored by animators, so they are categorized as art and live with the animation assets they serve, despite the word Blueprint in their name. An Animation Blueprint holds no load-bearing code: it only defines how something moves visually, and the load-bearing code lives in its consumer, usually the character Blueprint. See [Blueprint](#blueprint).
+A gameplay system's owned art and supporting resources get a matching folder here, such as `Art/Weapons` or `Art/Tools`, mirroring its `Blueprint/<System>` folder. Art, animation, and effects stay on the art side; gameplay logic and code-only data stay in `Blueprint/<System>`. Characters are the clearest case, `Art/Characters/<Name>` beside `Blueprint/Characters/<Name>`. Reusing another character's art does not require duplicating it or inventing a matching art folder. Animation Blueprints are heavily authored by animators, so they are categorized as art and live with the animation assets they serve, despite the word Blueprint in their name. An Animation Blueprint holds no load-bearing code: it only defines how something moves visually, and the load-bearing code lives in its consumer, usually the character Blueprint. See [Blueprint](#blueprint).
 
 #### Blueprint
 
-`Blueprint` contains Blueprint-related types: gameplay Blueprints, their subtypes, and assets intended to support Blueprint logic, such as enumerations, structs, interfaces, data tables, input actions, behavior trees, blackboards, and environment queries. An asset does not belong here merely because a Blueprint references it; it must be a Blueprint-related type or serve a supporting role in Blueprint logic. Widget Blueprints stay in `UI`. Each system's Blueprint-related assets stay here, separate from its art: weapon logic lives in `Blueprint/Weapons`, while the weapon's meshes, materials, textures, and animation live in `Art/Weapons`; interactables split the same way. All audio lives in `SFX`, even when only one system uses it.
+`Blueprint` contains Blueprint-related types: gameplay Blueprints, their subtypes, and assets intended to support Blueprint logic, such as enumerations, structs, interfaces, data tables, input actions, behavior trees, blackboards, and environment queries. An asset does not belong here merely because a Blueprint references it; it must be a Blueprint-related type or serve a supporting role in Blueprint logic. Each system's gameplay logic and code-only supporting assets stay here, separate from its art: weapon logic lives in `Blueprint/Weapons`, while the weapon's meshes, materials, textures, animation, and effects live in `Art/Weapons`; interactables split the same way. Apart from the explicit `SFX` and `Maps` rules, type-based collections are fallback homes, not overrides for clear system ownership.
 
-* `Blueprint/Components` - Reusable actor components.
-* `Blueprint/Characters`, `Blueprint/Weapons`, `Blueprint/Interactables`, `Blueprint/GameModes`, and `Blueprint/Tools` - One folder per gameplay system, holding all of the system's Blueprints. Player and enemy Blueprints live together under `Blueprint/Characters`, mirroring `Art/Characters`.
-* `Blueprint/<System>/Base` - The system's base classes and shared assets.
-* `Blueprint/UI` - UI logic: the non-widget UI Blueprints, such as HUD classes, plus UI data such as enumerations. Every UI Blueprint that is not a widget lives here; the widgets themselves are the UI and stay in [`UI`](#ui).
+* `Blueprint/Components` - Actor components reusable across independent systems; a component clearly owned by one system stays with that system.
+* `Blueprint/Characters`, `Blueprint/Weapons`, `Blueprint/Interactables`, `Blueprint/GameModes`, `Blueprint/Consumables`, and `Blueprint/Tools` - One folder per gameplay system, holding its gameplay Blueprints, placeable actors, interfaces, and other code-only support. Animation and Widget Blueprints follow the art and UI rules instead. Player and enemy Blueprints live together under `Blueprint/Characters`, mirroring `Art/Characters`.
+* `Blueprint/<System>/Base` - The system's base classes and shared code-only supporting assets.
+* `Blueprint/UI` - Interface-system gameplay logic, such as HUD classes, plus code-only UI data such as enumerations. Screen-specific support stays in the matching `Blueprint/UI/<Screen>` set; logic owned by another gameplay system stays with that system. Widgets and their visual dependencies follow [UI](#ui).
 
-The `Base` sub-folder keeps two kinds of Blueprint apart from the rest of the system. The first is the base classes: a Blueprint is usually instanced from a base class, so a base class is never placed in a level and never used on its own, it exists to be inherited. The second is the assets every variant of the system shares. Just as a collection gathers one concept's assets in one place for browsing, `Base` gathers the system's shared assets, such as structs, data tables, and shared AI assets (behavior-tree tasks, services, and decorators, blackboards, and environment queries), instead of scattering them across the system's variant folders. The concrete Blueprints instanced from a base class, the ones used in game, live outside `Base`.
+The `Base` sub-folder keeps two kinds of Blueprint apart from the rest of the system. The first is the base classes: a Blueprint is usually instanced from a base class, so a base class is never placed in a level and never used on its own, it exists to be inherited. The second is the code-only supporting assets every variant of the system shares. Just as a collection gathers one concept's assets in one place for browsing, `Base` gathers the system's shared assets, such as structs, data tables, and shared AI assets (behavior-tree tasks, services, and decorators, blackboards, and environment queries), instead of scattering them across the system's variant folders. The concrete Blueprints instanced from a base class, the ones used in game, live outside `Base`.
 
-A `Base` sub-folder belongs only inside `Blueprint`. Class inheritance is what it serves, and inheritance is rare outside Blueprints; where assets elsewhere share a parent, the project already handles it another way, such as the `M_` and `MI_` split for materials in [`Art/Materials`](#artmaterials). Do not add a `Base` folder under `Art`, `FX`, `UI`, `SFX`, or any other top-level folder.
+A `Base` sub-folder belongs only inside `Blueprint`, for base classes and shared code-only support. Shared art and non-audio resources stay in their owner's art set rather than following the code into `Base`; material parents and instances retain their `M_` and `MI_` prefixes wherever they live. Do not add a `Base` folder under `Art`, `FX`, `UI`, `SFX`, or any other top-level folder.
 
 Base classes deserve a "don't touch these" reputation wherever they sit: a change there affects every child and can break the system project-wide. Designers make gameplay tweaks in child classes that expose the needed functionality, and world builders place prefab Blueprints from the system's other folders, leaving the base classes alone.
-
-Give specific pickup types their own sub-folders when there is a collection to group, such as `Blueprint/Interactables/Ammo/`, and leave the base classes alone.
-
-Within `Blueprint`, each gameplay system gets a folder named after it, holding the system's logic: its Blueprints, base classes, placeable actors, interfaces, and the data assets that support them.
 
 Prefer a flat folder. When the code resolves into a `Base` sub-folder plus concrete Blueprints at the root, keep those Blueprints flat, the way interactables does, as [Figure 2](#figure-2) shows:
 
@@ -511,13 +510,13 @@ Sort into a folder per item when a concept carries a lot of one-off, non-reusabl
 
 ![The Blueprint/Weapons folder in the Content Browser: one sub-folder per weapon](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/blueprint-weapons-per-concept.jpg)
 
-**Figure 3.** `Blueprint/Weapons`: one folder per weapon, each holding that weapon's Blueprints, data, and effects.
+**Figure 3.** `Blueprint/Weapons`: one folder per weapon for its logic and code-only data. Its art and effects belong in the matching `Art/Weapons` set.
 
 #### FX
 
-`FX` is the Niagara System (`NS_`) collection. Follow the layout in [Collections](#collections).
+`FX` is the collection for generic Niagara Systems (`NS_`) and effects with no clear owner. Follow the layout in [Collections](#collections).
 
-Niagara Systems belong here even when only one weapon, character, or interactable uses them; name them by their association.
+A system clearly owned by a weapon, character, or interactable stays with that owner's art, such as `Art/Weapons/Sword/NS_SwordTrail`. Keep its owned materials, textures, meshes, emitters, and other non-audio dependencies with the same set. Shared systems can sit at the root of `FX`; an effect with enough private dependencies may earn an `FX/<Effect>` folder rather than scattering its set across type folders.
 
 #### Maps
 
@@ -533,11 +532,13 @@ A level folder may contain a `_GENERATED` folder, at the root of `Maps` or insid
 
 #### SFX
 
-**All audio assets belong in `SFX`, including music.** This covers sound waves, cues, MetaSounds, dialogue, sound classes, mixes, attenuation, concurrency, and other audio resources. Keep them here even when they serve only one character, weapon, level, or system. Consumers stay in their normal folders: an audio sublevel lives in `Maps` and references resources in `SFX`. For example, `SC_Player` belongs under `SFX`, in `SFX/Classes` when that supporting folder exists; other supporting types get their own type folder the same way, such as `SFX/Mixes` or `SFX/Concurrency`.
+**All audio resources always belong in `SFX`, including music.** This is a project-specific structure rule that overrides ownership-first placement. Sound waves, cues, MetaSounds, dialogue, sound classes, mixes, attenuation, concurrency, and other audio resources stay here even when one character, weapon, screen, level, or system clearly owns them. For example, `SC_Player` belongs in `SFX/Classes` and `Cue_PlayerHurt` at the root of `SFX`, not with the player's art.
 
-`SFX` uses Sound Cues (`Cue_`) as its main asset type; follow the layout in [Collections](#collections). In this project's workflow, sounds are normally played through cues; direct wave playback from Sound Waves (`S_`) is reserved for special cases, such as music. Cues are usually sound effects, so they also fit the folder's name, even though `SFX` holds all audio.
+Consumers remain in their normal homes: an audio sublevel is a level asset under `Maps` and references audio resources in `SFX`. Supporting audio types can use folders such as `SFX/Classes`, `SFX/Mixes`, or `SFX/Concurrency` when their volume warrants it.
 
-`SFX` is a collection like the others: it stores by type, and because its assets sit apart from the things they serve, **their names must carry that association**.
+`SFX` uses Sound Cues (`Cue_`) as its main asset type; follow the layout in [Collections](#collections). In this project's workflow, sounds are normally played through cues; direct wave playback from Sound Waves (`S_`) is reserved for special cases, such as music. Cues are usually sound effects, so they also fit the folder's name, even though the collection includes all music and other audio too.
+
+**Audio names carry their association because the assets live apart from their consumers.** Ownership remains clear in the name without moving resources out of `SFX`.
 
 Name sounds in this order: **who, what, which**.
 
@@ -557,39 +558,39 @@ Use the asset's required type prefix, followed by `WhoWhatWhich`:
 
 An asset with no variations just omits the number: `SC_Player` names the player's sound class. Shared audio should name its actual shared role or context. A Sound Wave feeding more than one cue takes a shared, generic name that fits every cue using it: `S_Explosion01` and `S_Explosion02` can feed both `Cue_GrenadeDetonation` and `Cue_BarrelExplosion`, so the generic `Explosion` name fits both.
 
-Sound Waves, including music, belong in `SFX/Waves`. Do not recreate character or system folder trees inside `SFX`; names carry those associations. The other naming and organization rules still apply.
+All Sound Waves, including music and owner-specific sounds, belong in `SFX/Waves`. Do not recreate character or system folder trees inside `SFX`; names carry those associations. The other naming and organization rules still apply.
 
 #### UI
 
-`UI` is the Widget Blueprint collection. Follow the layout in [Collections](#collections); avoid per-screen folders such as `UI/HUD`, `UI/MainMenu`, and `UI/Options`.
+`UI` holds shared Widget Blueprints and screen-owned interface sets. A screen with private dependencies may use a folder such as `UI/MainMenu` or `UI/Options`, keeping its widgets, materials, textures, and fonts together. A widget clearly owned by a character, weapon, or another gameplay system stays with that owner's art instead. Gameplay logic and code-only data follow the matching `Blueprint` system.
 
-UI materials and instances (`M_UI_`, `MI_UI_`) live in `UI/Materials`, kept apart from mesh materials so the two never mix. `UI/Textures` likewise groups the collection's supporting textures. Fonts are art and live in `Art/Fonts`.
+Generic widgets stay at the root of `UI`. Generic or shared UI materials and instances with no clear owner (`M_UI_`, `MI_UI_`) use `UI/Materials`; shared UI textures use `UI/Textures`; shared fonts use `Art/Fonts`. Owner-specific non-audio dependencies stay with their set. Context labels and UI texture settings still apply regardless of location.
 
 
 ### Collections
 
 A **collection** groups assets by type or concept for browsing together. `Art/Materials` and `Art/Textures` are generic mesh type collections; `Art/Decals` and `Art/PostProcess` group the decal and post-process sets; `Art/Environment` is a collection for level design.
 
-**If an established collection covers an asset, store it there**, even when only one consumer uses it. Otherwise, keep it with the things it serves, grouping supporting types within that association only when their volume warrants sub-folders.
+**Except for audio resources and level assets, clear ownership overrides collection membership.** Keep a character's, weapon's, screen's, effect's, or system's assets with that owner, including its non-audio supporting dependencies. Several consumers within the same owned set do not make an asset generic, and an external reference alone does not erase clear ownership. Keep a resource with its defining owner when that association remains clear. Use a collection when no specific owner is clear or when a resource is genuinely shared across independent owners without one defining owner. Project-specific exceptions take precedence: all audio resources always live in `SFX`, regardless of ownership, and all level assets live under `Maps`.
 
-Use the most specific applicable collection. Level-design assets and their supporting materials and textures belong in `Art/Environment`; generic mesh materials and textures belong in `Art/Materials` and `Art/Textures`; the decal and post-process sets belong in `Art/Decals` and `Art/PostProcess`. Keep supporting dependencies within the collection they serve: for audio, that collection is `SFX`, so all audio belongs there.
+For assets without a specific owner, use the most specific applicable collection. Reusable level-design sets belong in `Art/Environment`; generic mesh materials and textures belong in `Art/Materials` and `Art/Textures`; shared decal and post-process sets belong in `Art/Decals` and `Art/PostProcess`. Keep a collection's own non-audio supporting dependencies with it rather than scattering them into other collections. A non-audio, non-level dependency clearly owned by one effect or screen stays with that set instead of being pooled solely by type.
 
-Keep the main assets directly at the collection's root and always group its supporting assets by type in sibling sub-folders. A collection whose assets are all one type, such as `Art/Textures`, has no separate supporting types and stays flat until one genuinely needs a sub-folder.
+Keep generic main assets directly at the collection's root. Use supporting-type sub-folders when volume makes browsing easier; do not create them for every small set. A collection whose assets are all one type, such as `Art/Textures`, stays flat until it genuinely needs a sub-folder. The table below describes collection layouts. Except for `SFX`, these are fallback homes used only when no specific owner is clear. `SFX` is mandatory for all audio resources.
 
 | Collection | Main assets at the root | Supporting sub-folders |
 | ---------- | ----------------------- | ---------------------- |
 | `Art/Materials` | Generic mesh materials | `MaterialInstances`, `MaterialFunctions` |
 | `Art/Textures` | Generic mesh textures | As needed |
-| `Art/Decals` | Decal materials, instances, and textures | None |
-| `Art/PostProcess` | Post-process materials, instances, and textures | None |
-| `Art/Environment` | Level-design assets | `Materials`, `Textures` |
-| `UI` | Widget Blueprints | `Materials`, `Textures` |
-| `FX` | Niagara Systems | `Materials`, `Meshes`, `Textures` |
-| `SFX` | Sound Cues | `Waves`, `Classes`, `Attenuation` |
+| `Art/Decals` | Generic/shared decal resources | As needed |
+| `Art/PostProcess` | Generic/shared post-process resources | As needed |
+| `Art/Environment` | Reusable level-design assets | `Materials`, `Textures` |
+| `UI` | Generic/shared Widget Blueprints | `Materials`, `Textures` |
+| `FX` | Generic/shared Niagara Systems | `Materials`, `Meshes`, `Textures` |
+| `SFX` | All Sound Cues | `Waves`, `Classes`, `Attenuation` |
 
 #### Collection Examples
 
-The screenshots below show the project's collections: [Figure 4](#figure-4) is `Art/Environment`, [Figure 5](#figure-5) is `FX`, [Figure 6](#figure-6) is `UI`, and [Figure 7](#figure-7) is `SFX`.
+The screenshots below illustrate collection layouts for unowned, shared resources; `SFX` (all audio) and `Maps` (all levels) are the exceptions: [Figure 4](#figure-4) is `Art/Environment`, [Figure 5](#figure-5) is `FX`, [Figure 6](#figure-6) is `UI`, and [Figure 7](#figure-7) is `SFX`.
 
 ![The Art/Environment collection in the Content Browser: environment meshes at the root, with Materials and Textures sub-folders](https://raw.githubusercontent.com/Ultikynnys/ue5-style-guide/main/images/collection-environment.png)
 
@@ -607,23 +608,23 @@ The screenshots below show the project's collections: [Figure 4](#figure-4) is `
 
 **Figure 7.** `SFX`: Sound Cues at the root, with `Waves`, `Classes`, and `Attenuation`.
 
-Keep the structure shallow. Do not add a folder for the main type, such as `SFX/Cues`, or repeat the supporting folder structure for every asset. Minimize folders that contain only more folders, and create a supporting-type folder only when a collection actually holds that type.
+Keep the structure shallow. Do not add a redundant folder for a collection's main type, such as `SFX/Cues`. Outside `SFX`, an owned set can earn its own folder, but do not repeat supporting-type sub-folders for every small set. `SFX` always groups by audio type, not by character or system. Minimize folders that contain only more folders, and create a supporting-type folder only when volume makes it useful.
 
 **Keep the number of collections small.** They can scatter dependency chains, making related assets harder to rename, move, or remove together. Create one only when the browsing benefits for a large collection justify that cost.
 
-A gameplay system does not get a collection of its own. Its shared assets live with its logic in a `Blueprint/<System>/Base` sub-folder instead.
+A gameplay system's owned set is not a generic type collection. Its shared logic and code-only data live in `Blueprint/<System>/Base`; its shared art and non-audio supporting resources live in the matching `Art/<System>` set. Non-audio, non-level assets owned by one variant stay with that variant.
 
 ### Very Large Asset Sets Get Their Own Folder Layout
 
 A very large set follows the rule of thumb like any collection: a large group of one supporting type may earn a sub-folder.
 
-For example, a growing set of animations shared across characters may be easier to browse in a shared `Animations` folder. Further grouping by subject, such as `Locomotion` or `Cinematic`, should make the collection easier to browse.
+For example, animations genuinely shared across characters with no single owner may be easier to browse in a shared `Animations` folder; an animation owned by one character stays with that character. Further grouping by subject, such as `Locomotion` or `Cinematic`, should make the set easier to browse.
 
 ### `Art/Materials`
 
-`Content/Haeretica/Art/Materials` holds generic mesh parent materials at its root, generic material instances in `MaterialInstances`, and generic material functions in `MaterialFunctions`; a parent material never sits in either sub-folder, and its instances live in many other folders with the assets they dress, reusing the parent. UI and FX materials live with their own collection, not here; browse this folder with the Content Browser's type filters.
+`Content/Haeretica/Art/Materials` holds generic mesh parent materials at its root, generic material instances in `MaterialInstances`, and generic material functions in `MaterialFunctions`; a parent material never sits in either sub-folder, and its instances live in many other folders with the assets they dress, reusing the parent. Browse this folder with the Content Browser's type filters.
 
-> This keeps a 'use material instances only' policy easy to enforce: every generic mesh material in the project sits in this one folder, so it is the complete set of those materials to instance. The UI, FX, decal, and post-process sets are the exception, each complete in its own folder.
+> Reuse existing parent materials through instances where possible. Collection placement makes generic parents easy to find without separating an owner's private materials from the assets they serve.
 
 Before creating a material, look at what already exists and instance an existing material; the goal is to keep the number of unique materials as low as possible. Association decides placement even for a material used only once: the hammer owns a one-off `M_HammerLandSpot`, so that material lives with the hammer. When in doubt, treat the material as generic and file it here.
 
@@ -635,11 +636,11 @@ Instead, keep materials in reasonable groups, for example by shading mode: `M_Op
 
 ### `Art/Textures`
 
-`Content/Haeretica/Art/Textures` is the home for the project's generic mesh textures: those that belong to no single concept, flat in one folder beside `Art/Materials`. UI, FX, decal, and post-process textures live with their own sets.
+`Content/Haeretica/Art/Textures` is the home for the project's generic mesh textures: those that belong to no single concept, flat in one folder beside `Art/Materials`.
 
 ### `Art/GeometryCollection`
 
-`Content/Haeretica/Art/GeometryCollection` is reserved for geometry collections. These are generally reusable assets shared across levels, so keeping them together provides one place to browse the project's destructible geometry.
+`Content/Haeretica/Art/GeometryCollection` holds generic destructible geometry with no clear owner. A geometry collection clearly owned by an interactable, character, or level stays with that associated set instead. The `GC_` prefix applies in either location.
 
 ### No Stray Empty Folders
 
@@ -877,9 +878,9 @@ Function, event, and event dispatcher names matter: the name alone should answer
 
 **All Functions Should Be Verbs**
 
-Functions and events perform actions: retrieving information, computing values, or triggering behavior. Start their names with a verb, preferably in the present tense, and add enough context to make the action clear.
+Functions and events perform actions: retrieving information, computing values, or triggering behavior. Start their names with a verb, preferably in the present tense, and add enough context to make the action clear. For an RPC, the verb follows the required `Server`, `Client`, or `Multicast` prefix instead of leading the name.
 
-`OnRep` functions, event handlers, and event dispatchers are exempt.
+`OnRep` functions, event handlers, event dispatchers, and the required RPC prefix are exempt.
 
 Good examples:
 
@@ -993,7 +994,7 @@ No function should have more than 50 nodes; break anything larger into smaller f
 These nodes do not count, as they add no complexity:
 
 * Comment
-* Route
+* Reroute
 * Cast
 * Getting a Variable
 * Breaking a Struct
@@ -1152,7 +1153,7 @@ No [z-fighting](https://en.wikipedia.org/wiki/Z-fighting) anywhere the player ca
 
 Split a playable area into multiple level components, except for a small or test level where one monolithic map is fine. The Persistent Level is the composition root: it references and coordinates components but holds no authored gameplay, lighting, audio, geometry, or segment content. Treat it as glue only, and do not edit it for ordinary feature work. This convention applies to projects using traditional level streaming; World Partition projects follow their project's World Partition architecture.
 
-Name the Persistent Level with the `_P` suffix and split independently owned work into focused components using the established suffixes, with extra world segments under clear names such as `_Segment01`. Put all Level Blueprint logic in the `_Gameplay` component: each contributor works in one component while the Persistent Level stays the stable assembly point.
+For a composed level using traditional streaming, name the Persistent Level with the `_P` suffix and split independently owned work into focused components using the established suffixes, with extra world segments under clear names such as `_Segment01`. Put Level Blueprint logic in the `_Gameplay` component: each contributor works in one component while the Persistent Level stays the stable assembly point. A small or test level that stays monolithic keeps its Level Blueprint logic locally in that map.
 
 [Figure 11](#figure-11) shows a Persistent Level with separate gameplay, geometry, lighting, audio, and segment components.
 
