@@ -332,11 +332,11 @@ A level without a suffix is monolithic: it contains the whole scene. This is rea
 | ----------------------- | ---------- | -------------------------------- |
 | Level (Persistent)      | _P         | The glue component: it holds nothing, and only references the level's other components, the ones that match the level name. |
 | Level (Audio)           | _Audio     | Audio only.                      |
-| Level (Lighting)        | _Light     | Lighting only: freestanding and decorative light sources. A light built into the architecture is geometry instead; see below. |
-| Level (Geometry)        | _Geo       | Geometry only, including built-in architectural pieces that carry their own lights, such as a lit window. |
+| Level (Lighting)        | _Light     | Lighting only.                   |
+| Level (Geometry)        | _Geo       | Geometry only.                   |
 | Level (Gameplay)        | _Gameplay  | Gameplay only: enemies, spawn points, the Level Blueprint, and similar. |
 
-Sort a component by what it is, not by whether it emits light. A freestanding lamp or a decorative light source belongs in `_Light`. A fixture that is part of the structure is geometry, even when it lights the scene: a lit window carries the wall mesh and glass along with its light, so its geometry is load-bearing and it belongs in `_Geo`. When a mesh and a light are authored as one architectural piece, keep them together in `_Geo` rather than splitting the mesh into `_Geo` and the light into `_Light`.
+Sort a component by what it is, not by whether it emits light. A freestanding or decorative light source belongs in `_Light`; a fixture that is part of the structure is geometry, even when it lights the scene, so it belongs in `_Geo`. A lit window, for example, carries the wall mesh and glass along with its light; keep that architectural piece together in `_Geo` rather than splitting the mesh and the light across levels.
 
 ## Content Directory Structure
 
